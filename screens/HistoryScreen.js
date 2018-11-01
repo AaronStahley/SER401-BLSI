@@ -14,9 +14,18 @@ export default class HistoryScreen extends React.Component {
                 <View style={styles.welcomeContainer}>
                     <Text>
                         History Screen
-                    </Text>          
+                    </Text>
+                    <Text/>
+                    <Text style={{alignItems: 'center', marginTop: 100}}>
+                        Hemoglobin Over Time
+                    </Text>
                 </View>      
-                <AreaChartTemplate /> 
+                
+                <AreaChartTemplate 
+                    data={data}
+                    yaxis={'Hb Levels'}
+                    xaxis={'# of Checks'}
+                /> 
             </ScrollView>         
         );
     }
