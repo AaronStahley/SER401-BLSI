@@ -23,7 +23,6 @@ export default class AreaChartTemplate extends React.Component {
                     svg={{fontSize: 14, fill: '#000'}}            
                 />
                 
-                
                 <View style={{flex: 1, marginLeft: 10}}>  
                     <AreaChart 
                         style = {{flex: 1}}
@@ -36,13 +35,13 @@ export default class AreaChartTemplate extends React.Component {
                     </AreaChart>  
                 
                     <XAxis
-                        style={{height: 40}}
+                        style={{height: 10, marginTop: 10}}
                         data = {this.props.data}
                         formatLabel={(value, index) => index + 1 }
                         contentInset={{top: 0, bottom: 0, right: 100, left: 100}}
                         svg={{fontSize: 14, fill: '#000'}}  
                     />
-                    <Text style={{alignItems: 'center', marginLeft: dim.width/2}}>
+                    <Text style={{justifyContent: 'center', alignSelf: 'center'}}>
                         {this.props.xaxis}
                     </Text>
                 </View>

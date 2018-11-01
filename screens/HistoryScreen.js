@@ -16,7 +16,10 @@ export default class HistoryScreen extends React.Component {
                         History Screen
                     </Text>
                     <Text/>
-                    <Text style={{alignItems: 'center', marginTop: 100}}>
+                    <Text 
+                        style={{alignItems: 'center', marginTop: 100, marginBottom: -30}}
+                        svg={{fontSize: 20, fill: '#000'}}
+                    >
                         Hemoglobin Over Time
                     </Text>
                 </View>      
