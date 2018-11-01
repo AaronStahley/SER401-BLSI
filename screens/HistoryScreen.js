@@ -2,7 +2,7 @@ import React from 'react';
 import { ExpoConfigView } from '@expo/samples';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import HeaderStyle from '../components/HeaderStyle';
-import AreaChartTemplate from '../components/AreaChartTemplate'
+import LineChartTemplate from '../components/LineChartTemplate'
 
 export default class HistoryScreen extends React.Component {
     static navigationOptions = HeaderStyle;    
@@ -24,7 +24,7 @@ export default class HistoryScreen extends React.Component {
                     </Text>
                 </View>      
                 
-                <AreaChartTemplate 
+                <LineChartTemplate 
                     data={data}
                     yaxis={'Hb Levels'}
                     xaxis={'# of Checks'}

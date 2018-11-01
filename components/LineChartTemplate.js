@@ -1,9 +1,9 @@
 import React from 'react'
 import {View, Text, Dimensions} from 'react-native';
-import {AreaChart, Grid, XAxis, YAxis} from 'react-native-svg-charts'
+import {LineChart, Grid, XAxis, YAxis} from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
-export default class AreaChartTemplate extends React.Component {
+export default class LineChartTemplate extends React.Component {
 
     constructor(props) {
         super(props);
@@ -24,15 +24,15 @@ export default class AreaChartTemplate extends React.Component {
                 />
                 
                 <View style={{flex: 1, marginLeft: 10}}>  
-                    <AreaChart 
+                    <LineChart 
                         style = {{flex: 1}}
                         data = {this.props.data}
                         contentInset={{top: 10, bottom: 0, right: 100, left: 100}}
                         curve={shape.curveLinear}
-                        svg={{fill: '#f006'}}
+                        svg={{stroke: '#f006'}}
                     >
                         <Grid direction={Grid.Direction.BOTH}/>
-                    </AreaChart>  
+                    </LineChart>  
                 
                     <XAxis
                         style={{height: 10, marginTop: 10}}
