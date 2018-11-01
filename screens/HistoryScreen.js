@@ -2,12 +2,10 @@ import React from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import HeaderStyle from '../components/HeaderStyle';
 import LineChartTemplate from '../components/LineChartTemplate'
-import {Svg} from 'expo';
-const {Rect} = Svg;
 
 export default class HistoryScreen extends React.Component {
     static navigationOptions = HeaderStyle; 
-       
+
     render() {
         const data = [5.6, 6.8, 6.2, 6.4, 6.9, 7.1, 6.95, 7.5];
         return (
