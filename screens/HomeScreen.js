@@ -1,30 +1,24 @@
 import React from 'react';
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import HeaderStyle from "../components/HeaderStyle";
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import { ExpoLinksView } from '@expo/samples';
+import HeaderStyle from '../components/HeaderStyle';
 
-export default class QuestionsScreen extends React.Component {
-    static navigationOptions = HeaderStyle;
+export default class HomeScreen extends React.Component {
+  static navigationOptions = HeaderStyle;
 
   render() {
     return (
-        <ScrollView style={styles.container}>
+      <ScrollView style={styles.container}>
           <View style={styles.welcomeContainer}>
               <Text>
-                  Questions Screen
+                  Home Screen
               </Text>
           </View>
-        </ScrollView>
+      </ScrollView>
     );
   }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -39,3 +33,4 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     }
 });
+

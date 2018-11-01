@@ -31,11 +31,12 @@ export default class App extends React.Component {
     return Promise.all([
       Asset.loadAsync([
           //Load images here
+          require('./assets/images/WHITE_HAND_LOGO.png'),
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
         ...Icon.Ionicons.font,
-        // We include SpaceMono because we use it in RecommendationsScreen.jsnsScreen.js. Feel free
+        // We include SpaceMono because we use it in QuestionsScreen.jsnsScreen.js. Feel free
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       }),

@@ -3,31 +3,41 @@ import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator,} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import RecommendationsScreen from '../screens/RecommendationsScreen';
 import QuestionsScreen from '../screens/QuestionsScreen';
+import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 
 
 const QuestionsStack = createStackNavigator({
-    Home: QuestionsScreen,
+    Home: HomeScreen,
 });
 
 QuestionsStack.navigationOptions = {
-    tabBarLabel: 'Questions',
+    tabBarLabel: 'Home',
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
-            name={Platform.OS === 'ios' ? `ios-help-circle${focused ? '' : '-outline'}` : 'md-help-circle'}
+            name={Platform.OS === 'ios' ? `ios-home${focused ? '' : '-outline'}` : 'md-home'}
         />
     ),
+    tabBarOptions: {
+      //  showLabel: false, // hide labels
+        labelStyle: {
+            fontSize: 15,
+            color: '#fff'
+        },
+        style: {
+            backgroundColor: '#ee3e41' // TabBar background
+        }
+    }
 };
 
 const RecommendationsStack = createStackNavigator({
-  Links: RecommendationsScreen,
+  Links: QuestionsScreen,
 });
 
 RecommendationsStack.navigationOptions = {
-  tabBarLabel: 'Recommendations',
+  tabBarLabel: 'Questions',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -36,7 +46,16 @@ RecommendationsStack.navigationOptions = {
           ? `ios-information-circle${focused ? '' : '-outline'}` : 'md-information-circle'
       }
     />
-  ),
+  ),tabBarOptions: {
+        //showLabel: false, // hide labels
+        labelStyle: {
+            fontSize: 15,
+            color: '#fff'
+        },
+        style: {
+            backgroundColor: '#ee3e41' // TabBar background
+        }
+    }
 };
 
 
@@ -51,7 +70,16 @@ HistoryStack.navigationOptions = {
       focused={focused}
       name={Platform.OS === 'ios' ? `ios-stats${focused ? '' : '-outline'}` : 'md-stats'}
     />
-  ),
+  ),tabBarOptions: {
+       // showLabel: false, // hide labels
+        labelStyle: {
+            fontSize: 15,
+            color: '#fff'
+        },
+        style: {
+            backgroundColor: '#ee3e41' // TabBar background
+        }
+    }
 };
 
 export default createBottomTabNavigator({
