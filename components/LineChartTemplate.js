@@ -25,10 +25,10 @@ export default class LineChartTemplate extends React.Component {
                 />
             )) 
         };
-
+       
         return (
-            <View style={{height: 500, padding: 20, flexDirection: 'row'}}>
-                <Text style={{marginLeft: -10, marginRight: -50,  marginTop: 0}}>{this.props.yaxis}</Text>
+            <View style={{height: 300, width: 400, padding: 20, flexDirection: 'row'}}>
+                <Text style={{marginLeft: -10, marginRight: -50,  marginTop: -20}}>{this.props.yaxis}</Text>
                 <YAxis
                     style={{marginBottom: 40}}
                     data = {this.props.data}
@@ -41,7 +41,7 @@ export default class LineChartTemplate extends React.Component {
                     <LineChart 
                         style = {{flex: 1}}
                         data = {this.props.data}
-                        contentInset={{top: 10, bottom: 10, right: 100, left: 100}}
+                        contentInset={{top: 10, bottom: 10, right: 10, left: 10}}
                         curve={shape.curveLinear}
                         svg={{stroke: '#f006', strokeWidth: '2'}}
                     >
@@ -53,11 +53,11 @@ export default class LineChartTemplate extends React.Component {
                         style={{height: 10, marginTop: 10}}
                         data = {this.props.data}
                         formatLabel={(value, index) => index + 1 }
-                        contentInset={{top: 0, bottom: 0, right: 100, left: 100}}
+                        contentInset={{top: 0, bottom: 0, right: 10, left: 10}}
                         svg={{fontSize: 14, fill: '#000'}}  
                     />
                     <Text style={{justifyContent: 'center', alignSelf: 'center'}}
-                        contentInset={contentInset}
+                        contentInset={{top: 10, bottom: 50, right: 100, left: 100}}
                     >
                         {this.props.xaxis}
                     </Text>
