@@ -1,6 +1,8 @@
 import React from 'react';
-import {Image,View} from 'react-native';
+import {Image,TouchableOpacity} from 'react-native';
 import Colors from '../constants/Colors';
+import { Icon } from 'expo';
+
 
 
 //Contains all the styling for the top nav menu.
@@ -21,13 +23,18 @@ export default {
                 flex: 1
             }}/>
     ),
-    headerRight: (<Image
-            style={{
-                flex: 1,
-                width: 40,
-                height: 40,
-            }}/>
-        //Put drawer menu icon here..
+    headerRight: (
+            <TouchableOpacity>
+                <Icon.Ionicons
+                    name="md-more"
+                    size={40}
+                    color={'#fff'}
+                    style={{
+                    flex: 1,
+                    width: 30,
+                }}
+                   />
+            </TouchableOpacity>
     ),
     headerStyle: {
         backgroundColor: Colors.navBarBackground,
