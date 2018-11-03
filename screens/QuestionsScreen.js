@@ -11,7 +11,7 @@ import {
 import HeaderStyle from "../components/HeaderStyle";
 
 export default class QuestionsScreen extends React.Component {
-    static navigationOptions = HeaderStyle;
+    static navigationOptions = {};
 
   render() {
     return (

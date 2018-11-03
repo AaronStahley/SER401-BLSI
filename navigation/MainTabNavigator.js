@@ -1,18 +1,32 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator,} from 'react-navigation';
+import {Platform} from 'react-native';
+import {createStackNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import QuestionsScreen from '../screens/QuestionsScreen';
 import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
+import HeaderStyle from '../components/HeaderStyle';
 
 
-const QuestionsStack = createStackNavigator({
-    Home: HomeScreen,
-});
 
-QuestionsStack.navigationOptions = {
+const DrawerStack = createDrawerNavigator({
+    screen1: { screen:  HomeScreen},
+    screen2: { screen:  HomeScreen},
+    screen3: { screen:  HomeScreen},
+
+
+},{
+    drawerPosition: "right",
+
+})
+
+
+const HomeStack = createStackNavigator({
+    HomeStack: DrawerStack
+},HeaderStyle);
+
+HomeStack.navigationOptions = {
     tabBarLabel: 'Home',
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
@@ -32,11 +46,11 @@ QuestionsStack.navigationOptions = {
     }
 };
 
-const RecommendationsStack = createStackNavigator({
+const QuestionsStack = createStackNavigator({
   Links: QuestionsScreen,
-});
+},HeaderStyle);
 
-RecommendationsStack.navigationOptions = {
+QuestionsStack.navigationOptions = {
   tabBarLabel: 'Questions',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -61,7 +75,7 @@ RecommendationsStack.navigationOptions = {
 
 const HistoryStack = createStackNavigator({
   Settings: HistoryScreen,
-});
+},HeaderStyle);
 
 HistoryStack.navigationOptions = {
   tabBarLabel: 'History',
@@ -82,8 +96,9 @@ HistoryStack.navigationOptions = {
     }
 };
 
+
 export default createBottomTabNavigator({
-  HomeStack: QuestionsStack ,
-  LinksStack: RecommendationsStack,
+  HomeStack: HomeStack ,
+  LinksStack: QuestionsStack,
   SettingsStack: HistoryStack,
 });

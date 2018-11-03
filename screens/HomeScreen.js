@@ -3,9 +3,8 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import HeaderStyle from '../components/HeaderStyle';
 
-export default class HomeScreen extends React.Component {
-  static navigationOptions = HeaderStyle;
 
+export default class HomeScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
