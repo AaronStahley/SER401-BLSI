@@ -35,9 +35,9 @@ HomeStack.navigationOptions = {
         />
     ),
     tabBarOptions: {
-      //  showLabel: false, // hide labels
+       showLabel: false, // hide labels
         labelStyle: {
-            fontSize: 15,
+            fontSize: 12,
             color: '#fff'
         },
         style: {
@@ -61,9 +61,9 @@ QuestionsStack.navigationOptions = {
       }
     />
   ),tabBarOptions: {
-        //showLabel: false, // hide labels
+        showLabel: false, // hide labels
         labelStyle: {
-            fontSize: 15,
+            fontSize: 12,
             color: '#fff'
         },
         style: {
@@ -85,9 +85,9 @@ HistoryStack.navigationOptions = {
       name={Platform.OS === 'ios' ? `ios-stats${focused ? '' : '-outline'}` : 'md-stats'}
     />
   ),tabBarOptions: {
-       // showLabel: false, // hide labels
+        showLabel: false, // hide labels
         labelStyle: {
-            fontSize: 15,
+            fontSize: 12,
             color: '#fff'
         },
         style: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image,TouchableOpacity,ScrollView,StyleSheet} from 'react-native';
+import {Image,TouchableOpacity,StyleSheet,View,Text,Dimensions} from 'react-native';
 import {DrawerActions, createStackNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
 
 import Colors from '../constants/Colors';
@@ -19,10 +19,21 @@ export default {navigationOptions:({navigation}) => ({
 
         source={require('../assets/images/WHITE_HAND_LOGO.png')}/>
     ),
-    headerLeft: (<Image
-            style={{
-                flex: 1
-            }}/>
+    headerLeft: (<View style={styles.userView}>
+            <Icon.Ionicons
+                name="md-person"
+                size={32}
+                color={'#fff'}
+                style={{
+                    flex: 1,
+                    width: 24,
+
+                }}
+            />
+            <Text style={styles.userText}>
+                User Name
+            </Text>
+        </View>
     ),
     headerRight: (
         <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
@@ -31,9 +42,9 @@ export default {navigationOptions:({navigation}) => ({
                     size={40}
                     color={'#fff'}
                     style={{
-                    flex: 1,
-                    width: 30,
-                }}
+                        flex: 1,
+                        width: 20,
+                    }}
                 >
                 </Icon.Ionicons>
          </TouchableOpacity>
@@ -41,8 +52,24 @@ export default {navigationOptions:({navigation}) => ({
     headerStyle: {
         backgroundColor: Colors.navBarBackground,
         paddingBottom: 8,
-
     }
 })};
+
+const styles = StyleSheet.create({
+    userText: {
+        flex: 1,
+        left: 5,
+        color: '#fff',
+        fontSize: 12,
+        width: Dimensions.get('window').width / 3
+    },
+    userView: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingLeft: 8
+    }
+});
 
 
