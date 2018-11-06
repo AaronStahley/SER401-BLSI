@@ -19,9 +19,11 @@ export default {navigationOptions:({navigation}) => ({
 
         source={require('../assets/images/WHITE_HAND_LOGO.png')}/>
     ),
-    headerLeft: (<View style={styles.userView}>
+    headerLeft: (<TouchableOpacity
+            // onPress={() => navigation.dispatch()} //Functionalty of the back arrow. (link back to home page).
+            style={styles.arrowBack}>
             <Icon.Ionicons
-                name="md-person"
+                name="ios-arrow-back"
                 size={32}
                 color={'#fff'}
                 style={{
@@ -30,10 +32,7 @@ export default {navigationOptions:({navigation}) => ({
 
                 }}
             />
-            <Text style={styles.userText}>
-                User Name
-            </Text>
-        </View>
+        </TouchableOpacity>
     ),
     headerRight: (
         <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
@@ -56,19 +55,11 @@ export default {navigationOptions:({navigation}) => ({
 })};
 
 const styles = StyleSheet.create({
-    userText: {
+    arrowBack: {
         flex: 1,
-        left: 5,
-        color: '#fff',
-        fontSize: 12,
-        width: Dimensions.get('window').width / 3
-    },
-    userView: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        paddingLeft: 8
+        alignSelf: 'center',
+        paddingLeft: 8,
+        paddingTop: 5
     }
 });
 

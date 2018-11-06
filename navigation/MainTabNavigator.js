@@ -10,20 +10,10 @@ import HeaderStyle from '../components/HeaderStyle';
 
 
 
-const DrawerStack = createDrawerNavigator({
-    screen1: { screen:  HomeScreen},
-    screen2: { screen:  HomeScreen},
-    screen3: { screen:  HomeScreen},
-
-
-},{
-    drawerPosition: "right",
-
-})
-
-
 const HomeStack = createStackNavigator({
-    HomeStack: DrawerStack
+
+    HomeStack: HomeScreen
+
 },HeaderStyle);
 
 HomeStack.navigationOptions = {
@@ -97,8 +87,8 @@ HistoryStack.navigationOptions = {
 };
 
 
-export default createBottomTabNavigator({
-  HomeStack: HomeStack ,
-  LinksStack: QuestionsStack,
-  SettingsStack: HistoryStack,
-});
+export default createDrawerNavigator({
+  Home: HomeStack ,
+  Questions: QuestionsStack,
+  Historty: HistoryStack,
+},{drawerPosition: 'right'});
