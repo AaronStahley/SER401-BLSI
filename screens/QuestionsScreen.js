@@ -8,12 +8,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import MessageBubble from "../components/MessageBubble"
 import HeaderStyle from "../components/HeaderStyle";
 
 export default class QuestionsScreen extends React.Component {
     static navigationOptions = HeaderStyle;
+    
+    getNextMessage(answer) {
+        //To be filled out later
+    }
 
-  render() {
+    render() {
+        const responses = '';
+
     return (
         <ScrollView style={styles.container}>
           <View style={styles.welcomeContainer}>
@@ -21,10 +28,16 @@ export default class QuestionsScreen extends React.Component {
                   Questions Screen
               </Text>
           </View>
+          <View style={styles.welcomeContainer}>
+              <MessageBubble props={{func: getNextMessage, type}}>
+                  
+              </MessageBubble>
+          </View>
         </ScrollView>
     );
   }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
