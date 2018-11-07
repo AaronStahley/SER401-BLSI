@@ -20,7 +20,7 @@ export default {navigationOptions:({navigation}) => ({
         source={require('../assets/images/WHITE_HAND_LOGO.png')}/>
     ),
     headerLeft: (<TouchableOpacity
-            // onPress={() => navigation.dispatch()} //Functionalty of the back arrow. (link back to home page).
+             onPress={() =>  navigation.navigate('Home')} //Functionalty of the back arrow. (link back to home page).
             style={styles.arrowBack}>
             <Icon.Ionicons
                 name="ios-arrow-back"

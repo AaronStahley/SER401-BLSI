@@ -14,7 +14,7 @@ const HomeStack = createStackNavigator({
 
     HomeStack: HomeScreen
 
-},HeaderStyle);
+});
 
 HomeStack.navigationOptions = {
     tabBarLabel: 'Home',
@@ -23,21 +23,11 @@ HomeStack.navigationOptions = {
             focused={focused}
             name={Platform.OS === 'ios' ? `ios-home${focused ? '' : '-outline'}` : 'md-home'}
         />
-    ),
-    tabBarOptions: {
-       showLabel: false, // hide labels
-        labelStyle: {
-            fontSize: 12,
-            color: '#fff'
-        },
-        style: {
-            backgroundColor: '#ee3e41' // TabBar background
-        }
-    }
+    )
 };
 
 const QuestionsStack = createStackNavigator({
-  Links: QuestionsScreen,
+  Questions: QuestionsScreen,
 },HeaderStyle);
 
 QuestionsStack.navigationOptions = {
@@ -64,7 +54,7 @@ QuestionsStack.navigationOptions = {
 
 
 const HistoryStack = createStackNavigator({
-  Settings: HistoryScreen,
+  Historty: HistoryScreen,
 },HeaderStyle);
 
 HistoryStack.navigationOptions = {
@@ -88,7 +78,7 @@ HistoryStack.navigationOptions = {
 
 
 export default createDrawerNavigator({
-  Home: HomeStack ,
+  Home: HomeStack,
   Questions: QuestionsStack,
   Historty: HistoryStack,
 },{drawerPosition: 'right'});
