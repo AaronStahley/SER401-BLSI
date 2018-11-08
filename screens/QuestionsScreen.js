@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions
 } from 'react-native';
 import MessageBubble from "../components/MessageBubble"
 import HeaderStyle from "../components/HeaderStyle";
@@ -23,16 +24,19 @@ export default class QuestionsScreen extends React.Component {
 
     return (
         <ScrollView style={styles.container}>
-          <View style={styles.welcomeContainer}>
-              <Text>
-                  Questions Screen
-              </Text>
-          </View>
-          <View style={styles.welcomeContainer}>
-              <MessageBubble props={{func: getNextMessage, type}}>
-                  
-              </MessageBubble>
-          </View>
+            <View style={styles.welcomeContainer}>
+                <Text>
+                    Questions Screen
+                </Text>
+            </View>
+            <View>
+                <MessageBubble style={{}}
+                    text='Hello there'
+                    type='recommendation'
+                    func={this.getNextMessage}
+
+                ></MessageBubble>
+            </View>
         </ScrollView>
     );
   }
@@ -42,6 +46,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        maxWidth: Dimensions.get('screen').width
     },
     contentContainer: {
         paddingTop: 30,
@@ -51,4 +56,5 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 20,
     }
+    
 });
