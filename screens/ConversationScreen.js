@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import HeaderStyle from "../components/HeaderStyle";
 
-export default class QuestionsScreen extends React.Component {
+export default class ConversationScreen extends React.Component {
     static navigationOptions = {};
 
   render() {
@@ -18,7 +18,7 @@ export default class QuestionsScreen extends React.Component {
         <ScrollView style={styles.container}>
           <View style={styles.welcomeContainer}>
               <Text>
-                  Questions Screen
+                  Conversation Screen
               </Text>
           </View>
         </ScrollView>

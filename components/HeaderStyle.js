@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image,TouchableOpacity,StyleSheet,View,Text,Dimensions} from 'react-native';
+import {Image, TouchableOpacity, StyleSheet, View, Text, Dimensions, Button, Alert} from 'react-native';
 import {DrawerActions, createStackNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
 
 import Colors from '../constants/Colors';
@@ -35,18 +35,11 @@ export default {navigationOptions:({navigation}) => ({
         </TouchableOpacity>
     ),
     headerRight: (
-        <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}>
-                <Icon.Ionicons
-                    name="md-more"
-                    size={40}
-                    color={'#fff'}
-                    style={{
-                        flex: 1,
-                        width: 20,
-                    }}
-                >
-                </Icon.Ionicons>
-         </TouchableOpacity>
+            <Button
+                onPress={() => ("")}
+                title="Start Over"
+                color= '#fff'
+            />
     ),
     headerStyle: {
         backgroundColor: Colors.navBarBackground,
