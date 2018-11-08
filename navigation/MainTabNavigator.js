@@ -80,5 +80,4 @@ HistoryStack.navigationOptions = {
 export default createDrawerNavigator({
   Home: HomeStack,
   Questions: QuestionsStack,
-  Historty: HistoryStack,
 },{drawerPosition: 'right'});
