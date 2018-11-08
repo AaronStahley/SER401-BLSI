@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions} from 'react-native';
-import {Svg, Rect, Circle} from 'react-native-svg'
-import { Icon, Screen} from 'expo';
+import { View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+
 
 export default class MessageBubble extends React.Component {
 
@@ -12,10 +11,14 @@ export default class MessageBubble extends React.Component {
     createIcon(props) {
         switch(props.type) {
             case "recommendation":
-                return(<Icon.Ionicon style={[styles.recommedationIcon]}/>);
+                return(<Image style={styles.recommedationImage}
+                    source={require('../assets/images/WHITE_HAND_LOGO.png')}
+                />);
 
             case "question":
-                return(<Icon.Ionicon style={[styles.questionIcon]}/>);
+                return(<Image style={styles.recommedationImage}
+                    source={require('../assets/images/WHITE_HAND_LOGO.png')}
+                />);
         }
     }
     /**
@@ -38,7 +41,7 @@ export default class MessageBubble extends React.Component {
                 return(styles.questionBubble);
 
             case "question":
-                return(styles.responseBubble);
+                return(styles.recommendationBubble);
             default:
                 return(styles.bubble);
         }  
@@ -47,26 +50,39 @@ export default class MessageBubble extends React.Component {
     render() {
         return (
             <View style={this.setBalloonStyle(this.props)}>
-                {this.createIcon(this.props)}
-                {this.createBalloon(this.props)}  
+                <View>
+                    {this.createIcon(this.props)}
+                </View>
+                <View>
+                    {this.createBalloon(this.props)}  
+                </View>
             </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    questionBubble: [bubble, {
+    questionBubble: {
         backgroundColor: '#bbb',
         borderRadius: 10,
         marginRight: Dimensions.get('window').width / 9,
-        marginLeft: 10
-    }],
-    responseBubble: [bubble, {
+        marginLeft: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingHorizontal: 15,
+        maxWidth: Dimensions.get('window').width,
+        alignSelf: 'flex-start',
+    },
+    recommendationBubble: {
         backgroundColor: '#f004',
         borderRadius: 10,
         marginLeft: Dimensions.get('window').width / 9,
-        marginRight: 10
-    }],  
+        marginRight: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingHorizontal: 15,
+        maxWidth: Dimensions.get('window').width
+    },
     bubble: {
         backgroundColor: '#333',
         paddingTop: 5,
@@ -81,19 +97,33 @@ const styles = StyleSheet.create({
         position: 'absolute',        
         zIndex: -1
     },
-    questionImage: [image, {
-        color: '#f00'
-    }],
-    recommedationImage: [image, {
-        color: '#333'
-    }],
+    questionImage: {
+        backgroundColor: '#f00',
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        borderRadius: 20,
+        alignSelf: 'flex-end',
+        width: 40,
+        height: 40,
+        flex: 1
+    },
+    recommedationImage: {
+        backgroundColor: '#333',
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingLeft: 5,
+        paddingRight: 5,
+        borderRadius: 20
+    },
     image: {
         paddingTop: 5,
         paddingBottom: 5,
         paddingLeft: 5,
         paddingRight: 5,
         borderRadius: 20,
-        color: '#000'
+        backgroundColor: '#000'
     },
     text: {
         paddingTop: 5,

@@ -30,11 +30,10 @@ export default class QuestionsScreen extends React.Component {
                 </Text>
             </View>
             <View>
-                <MessageBubble style={{}}
+                <MessageBubble
                     text='Hello there'
                     type='recommendation'
                     func={this.getNextMessage}
-
                 ></MessageBubble>
             </View>
         </ScrollView>
