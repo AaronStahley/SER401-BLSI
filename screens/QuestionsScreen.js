@@ -17,6 +17,7 @@ export default class QuestionsScreen extends React.Component {
     
     getNextMessage(answer) {
         //To be filled out later
+        return <Text style={[styles.text]}>'Hello there'</Text>;
     }
 
     render() {
@@ -31,9 +32,19 @@ export default class QuestionsScreen extends React.Component {
             </View>
             <View>
                 <MessageBubble
-                    text='Hello there'
-                    type='recommendation'
-                    func={this.getNextMessage}
+                    type = 'question'
+                    content={<Text style={[styles.text]}>'Hello thereas daskjdh ashd jkahsjkdhasjkhdkjas hdjkash asjkfhasjkfh askjfhaskjf askjfhasjkf hak'</Text>}
+                    image={require('../assets/images/WHITE_HAND_LOGO.png')}
+                ></MessageBubble>
+                <MessageBubble
+                    type = 'recommendation'
+                    content={<Text style={[styles.text]}>Hello thereas daskjdh ashd jkahsjkdhasjkhdkjas hdjkash asjkfhasjkfh askjfhaskjf askjfhasjkf hak</Text>}
+                    image={require('../assets/images/WHITE_HAND_LOGO.png')}
+                ></MessageBubble>
+                <MessageBubble
+                    type = 'bubble'
+                    content={<Text style={[styles.text]}>Hello thereas daskjdh ashd jkahsjkdhasjkhdkjas hdjkash asjkfhasjkfh askjfhaskjf askjfhasjkf hak</Text>}
+                    image={require('../assets/images/WHITE_HAND_LOGO.png')}
                 ></MessageBubble>
             </View>
         </ScrollView>
@@ -54,6 +65,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 20,
+    },
+    text: {
+        paddingTop: 5,
+        paddingBottom: 5,
+        color: "#000",
+        textAlign: "auto"
     }
     
 });

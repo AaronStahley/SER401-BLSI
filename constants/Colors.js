@@ -8,4 +8,11 @@ export default {
   noticeBackground: 'red',
   noticeText: '#fff',
   navBarBackground: '#ee3e41',
+
+  //Message Bubble Colors
+  recommendationIcon: '#777',
+  questionIcon: '#f33338',
+  bubble:'#ddd',
+  recommendationBubble: '#f6666455',
+  questionBubble: '#f5f3f3'
 };
