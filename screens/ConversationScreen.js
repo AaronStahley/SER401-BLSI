@@ -12,7 +12,7 @@ import {
 import MessageBubble from "../components/MessageBubble"
 import HeaderStyle from "../components/HeaderStyle";
 
-export default class QuestionsScreen extends React.Component {
+export default class ConversationScreen extends React.Component {
     static navigationOptions = HeaderStyle;
     
     getNextMessage(answer) {
