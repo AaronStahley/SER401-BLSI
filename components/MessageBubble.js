@@ -80,7 +80,7 @@ export default class MessageBubble extends React.Component {
 
     render() {
         return (
-            <SectionList style={styles.container} horizontal={true}
+            <SectionList  style={styles.container} horizontal={true}
                         renderItem={({item, index, section}) => 
                             <View key={index}>
                                 {item}    

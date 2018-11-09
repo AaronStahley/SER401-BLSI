@@ -20,7 +20,7 @@ export default {navigationOptions:({navigation}) => ({
         source={require('../assets/images/WHITE_HAND_LOGO.png')}/>
     ),
     headerLeft: (<TouchableOpacity
-             onPress={() =>  navigation.navigate('Home')} //Functionalty of the back arrow. (link back to home page).
+            onPress={() =>  navigation.navigate('Home')} //Functionalty of the back arrow. (link back to home page).
             style={styles.arrowBack}>
             <Icon.Ionicons
                 name="ios-arrow-back"
@@ -35,11 +35,14 @@ export default {navigationOptions:({navigation}) => ({
         </TouchableOpacity>
     ),
     headerRight: (
-            <Button
-                onPress={() => ("")}
-                title="Start Over"
-                color= '#fff'
-            />
+            <View style={styles.startOverButton}>
+                <Button               
+                    onPress={() => ("")}
+                    title="Start Over"
+                    color={Colors.headerStyleRightButton}
+                />
+            </View>
+            
     ),
     headerStyle: {
         backgroundColor: Colors.navBarBackground,
@@ -51,7 +54,11 @@ const styles = StyleSheet.create({
     arrowBack: {
         flex: 1,
         alignSelf: 'center',
-        paddingLeft: 8,
+        paddingLeft: 15,
+        paddingTop: 10
+    },
+    startOverButton: {
+        paddingRight: 10,
         paddingTop: 5
     }
 });
