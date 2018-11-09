@@ -1,42 +1,36 @@
 import React from 'react';
-import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator,} from 'react-navigation';
+import {Platform} from 'react-native';
+import {createStackNavigator, createBottomTabNavigator, createDrawerNavigator} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import QuestionsScreen from '../screens/QuestionsScreen';
+import ConversationScreen from '../screens/ConversationScreen';
 import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
+import HeaderStyle from '../components/HeaderStyle';
 
 
-const QuestionsStack = createStackNavigator({
-    Home: HomeScreen,
+
+const HomeStack = createStackNavigator({
+
+    HomeStack: HomeScreen
+
 });
 
-QuestionsStack.navigationOptions = {
+HomeStack.navigationOptions = {
     tabBarLabel: 'Home',
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
             name={Platform.OS === 'ios' ? `ios-home${focused ? '' : '-outline'}` : 'md-home'}
         />
-    ),
-    tabBarOptions: {
-      //  showLabel: false, // hide labels
-        labelStyle: {
-            fontSize: 15,
-            color: '#fff'
-        },
-        style: {
-            backgroundColor: '#ee3e41' // TabBar background
-        }
-    }
+    )
 };
 
-const RecommendationsStack = createStackNavigator({
-  Links: QuestionsScreen,
-});
+const ConversationStack = createStackNavigator({
+  Questions: ConversationScreen,
+},HeaderStyle);
 
-RecommendationsStack.navigationOptions = {
+ConversationStack.navigationOptions = {
   tabBarLabel: 'Questions',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -47,9 +41,9 @@ RecommendationsStack.navigationOptions = {
       }
     />
   ),tabBarOptions: {
-        //showLabel: false, // hide labels
+        showLabel: false, // hide labels
         labelStyle: {
-            fontSize: 15,
+            fontSize: 12,
             color: '#fff'
         },
         style: {
@@ -59,31 +53,7 @@ RecommendationsStack.navigationOptions = {
 };
 
 
-const HistoryStack = createStackNavigator({
-  Settings: HistoryScreen,
-});
-
-HistoryStack.navigationOptions = {
-  tabBarLabel: 'History',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-stats${focused ? '' : '-outline'}` : 'md-stats'}
-    />
-  ),tabBarOptions: {
-       // showLabel: false, // hide labels
-        labelStyle: {
-            fontSize: 15,
-            color: '#fff'
-        },
-        style: {
-            backgroundColor: '#ee3e41' // TabBar background
-        }
-    }
-};
-
-export default createBottomTabNavigator({
-  HomeStack: QuestionsStack ,
-  LinksStack: RecommendationsStack,
-  SettingsStack: HistoryStack,
-});
+export default createDrawerNavigator({
+  Home: HomeStack,
+  Questions: ConversationStack,
+},{drawerPosition: 'right'});
