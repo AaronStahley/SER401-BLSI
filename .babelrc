@@ -1,8 +1,20 @@
 {
-  "presets": ["babel-preset-expo"],
+  "presets": [
+    "babel-preset-expo"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ]
+  ],
   "env": {
     "development": {
-      "plugins": ["transform-react-jsx-source"]
+      "plugins": [
+        "transform-react-jsx-source"
+      ]
     }
   }
 }

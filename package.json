@@ -13,8 +13,12 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.1.2",
     "@expo/samples": "2.1.1",
+    "bluebird": "^3.5.3",
     "expo": "^30.0.1",
+    "mobx": "^5.6.0",
+    "mobx-react": "^5.3.6",
     "react": "16.3.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
     "react-native-side-menu": "^1.1.3",
