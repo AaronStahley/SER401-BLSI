@@ -44,19 +44,19 @@ export default class MessageBubble extends React.Component {
         switch(props.type) {
             case "recommendation":
                 return(<View style={styles.recommendationImage}>
-                    <Image
+                        <Image 
                     style={styles.image}
                         source={props.image}
                     />
-                </View>);
+                    </View>);
 
             case "question":
                 return(<View style={styles.questionImage}>
-                    <Image
+                        <Image
                     style={styles.image}
                         source={props.image}
                     />
-                </View>);
+                    </View>);
         }
     }
 
@@ -79,6 +79,9 @@ export default class MessageBubble extends React.Component {
     }
 
     render() {
+        width = Dimensions.get("window").width;
+        height = Dimensions.get("window").height;
+
         return (
             <SectionList  style={styles.container} horizontal={true}
                         renderItem={({item, index, section}) => 
@@ -97,6 +100,8 @@ export default class MessageBubble extends React.Component {
         );
     }
 }
+var width = Dimensions.get("window").width;
+var height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   questionBubble: { //Used for question side of createBubble()
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingHorizontal: 15,
-    maxWidth: (4 *(Dimensions.get("window").width) / 5) - 2,
+    maxWidth: (4 * width / 5) - 5,
     marginLeft: 10,
     marginRight: 5
   },
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingHorizontal: 15,
-    maxWidth: (4 *(Dimensions.get("window").width) / 5) - 2,
+    maxWidth: (4 * width / 5) - 5,
     marginLeft: 5,
     marginRight: 10
   },
@@ -125,9 +130,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingHorizontal: 15,
-    maxWidth: (19 * (Dimensions.get("window").width)/ 20) - 2,
+    maxWidth: (19 * width / 20) - 5,
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 10
   },
   questionImage: {  //Used for question side of createImage()
     backgroundColor: Colors.questionIcon,
@@ -138,8 +143,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginLeft: 5,
     marginRight: 10,
-    maxHeight: 50,
-    maxWidth: (((Dimensions.get("window").width) / 5) - 2),
+    maxHeight: height,
+    maxWidth: width,
   },
   recommendationImage: {    //Used for the recommendation side of createImage()
     backgroundColor: Colors.recommendationIcon,
@@ -150,19 +155,18 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginLeft: 10,
     marginRight: 5,
-    maxHeight: 50,
-    maxWidth: (((Dimensions.get("window").width) / 5) - 2),
+    maxHeight: height,
+    maxWidth: width,
   }, 
   image: { //Used to format the image
-    maxWidth: (((Dimensions.get("window").width) / 10) - 2),
-    maxHeight: (((Dimensions.get("window").width) / 10) - 2),
-    alignContent: 'center'
-
+    width: 40,
+    height: 40,
+    resizeMode: "contain"
   },
   container: { //Used at the top layer of the component aka SectionList
     paddingTop: 5,
     paddingBottom: 5,
-    maxWidth: Dimensions.get("window").width,
+    maxWidth: width,
     alignSelf: 'center'
   }
 });
