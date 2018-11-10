@@ -5,10 +5,7 @@ import {createStackNavigator, createBottomTabNavigator, createDrawerNavigator} f
 import TabBarIcon from '../components/TabBarIcon';
 import ConversationScreen from '../screens/ConversationScreen';
 import HomeScreen from '../screens/HomeScreen';
-import HistoryScreen from '../screens/HistoryScreen';
 import HeaderStyle from '../components/HeaderStyle';
-
-
 
 const HomeStack = createStackNavigator({
 
