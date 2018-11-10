@@ -17,14 +17,14 @@ export default class MessageBubble extends React.Component {
         switch(props.type) {
             case "recommendation":
                 return ({
-                    title: this.createBubble(props),
-                    data: [this.createIcon(props)]
+                    title: this.createIcon(props),
+                    data: [this.createBubble(props)]
                 });
 
             case "question":
                 return ({
-                    title: this.createIcon(props),
-                    data: [this.createBubble(props)]
+                    title: this.createBubble(props),
+                    data: [this.createIcon(props)]
                 });
 
             default:
@@ -105,9 +105,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingHorizontal: 15,
-    maxWidth: 4 *(Dimensions.get("window").width) / 5,
-    marginLeft: 5,
-    marginRight: 10
+    maxWidth: (4 *(Dimensions.get("window").width) / 5) - 2,
+    marginLeft: 10,
+    marginRight: 5
   },
   recommendationBubble: { //Used for the recommendation side of createBubble()
     backgroundColor: Colors.recommendationBubble,
@@ -115,9 +115,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingHorizontal: 15,
-    maxWidth: 4 *(Dimensions.get("window").width) / 5,
-    marginLeft: 10,
-    marginRight: 5
+    maxWidth: (4 *(Dimensions.get("window").width) / 5) - 2,
+    marginLeft: 5,
+    marginRight: 10
   },
   bubble: { //Used for the default messages. May be usefull for notification of patient stability
     backgroundColor: Colors.bubble,
@@ -125,9 +125,9 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingHorizontal: 15,
-    maxWidth: 19 * (Dimensions.get("window").width)/ 20,
+    maxWidth: (19 * (Dimensions.get("window").width)/ 20) - 2,
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   questionImage: {  //Used for question side of createImage()
     backgroundColor: Colors.questionIcon,
@@ -136,10 +136,10 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     borderRadius: 50,
-    marginLeft: 10,
-    marginRight: 5,
+    marginLeft: 5,
+    marginRight: 10,
     maxHeight: 50,
-    maxWidth: 50,
+    maxWidth: (((Dimensions.get("window").width) / 5) - 2),
   },
   recommendationImage: {    //Used for the recommendation side of createImage()
     backgroundColor: Colors.recommendationIcon,
@@ -148,14 +148,14 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     borderRadius: 50,
-    marginLeft: 5,
-    marginRight: 10,
+    marginLeft: 10,
+    marginRight: 5,
     maxHeight: 50,
-    maxWidth: 50,
+    maxWidth: (((Dimensions.get("window").width) / 5) - 2),
   }, 
   image: { //Used to format the image
-    maxWidth: 40,
-    maxHeight: 40,
+    maxWidth: (((Dimensions.get("window").width) / 10) - 2),
+    maxHeight: (((Dimensions.get("window").width) / 10) - 2),
     alignContent: 'center'
 
   },
@@ -163,5 +163,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     maxWidth: Dimensions.get("window").width,
+    alignSelf: 'center'
   }
 });
