@@ -1,26 +1,41 @@
-import {observable} from 'mobx'
+import {observable, action} from 'mobx'
 import AbstractModel from "./AbstractModel";
 
 export default class State extends AbstractModel {
-    @observable Id              = null;
-    @observable Next            = {
-        good: null,
-        bad : null
+    Id                          = null;
+    Next                        = {
+        GoodStateId: null,
+        BadStateId : null
     };
     @observable Questions       = [];
     @observable Recommendations = [];
+    @observable NextState       = null;
 
-    get NextState() {
+    @action calculateNextState() {
         // add logic to determine next state based on question answers
-        return null;
     }
 
 
-    fromObj(json) {
+    fromObj(obj) {
 
-        //todo:: convert questions to objects
-        //todo:: convert recommendations to objects
+        if ('Questions' in obj) {
+            this.store.rootStore.questionStore.findPKs(obj.Questions)
+                .then(questions => {
+                    this.Questions = questions;
+                });
 
-        return super.fromObj(json);
+            delete obj.Questions;
+        }
+
+        if ('Recommendations' in obj) {
+            this.store.rootStore.recommendationStore.findPKs(obj.Recommendations)
+                .then(recommendations => {
+                    this.Recommendations = recommendations;
+                });
+
+            delete obj.Questions;
+        }
+
+        return super.fromObj(obj);
     }
 }

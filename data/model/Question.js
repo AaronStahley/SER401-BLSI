@@ -2,22 +2,32 @@ import AbstractModel from "./AbstractModel";
 import {observable} from "mobx";
 
 export default class Question extends AbstractModel {
-    @observable Id       = null;
-    @observable Question = null;
-    @observable Options  = [];
+    Id       = null;
+    Question = null;
+    Options  = [];
 
-    fromObj(json){
+    fromObj(obj) {
+        if ('Options' in obj) {
+            this.Options = obj.Options.map(option => {
+                return new QuestionOption(option);
+            });
 
-        //todo:: convert question options to objects
-
-        return super.fromObj(json);
+            delete obj.Options;
+        }
+        return super.fromObj(obj);
     }
 }
 
 
-export class QuestionOption extends AbstractModel {
-    @observable Value    = null;
-    @observable Result   = null;//good|bad
+export class QuestionOption {
+    Value                = null;
+    Result               = null;//good|bad
     @observable Selected = false;
+
+    constructor(obj) {
+        this.Value    = obj.value;
+        this.Result   = obj.result;
+        this.Selected = obj.selected;
+    }
 
 }
