@@ -10,7 +10,8 @@ import {
   Dimensions,
   SectionList
 } from 'react-native';
-import MessageBubble from "../components/MessageBubble"
+import QuestionContent from "../components/QuestionBubbleContent";
+import MessageBubble from "../components/MessageBubble";
 import HeaderStyle from "../components/HeaderStyle";
 
 const text = <Text style = {
@@ -19,11 +20,11 @@ const text = <Text style = {
                     color: "#000",
                     textAlign: "auto"}
                 }>
-                Hello thereas daskjdh ashd askjfhaskjf askjfhasjkf hak
+                Hello there something about the app
                 </Text>;
 const content = [
         {type: 'question',
-        content: text,
+        content: <QuestionContent text={"This is important to do."} tasks={['Do this.', 'Do that.']}/>,
         image: require('../assets/images/WHITE_HAND_LOGO.png')
         },
         {type: 'recommendation',
