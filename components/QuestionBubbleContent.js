@@ -1,29 +1,31 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Picker} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Picker, SectionList} from 'react-native';
 import {CheckBox} from "react-native-elements";
 import Svg, { Circle } from 'react-native-svg';
 import Colors from '../constants/Colors';
 
 export default class QuestionBubbleContent extends React.Component {
+    state= {answer: ''};
 
     constructor(props) {
         super(props);
     } 
 
-    getAnswers(props) {
-        let length = Object.keys(props.answer).length;
+    getAnswers(answers) {
+        let length = Object.keys(answers).length;
         let items = [];
         for(let x = 0; x < length; x++) {
             items[x] = <Picker.Item
-                label={props.answer[x].text}
-                value={prop.answer[x].value}
+                key={answers[x].text}
+                label={answers[x].text}
+                value={answers[x].value}
                 />;
         }
      return items;
     }
 
-    createQuestionType(props) {
-        let length = Object.keys(props.answer).length;
+    createQuestionType(question) {
+        let length = Object.keys(question.answers).length;
         switch(length) {
             case 1: //create checkbox
                 return(<CheckBox 
@@ -36,57 +38,81 @@ export default class QuestionBubbleContent extends React.Component {
             case 2: //Create yes/no buttons
                 return(<View>
                     <CheckBox 
-                    style={styles.checkButton}
-                    onPress= {() => {
-                        this.setState({checked: !this.state.checked})
-                    }}
-                    checked={this.state.checked}
-                />
-                <CheckBox 
-                    style={styles.checkButton}
-                    onPress= {() => {
-                        this.setState({checked: !this.state.checked})
-                    }}
-                    checked={this.state.checked}
-                />
+                        style={styles.checkButton}
+                        onPress= {() => {
+                            this.setState({checked: !this.state.checked})
+                        }}
+                        checked={this.state.checked}
+                    />
+                    <CheckBox 
+                        style={styles.checkButton}
+                        onPress= {() => {
+                            this.setState({checked: !this.state.checked})
+                        }}
+                        checked={this.state.checked}
+                    />
                 </View>);
                 
             default: //Create Dropdown
-                <Picker stlye={styles.picker}
-                selectedValue={this.state.answer}
-                onValueChange={(value, index) => {
-                    this.setState({answer: value});
-                }}>
-                {this.getAnswers(this.props)}
-                </Picker>
+                return (<Picker
+                    selectedValue={this.state.answer}
+                    onValueChange={(itemValue, itemIndex) => {
+                        this.setState({answer: itemValue});
+                    }}>
+                    {this.getAnswers(question.answers)}
+                </Picker>);
         }
+    }
+
+    createQuestionContent(props) {
+        let length = Object.keys(props.questions).length;
+        let sectionList = [];
+        for(let x = 0; x < length; x++) {
+            sectionList[x] = {
+                title: <Svg
+                    height='20'
+                    width='20'
+                    style={{alignContent: "center"}}
+                >
+                    <Circle
+                        cx='5'
+                        cy='5'
+                        borderRadius='2'
+                        r='20'
+                        stroke='#f00'
+                    />  
+                    <Text>{x}</Text>  
+                </Svg>,
+                data: [<Text> {props.questions[x].question} </Text>,
+                    <View>{this.createQuestionType(props.questions[x])}</View>
+                ]
+            };
+        }
+
+        return sectionList;
     }
 
     render() {
         width = Dimensions.get("window").width;
         height = Dimensions.get("window").height;
 
-        return ( //add iterationto icon
-            <View style={styles.container}>
-                <Svg
-                    height='20'
-                    width='20'
-                    style={{justifyContent: "center"}}
-                >
-                    <Circle
-                        borderRadius='2'
-                        r='20'
-                        stroke='#f00'
-                    />  
-                    <Text>{this.props.index}</Text>  
-                </Svg> 
-
-                <Text>
-                    {this.props.text}
-                </Text>
-
-                {this.createQuestionType(this.props)}
-            </View>
+        return ( //TODO: fix seperator
+            <SectionList  style={styles.container}
+                SectionSeparatorComponent={({leadingItem}) => leadingItem ? <Text>Hello</Text> : null}
+                renderItem={({item, index, section}) => 
+                    <View key={index}>
+                        {item}
+                    </View>
+                }
+                renderSectionHeader={({section: {title}}) =>
+                    <View >
+                        {title}
+                    </View>
+                }
+                renderSeperator={<Text>Hello</Text> }
+                sections= {this.createQuestionContent(this.props)}
+                keyExtractor={(item, index) => item + index} 
+            /> 
         );
     }
 }
@@ -121,11 +147,11 @@ const styles = StyleSheet.create({
     width: 20
   },
   container: { //Used at the top layer of the component aka SectionList
-    flexDirection: 'row',
+
     paddingTop: 5,
     paddingBottom: 5,
     flex: 1,
-    justifyContent: 'space-evenly'
+    alignContent: "center"
   },
   picker: {
       height: 50,

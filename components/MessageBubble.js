@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     maxWidth: (4 * width / 5) - 5,
     marginLeft: 10,
-    marginRight: 5
+    marginRight: 5,
+    flexDirection: "column"
   },
   recommendationBubble: { //Used for the recommendation side of createBubble()
     backgroundColor: Colors.recommendationBubble,
@@ -122,7 +123,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     maxWidth: (4 * width / 5) - 5,
     marginLeft: 5,
-    marginRight: 10
+    marginRight: 10,
+    flexDirection: "column"
   },
   bubble: { //Used for the default messages. May be usefull for notification of patient stability
     backgroundColor: Colors.bubble,
@@ -167,6 +169,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     maxWidth: width,
-    alignSelf: 'center'
+    alignContent:'center',
+    flexDirection: "column"
   }
 });

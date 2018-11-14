@@ -24,7 +24,28 @@ const text = <Text style = {
                 </Text>;
 const content = [
         {type: 'question',
-        content: <QuestionContent text={"This is important to do."} tasks={['Do this.', 'Do that.']}/>,
+        content: <View style = {
+                    {paddingTop: 5,
+                    paddingBottom: 5,
+                    flexDirection: "column"}
+                }>
+            <QuestionContent text={"This is important to do."} 
+                tasks={['Do this.', 'Do that.']}
+                questions={[
+                    {question: "What is the patient's Hb level?",
+                    answers: [
+                        { text: "Hb > 7.0", value: "yes"},
+                        { text: "Hb < 7.0", value: "no" },
+                        { text: "> 7.0 and Symptomatic", value: "no"}
+                    ]},
+                    {question: "Is the patient symptomatic?",
+                    answers: [
+                        { text: "Yes", value: "yes"},
+                        { text: "No", value: "no" },                   
+                    ]}
+                ]}                               
+            />
+            </View>,
         image: require('../assets/images/WHITE_HAND_LOGO.png')
         },
         {type: 'recommendation',
@@ -55,6 +76,19 @@ export default class ConversationScreen extends React.Component {
         return messages;
     }
 
+    //this.createStyle(content, index)
+    createStyle(content, index) {
+        switch(content[index].type) {
+            case "recommendation":
+                return ([styles.container, {alignContent: "flex-start"}]);
+
+            case "question":
+                return([styles.container, {alignContent: "flex-end"}]);
+
+            default:
+                return ([styles.container]);
+        }
+    }
     render() {
         return (<ScrollView style={styles.container}>
             <View style={styles.welcomeContainer}>
@@ -63,9 +97,9 @@ export default class ConversationScreen extends React.Component {
                 </Text>
             </View>
             <View>
-                <SectionList                    
-                    renderSectionHeader={({section: {title}}) =>
-                        <View >
+                <SectionList                  
+                    renderSectionHeader={({section: {title}}, index) =>
+                        <View>
                             {title}
                         </View>
                     }
@@ -73,8 +107,8 @@ export default class ConversationScreen extends React.Component {
                     keyExtractor={(item, index) => item + index} 
                 /> 
             </View>
-        </ScrollView>
-    );
+            </ScrollView>
+        );
   }
 }
 
@@ -83,13 +117,12 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         maxWidth: Dimensions.get('window').width,
-        maxHeight: Dimensions.get('window').height
-        
+        maxHeight: Dimensions.get('window').height     
     },
     contentContainer: {
         flex: 1,
         maxWidth: Dimensions.get('window').width,
-        maxHeight: Dimensions.get('window').height
+        maxHeight: Dimensions.get('window').height      
     },
     welcomeContainer: {
         alignItems: 'center',
