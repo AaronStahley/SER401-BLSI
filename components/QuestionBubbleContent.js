@@ -5,7 +5,7 @@ import Svg, { Circle } from 'react-native-svg';
 import Colors from '../constants/Colors';
 
 export default class QuestionBubbleContent extends React.Component {
-    state= {answer: ''};
+    state= {answer: '', checked: false, checked2: false};
 
     constructor(props) {
         super(props);
@@ -36,32 +36,37 @@ export default class QuestionBubbleContent extends React.Component {
                     checked={this.state.checked}
                 />);
             case 2: //Create yes/no buttons
-                return(<View>
-                    <CheckBox 
-                        style={styles.checkButton}
+                return(<View >
+                    <View style={styles.answerContainer}>
+                        <CheckBox style={styles.checkButton}
                         onPress= {() => {
                             this.setState({checked: !this.state.checked})
                         }}
                         checked={this.state.checked}
-                    />
-                    <CheckBox 
-                        style={styles.checkButton}
+                        />
+                    </View>
+                    <View >
+                        <CheckBox style={styles.checkButton}
                         onPress= {() => {
-                            this.setState({checked: !this.state.checked})
+                            this.setState({checked2: !this.state.checked2})
                         }}
-                        checked={this.state.checked}
+                        checked={this.state.checked2}
                     />
+                    </View>
                 </View>);
                 
             default: //Create Dropdown
-                return (<Picker
-                style={{backgroundColor: '#fff', borderColor: '#f00'}}
-                    selectedValue={this.state.answer}
-                    onValueChange={(itemValue, itemIndex) => {
-                        this.setState({answer: itemValue});
-                    }}>
-                    {this.getAnswers(question.answers)}
-                </Picker>);
+                return (<View style={styles.answerContainer}>
+                    <Picker
+                        mode={"dropdown"}
+                        style={styles.picker}
+                        selectedValue={this.state.answer}
+                        onValueChange={(itemValue, itemIndex) => {
+                            this.setState({answer: itemValue});
+                        }}>
+                        {this.getAnswers(question.answers)}
+                    </Picker>
+                </View>);
         }
     }
 
@@ -70,23 +75,21 @@ export default class QuestionBubbleContent extends React.Component {
         let sectionList = [];
         for(let x = 0; x < length; x++) {
             sectionList[x] = {
-                title: <Svg
+                title: <View></View>,
+                data: [ <Svg
                     height='20'
                     width='20'
                     style={{alignContent: "center"}}
                 >
                     <Text style={{ color: '#f00' }}>{x}</Text>
-
                     <Circle
                         cx='5'
                         cy='5'
-                        borderRadius='2'
-                        r='20'
-                        stroke='#f00'
-                    />  
-                     
+                        borderRadius='50'
+                        r='20'   
+                    />
                 </Svg>,
-                data: [<Text> {props.questions[x].question} </Text>,
+                <Text> {props.questions[x].question} </Text>,
                     <View>{this.createQuestionType(props.questions[x])}</View>
                 ]
             };
@@ -101,7 +104,7 @@ export default class QuestionBubbleContent extends React.Component {
 
         return ( //TODO: fix seperator
             <SectionList  style={styles.container}
-                SectionSeparatorComponent={({leadingItem}) => leadingItem ? <Text>Hello</Text> : null}
+                SectionSeparatorComponent={({leadingItem}) => leadingItem ? <View style={styles.seperator}></View> : null}
                 renderItem={({item, index, section}) => 
                     <View key={index}>
                         {item}
@@ -112,7 +115,7 @@ export default class QuestionBubbleContent extends React.Component {
                         {title}
                     </View>
                 }
-                renderSeperator={<Text>Hello</Text> }
+                
                 sections= {this.createQuestionContent(this.props)}
                 keyExtractor={(item, index) => item + index} 
             /> 
@@ -143,20 +146,41 @@ const styles = StyleSheet.create({
     resizeMode: "contain"
   },
   checkButton: {
-    paddingBottom: 5,
-    paddingTop: 5,
-    paddingHorizontal: 15,
     flex: 1,
-    width: 20
+    paddingBottom: 2,
+    paddingTop: 2,
+    paddingHorizontal: 2,
+    backgroundColor: Colors.questionIcon,
   },
   container: { //Used at the top layer of the component aka SectionList
-
     paddingTop: 5,
     paddingBottom: 5,
-    alignContent: "center"
+    alignContent: 'space-between',
+    flexDirection: "row"
+  },
+  answerContainer: {
+    paddingBottom: 2,
+    paddingTop: 2,
+    paddingHorizontal: 2,
+    height: height/20,
+    flex: 1,
+    backgroundColor: Colors.questionIcon,
+    borderRadius: 2
   },
   picker: {
-      height: 50,
-      width: 100
+    flex: 1,
+    backgroundColor: Colors.questionBubble,
+    color: "#000"
+  },
+  pickerItem: {
+      
+  },
+  seperator: {
+    paddingTop: 1,
+    borderRadius: 50,
+    marginBottom: 5,
+    marginTop: 5,
+    flex: 1,
+    backgroundColor: "#3339"
   }
 });

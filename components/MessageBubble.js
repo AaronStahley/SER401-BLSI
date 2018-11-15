@@ -45,7 +45,7 @@ export default class MessageBubble extends React.Component {
             case "recommendation":
                 return(<View style={styles.recommendationImage}>
                         <Image 
-                    style={styles.image}
+                        style={styles.image}
                         source={props.image}
                     />
                     </View>);
@@ -53,7 +53,7 @@ export default class MessageBubble extends React.Component {
             case "question":
                 return(<View style={styles.questionImage}>
                         <Image
-                    style={styles.image}
+                        style={styles.image}
                         source={props.image}
                     />
                     </View>);
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     maxWidth: (4 * width / 5) - 5,
     marginLeft: 10,
-    marginRight: 5,
+    marginRight: 5
   },
   recommendationBubble: { //Used for the recommendation side of createBubble()
     backgroundColor: Colors.recommendationBubble,
@@ -122,8 +122,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     maxWidth: (4 * width / 5) - 5,
     marginLeft: 5,
-    marginRight: 10,
-
+    marginRight: 10
   },
   bubble: { //Used for the default messages. May be usefull for notification of patient stability
     backgroundColor: Colors.bubble,
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
   container: { //Used at the top layer of the component aka SectionList
     paddingTop: 5,
     paddingBottom: 5,
-    maxWidth: width,
-    alignContent:'center',
+    alignSelf: "center",
+    flexDirection: "row"
   }
 });

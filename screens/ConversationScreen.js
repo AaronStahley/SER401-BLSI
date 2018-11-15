@@ -80,10 +80,10 @@ export default class ConversationScreen extends React.Component {
     createStyle(content, index) {
         switch(content[index].type) {
             case "recommendation":
-                return ([styles.container, {alignContent: "flex-start"}]);
+                return ([styles.container]);
 
             case "question":
-                return([styles.container, {alignContent: "flex-end"}]);
+                return([styles.container]);
 
             default:
                 return ([styles.container]);
@@ -114,13 +114,11 @@ export default class ConversationScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         backgroundColor: '#fff',
         maxWidth: Dimensions.get('window').width,
-        maxHeight: Dimensions.get('window').height     
-    },
-    contentContainer: {
-        maxWidth: Dimensions.get('window').width,
-        maxHeight: Dimensions.get('window').height      
+        maxHeight: Dimensions.get('window').height,
+        alignContent: 'center',
     },
     welcomeContainer: {
         alignItems: 'center',
