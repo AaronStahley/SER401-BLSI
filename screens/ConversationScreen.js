@@ -27,7 +27,7 @@ const content = [
         content: <View style = {
                     {paddingTop: 5,
                     paddingBottom: 5,
-                    flexDirection: "column"}
+                    }
                 }>
             <QuestionContent text={"This is important to do."} 
                 tasks={['Do this.', 'Do that.']}
@@ -114,13 +114,11 @@ export default class ConversationScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
         maxWidth: Dimensions.get('window').width,
         maxHeight: Dimensions.get('window').height     
     },
     contentContainer: {
-        flex: 1,
         maxWidth: Dimensions.get('window').width,
         maxHeight: Dimensions.get('window').height      
     },

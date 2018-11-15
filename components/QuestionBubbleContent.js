@@ -55,6 +55,7 @@ export default class QuestionBubbleContent extends React.Component {
                 
             default: //Create Dropdown
                 return (<Picker
+                style={{backgroundColor: '#fff', borderColor: '#f00'}}
                     selectedValue={this.state.answer}
                     onValueChange={(itemValue, itemIndex) => {
                         this.setState({answer: itemValue});
@@ -74,6 +75,8 @@ export default class QuestionBubbleContent extends React.Component {
                     width='20'
                     style={{alignContent: "center"}}
                 >
+                    <Text style={{ color: '#f00' }}>{x}</Text>
+
                     <Circle
                         cx='5'
                         cy='5'
@@ -81,7 +84,7 @@ export default class QuestionBubbleContent extends React.Component {
                         r='20'
                         stroke='#f00'
                     />  
-                    <Text>{x}</Text>  
+                     
                 </Svg>,
                 data: [<Text> {props.questions[x].question} </Text>,
                     <View>{this.createQuestionType(props.questions[x])}</View>
@@ -150,7 +153,6 @@ const styles = StyleSheet.create({
 
     paddingTop: 5,
     paddingBottom: 5,
-    flex: 1,
     alignContent: "center"
   },
   picker: {
