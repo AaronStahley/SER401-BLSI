@@ -8,22 +8,6 @@ import Colors from "../constants/Colors";
 
 
 export default class HomeScreen extends React.Component {
-    static navigationOptions = {
-        headerTitle: (<Image
-            style={{
-                flex: 1,
-                width: 40,
-                height: 40,
-                resizeMode: 'contain',
-                alignSelf: 'center',
-            }}
-
-            source={require('../assets/images/WHITE_HAND_LOGO.png')}/>),
-        headerStyle: {
-            backgroundColor: Colors.navBarBackground,
-            paddingBottom: 8,
-        }
-    };
 
     render() {
         const { navigate } = this.props.navigation;
@@ -31,15 +15,16 @@ export default class HomeScreen extends React.Component {
         return (
 
         <ScrollView style={styles.container}>
-          <View style={styles.welcomeContainer}>
+          <View >
               <Card
                   title='NOM BLSI'>
                   <Text style={{marginBottom: 10}}>
-                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
-                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
+                      Nonoperative management of blunt liver and spleen injury
+                      in children (NOMBLSI) helps prevent unnecessary surgeries in children when
+                      there may or may not be internal bleeding.
                   </Text>
                   <Button
-                      onPress={() => navigate('Questions')}
+                      onPress={() => this.props.navigation.navigate('Conversation')}
                       color= '#ee3e41'
                       buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                       title='Start' />
@@ -78,11 +63,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    welcomeContainer: {
-        alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 20,
     },
     titleText: {
         fontSize: 20,
