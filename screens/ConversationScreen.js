@@ -24,11 +24,7 @@ const text = <Text style = {
                 </Text>;
 const content = [
         {type: 'question',
-        content: <View style = {
-                    {paddingTop: 5,
-                    paddingBottom: 5,
-                    }
-                }>
+        content: <View>
             <QuestionContent text={"This is important to do."} 
                 tasks={['Do this.', 'Do that.']}
                 questions={[
@@ -65,7 +61,7 @@ export default class ConversationScreen extends React.Component {
         let length = Object.keys(content).length;
         for (let x = 0; x < length; x++) {
             messages[x] = {
-                title: <MessageBubble style={styles.container}
+                title: <MessageBubble 
                     type= {content[x].type}
                     content= {content[x].content}
                     image= {content[x].image}
@@ -80,7 +76,10 @@ export default class ConversationScreen extends React.Component {
     createStyle(content, index) {
         switch(content[index].type) {
             case "recommendation":
-                return ([styles.container]);
+                return ([styles.container, {
+                    justifyContent: 'space-between',
+                    alignItems: 'stretch',
+                }]);
 
             case "question":
                 return([styles.container]);
@@ -97,7 +96,7 @@ export default class ConversationScreen extends React.Component {
                 </Text>
             </View>
             <View>
-                <SectionList                  
+                <SectionList            
                     renderSectionHeader={({section: {title}}, index) =>
                         <View>
                             {title}
@@ -107,23 +106,20 @@ export default class ConversationScreen extends React.Component {
                     keyExtractor={(item, index) => item + index} 
                 /> 
             </View>
-            </ScrollView>
-        );
+        </ScrollView>);
   }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        maxWidth: Dimensions.get('window').width,
-        maxHeight: Dimensions.get('window').height,
-        alignContent: 'center',
+        flexDirection: 'row',       
+        backgroundColor: '#fff', 
     },
     welcomeContainer: {
         alignItems: 'center',
         marginTop: 10,
-        marginBottom: 20,
+        marginBottom: 20
     },
     text: {
         paddingTop: 5,
