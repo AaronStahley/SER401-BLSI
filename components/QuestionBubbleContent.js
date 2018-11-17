@@ -1,8 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Picker, SectionList} from 'react-native';
 import {CheckBox} from "react-native-elements";
-import Svg, { Circle } from 'react-native-svg';
+import Svg, { Circle, Text as TextSvg} from 'react-native-svg';
 import Colors from '../constants/Colors';
+
+const { width, height} = Dimensions.get('window');
 
 export default class QuestionBubbleContent extends React.Component {
     state= {answer: '', checked: false, checked2: false};
@@ -29,19 +31,23 @@ export default class QuestionBubbleContent extends React.Component {
         switch(length) {
             case 1: //create checkbox
                 return(<CheckBox 
+                    containerStyle={styles.checkBoxButton}
+                    checkedColor = {Colors.questionCheckBox}
+                    uncheckedColor= {Colors.questionCheckBoxUnchecked}
                     title={ question.answers[0].text}
-                    style={styles.checkButton}
-                    containerStyle="as"
+                    style={styles.checkButtonContainer}
                     onPress= {() => {
                         this.setState({checked: !this.state.checked})
                     }}
                     checked={this.state.checked}
                 />);
             case 2: //Create yes/no buttons
-                return(<View style={styles.checkButton}>
-                    <View>
+                    //To return buttons to vertical mode, remove container
+                return(<View style={styles.container}>  
                         <CheckBox 
-                        checkedColor = {Colors.questionIcon}
+                        containerStyle={styles.checkBoxButton}
+                        checkedColor = {Colors.questionCheckBoxChecked}
+                        uncheckedColor= {Colors.questionCheckBoxUnchecked}
                         title={ question.answers[0].text}
                         onPress= {() => {
                             this.setState({checked: !this.state.checked});
@@ -50,10 +56,11 @@ export default class QuestionBubbleContent extends React.Component {
                         }}
                         checked={this.state.checked}
                         />
-                    </View>
-                    <View >
-                        <CheckBox style={styles.checkButton}
-                        checkedColor = {Colors.questionIcon}
+
+                        <CheckBox 
+                        containerStyle={styles.checkBoxButton}
+                        checkedColor = {Colors.questionCheckBoxChecked} 
+                        uncheckedColor= {Colors.questionCheckBoxUnchecked}
                         title={ question.answers[1].text}
                         onPress= {() => {
                             this.setState({checked2: !this.state.checked2});
@@ -62,7 +69,6 @@ export default class QuestionBubbleContent extends React.Component {
                         }}
                         checked={this.state.checked2}
                     />
-                    </View>
                 </View>);
                 
             default: //Create Dropdown
@@ -84,26 +90,36 @@ export default class QuestionBubbleContent extends React.Component {
         let length = Object.keys(props.questions).length;
         let sectionList = [];
         for(let x = 0; x < length; x++) {
-            sectionList[x] = {
-                title: <View style={[styles.container, {alignItems: "stretch"}]}>
+            sectionList[x] = { //To make center question circle change stretch to center
+                title: <View style={[styles.container, {alignItems: 'stretch'}]}> 
                     <Svg
-                    height='22'
-                    width='22'
-                    style={{alignContent: "center"}}
-                    >
-                        <Text style={{ color: '#f00' }}>{x}</Text>
+                        height='22'
+                        width='22'
+                        style={{alignContent: "center"}}
+                    >       
+                        <TextSvg 
+                            x = '11'
+                            y = '11'
+                            fill='#000'                
+                            fontSize = "16"
+                        >
+                        {x}
+                        </TextSvg>                
                         <Circle
                             cx='11'
                             cy='11'
-                            stroke="#f22b"
+                            stroke={Colors.questionCircleBorder}
                             strokeWidth='2'
-                            fill = "#0000"                        
+                            fill = {Colors.questionCircleFill}
                             r='9'   
-                        />                  
-                </Svg>
+                        />
+                                                                    
+                    </Svg>
+                    
+                <Text style={{ color: '#000' }}>{x /*TODO: Remove after number fixed*/}</Text>
                 <Text> {props.questions[x].question} </Text>               
                 </View>,
-                data: [ <View>{this.createQuestionType(props.questions[x])}</View>]
+                data: [ <View style={[styles.container, {alignItems: 'stretch'}]}>{this.createQuestionType(props.questions[x])}</View>]
             };
         }
 
@@ -115,7 +131,7 @@ export default class QuestionBubbleContent extends React.Component {
         height = Dimensions.get("window").height;
 
         return ( //TODO: fix seperator
-            <SectionList  style={[styles.container, {alignContent: "space-between"}]}
+            <SectionList  
                 SectionSeparatorComponent={({leadingItem}) => leadingItem ? <View style={styles.seperator}></View> : null}
                 renderItem={({item, index, section}) => 
                     <View key={index}>
@@ -134,9 +150,6 @@ export default class QuestionBubbleContent extends React.Component {
         );
     }
 }
-
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
 
@@ -157,31 +170,35 @@ const styles = StyleSheet.create({
     height: 40,
     resizeMode: "contain"
   },
-  checkButton: {
-    flex: 1,
-    paddingBottom: 2,
-    paddingTop: 2,
-    paddingHorizontal: 2,
-    backgroundColor: Colors.questionIcon,
+  checkBoxButton: {
+      flex: 1,
+      backgroundColor: Colors.questionBubble,
+      paddingBottom: 5,
+      paddingTop: 5,
+      paddingHorizontal: 5,
+      borderColor: Colors.questionCheckBoxBorder,
+      borderWidth: 2,
+      height: height / 20,
   },
   container: { //Used at the top layer of the component aka SectionList
-    paddingTop: 5,
-    paddingBottom: 5,
     flex: 1,
     flexDirection: "row",
+    paddingTop: 5,
+    paddingBottom: 5,
   },
   answerContainer: {
     paddingBottom: 2,
     paddingTop: 2,
     paddingHorizontal: 2,
+    marginHorizontal: 10,
     height: height/20,
     flex: 1,
-    backgroundColor: Colors.questionIcon,
+    backgroundColor: Colors.questionPickerBorder,
     borderRadius: 2
   },
   picker: {
     flex: 1,
-    backgroundColor: Colors.questionBubble,
+    backgroundColor: Colors.questionPickerFill,
     color: "#000"
   },
   pickerItem: {

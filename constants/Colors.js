@@ -15,6 +15,18 @@ export default {
   recommendationBubble: '#f6666455',
   questionBubble: '#f5f3f3',
 
+  //Question Bubble Color
+  questionPickerBorder: '#f33338',
+  questionPickerFill: '#f5f3f3',
+  questionCheckBoxBorder: '#f33338',
+  questionCheckBoxFill: '#f5f3f3',
+  questionContainer: '#f55555',
+  questionNumber: '#f55555',
+  questionCheckBoxChecked: '#f55555',
+  questionCheckBoxUnchecked: '#777',
+  questionCircleFill: '#f5f3f3',
+  questionCircleBorder: '#f33339',
+
   //Header Style Colors
   navBarBackground: '#ee3e41',
   headerStyleRightButton: '#999'
