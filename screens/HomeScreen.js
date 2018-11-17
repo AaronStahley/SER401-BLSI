@@ -2,7 +2,6 @@ import React from 'react';
 import {ScrollView, StyleSheet, Text, View, Button, SectionList, FlatList, Image} from 'react-native';
 import {Card} from 'react-native-elements'
 import { ExpoLinksView } from '@expo/samples';
-import HeaderStyle from '../components/HeaderStyle';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
 

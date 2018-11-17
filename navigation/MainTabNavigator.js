@@ -2,10 +2,8 @@ import React from 'react';
 import {Image, Platform} from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 
-import TabBarIcon from '../components/TabBarIcon';
 import ConversationScreen from '../screens/ConversationScreen';
 import HomeScreen from '../screens/HomeScreen';
-import HeaderStyle from '../components/HeaderStyle';
 import Colors from "../constants/Colors";
 
 
