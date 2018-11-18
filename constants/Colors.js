@@ -17,5 +17,5 @@ export default {
 
   //Header Style Colors
   navBarBackground: '#ee3e41',
-  headerStyleRightButton: '#999'
+  headerStyleRightButton: '#fff',
 };
