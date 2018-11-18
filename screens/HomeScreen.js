@@ -1,54 +1,67 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, Button} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Button, SectionList, FlatList, Image} from 'react-native';
+import {Card} from 'react-native-elements'
 import { ExpoLinksView } from '@expo/samples';
-import HeaderStyle from '../components/HeaderStyle';
+import AlgorithmBox from "../components/AlgorithmBox";
+import Colors from "../constants/Colors";
 
 
 export default class HomeScreen extends React.Component {
-    static navigationOptions = {
-        headerStyle: {
-            borderBottomWidth: 0,
-            backgroundColor: '#fff', elevation:0
-        }
 
-    };
     render() {
         const { navigate } = this.props.navigation;
+
         return (
 
         <ScrollView style={styles.container}>
-			<View style={styles.welcomeContainer}>
-				<Text style={styles.titleText}>
-					Welcome. What are we doing today?
-				</Text>
-
-				<View style={styles.algorithmContainer}>
-					<Button
-						onPress={() => navigate('Questions')}
-						title="BLSI Algorithm"
-						color= '#ee3e41'
-					/>
-					<Button
-						onPress={() => navigate('AlgorithmDesc')}
-						title='Learn More'
-						color='#9e9e9e'
-					/>
-				</View>
-			</View>
-		</ScrollView>
-		);
-	}
+          <View >
+              <Card
+                  title='NOM BLSI'>
+                  <Text style={{marginBottom: 10}}>
+                      Nonoperative management of blunt liver and spleen injury
+                      in children (NOMBLSI) helps prevent unnecessary surgeries in children when
+                      there may or may not be internal bleeding.
+                  </Text>
+                  <Button
+                      onPress={() => this.props.navigation.navigate('Conversation')}
+                      color= '#ee3e41'
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Start' />
+              </Card>
+              <Card
+                  title='Other Algorithm'>
+                  <Text style={{marginBottom: 10}}>
+                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
+                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
+                  </Text>
+                  <Button
+                      onPress={() => navigate('Questions')}
+                      color= '#ee3e41'
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Start' />
+              </Card>
+              <Card
+                  title='Other Algorithm'>
+                  <Text style={{marginBottom: 10}}>
+                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
+                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
+                  </Text>
+                  <Button
+                      onPress={() => navigate('Questions')}
+                      color= '#ee3e41'
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Start' />
+              </Card>
+          </View>
+      </ScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    welcomeContainer: {
-        alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 20,
     },
     titleText: {
         fontSize: 20,
