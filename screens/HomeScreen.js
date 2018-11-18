@@ -23,6 +23,11 @@ export default class HomeScreen extends React.Component {
                       there may or may not be internal bleeding.
                   </Text>
                   <Button
+                      onPress={() => this.props.navigation.navigate('AlgDescription')}                    
+                      color='#b3b3b3'
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Learn More' />
+                  <Button
                       onPress={() => this.props.navigation.navigate('Conversation')}
                       color= '#ee3e41'
                       buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
