@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Picker, SectionList} from 'react-native';
-import {CheckBox} from "react-native-elements";
 import Svg, { Circle, Text as TextSvg} from 'react-native-svg';
+import {CheckBox} from "react-native-elements";
+import CheckBoxCustom from '../components/CheckBox';
+import Textfield from '../components/TextField';
 import Colors from '../constants/Colors';
 
 const { width, height} = Dimensions.get('window');
 
 export default class QuestionBubbleContent extends React.Component {
-    state= {answer: '', checked: false, checked2: false};
+    state= {answer: ''};
 
     constructor(props) {
         super(props);
@@ -26,24 +28,28 @@ export default class QuestionBubbleContent extends React.Component {
      return items;
     }
 
-    createQuestionType(question) {
-        let length = Object.keys(question.answers).length;
+    createQuestionType(question) {       
+        let length = Object.keys(question.answers).length;        
         switch(length) {
-            case 1: //create checkbox
-                return(<CheckBox 
-                    containerStyle={styles.checkBoxButton}
-                    checkedColor = {Colors.questionCheckBox}
-                    uncheckedColor= {Colors.questionCheckBoxUnchecked}
-                    title={ question.answers[0].text}
-                    style={styles.checkButtonContainer}
-                    onPress= {() => {
-                        this.setState({checked: !this.state.checked})
+            case 0:
+                return(
+                <Textfield
+                    onChangeText={() => {
                     }}
-                    checked={this.state.checked}
+                />)
+            case 1: //create checkbox
+                return(
+                <CheckBoxCustom
+                    text={question.answers[0].text}
+                    onPress= {() => {
+                        this.setState({checked: !state.checked})
+                    }}
+                    checked={state.checked}
                 />);
             case 2: //Create yes/no buttons
                     //To return buttons to vertical mode, remove container
-                return(<View style={styles.container}>  
+                return(
+                <View style={styles.container}>  
                         <CheckBox 
                         containerStyle={styles.checkBoxButton}
                         checkedColor = {Colors.questionCheckBoxChecked}
@@ -130,7 +136,7 @@ export default class QuestionBubbleContent extends React.Component {
         width = Dimensions.get("window").width;
         height = Dimensions.get("window").height;
 
-        return ( //TODO: fix seperator
+        return (
             <SectionList  
                 SectionSeparatorComponent={({leadingItem}) => leadingItem ? <View style={styles.seperator}></View> : null}
                 renderItem={({item, index, section}) => 

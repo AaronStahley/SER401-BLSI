@@ -25,7 +25,7 @@ export default {
   questionCheckBoxChecked: '#f55555',
   questionCheckBoxUnchecked: '#777',
   questionCircleFill: '#f5f3f3',
-  questionCircleBorder: '#f33339',
+  questionCircleBorder: '#222',
 
   //Header Style Colors
   navBarBackground: '#ee3e41',
