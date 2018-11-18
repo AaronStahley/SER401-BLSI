@@ -1,14 +1,16 @@
 import React from 'react';
+import {Dimensions, StyleSheet} from 'react-native';
 import {Textfield} from "react-native-material-textfield";
 import Colors from '../constants/Colors';
 
 const { width, height} = Dimensions.get('window');
 
 export default class CheckBox extends React.Component {
-    state= {value: ''};
+    
 
     constructor(props) {
         super(props);
+        this.state= {value: ''};
     }
 
     render() {
@@ -16,8 +18,8 @@ export default class CheckBox extends React.Component {
         height = Dimensions.get("window").height;
 
         return(<Textfield 
-            value={this.state.value}
-            onChangeText={(this.props.onChangeText)}
+            value={this.props.value}
+            onChangeText={(this.props.onChangeText)} //TODO: Change value to stay in own class
         />);
     }
 }

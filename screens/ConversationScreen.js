@@ -24,15 +24,14 @@ const text = <Text style = {
                 </Text>;
 const content = [
         {type: 'question',
-        content: <View>
-            <QuestionContent text={"This is important to do."} 
+        content: <QuestionContent text={"This is important to do."} 
                 tasks={['Do this.', 'Do that.']}
                 questions={[
                     {question: "What is the patient's Hb level?",
                     answers: [
                         { text: "Hb > 7.0", value: "yes"},
                         { text: "Hb < 7.0", value: "no" },
-                        { text: "> 7.0 and Symptomatic", value: "no"}
+                        { text: "> 7.0 and Symptomatic", value: "2323"}
                     ]},
                     {question: "Is the patient symptomatic?",
                     answers: [
@@ -40,8 +39,7 @@ const content = [
                         { text: "No", value: "no" },                   
                     ]}
                 ]}                               
-            />
-            </View>,
+            />,
         image: require('../assets/images/WHITE_HAND_LOGO.png')
         },
         {type: 'recommendation',
@@ -50,6 +48,19 @@ const content = [
         },
         {type: 'bubble',
         content: text,
+        image: require('../assets/images/WHITE_HAND_LOGO.png')
+        },
+        {type: 'question',
+        content: <QuestionContent text={"This is important to do."} 
+            tasks={['Do this.', 'Do that.']}
+            questions={[
+            {question: "What is the patient's Hb level?",
+            answers: [{prompt: 'Hb'}, { text: "Yes", value: "yes"}]}, //TODO: remove to continue testing text
+            {question: "Is the patient symptomatic?",
+            answers: [
+                { text: "Yes", value: "yes"}                 
+            ]}
+        ]}/>,
         image: require('../assets/images/WHITE_HAND_LOGO.png')
         }
     ];

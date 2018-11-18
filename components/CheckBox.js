@@ -1,14 +1,16 @@
 import React from 'react';
+import {Dimensions, StyleSheet} from 'react-native';
 import {CheckBox} from "react-native-elements";
 import Colors from '../constants/Colors';
 
 const { width, height} = Dimensions.get('window');
 
-export default class CheckBox extends React.Component {
-    state= {checked: false};
+export default class CheckBoxCustom extends React.Component {
+   
 
     constructor(props) {
         super(props);
+        this.state = {checked: false};
     }
 
     render() {
@@ -21,7 +23,7 @@ export default class CheckBox extends React.Component {
             uncheckedColor= {Colors.questionCheckBoxUnchecked}
             title={ this.props.text}
             onPress= {this.props.onPress}
-            checked={this.state.checked}
+            checked={this.props.checked} //TODO: Change value to stay in own class
         />);
     }
 }
