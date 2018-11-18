@@ -15,5 +15,6 @@ export default class AbstractModel {
                 this[field] = json[field];
             }
         }
+        return this;
     }
 }
