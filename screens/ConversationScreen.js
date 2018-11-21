@@ -31,6 +31,11 @@ const content = [
     },
     {type: 'bubble',
         content: text,
+        <Button
+            onPress={() => this.props.navigation.navigate('Recommendations')}
+            color= '#ee3e41'
+            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+            title='Start' />
         image: require('../assets/images/WHITE_HAND_LOGO.png')
     }
 ];
