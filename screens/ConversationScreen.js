@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Dimensions,
-  SectionList
+    Image,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+    Dimensions,
+    SectionList, Button, Alert
 } from 'react-native';
 import QuestionContent from "../components/QuestionBubbleContent";
 import MessageBubble from "../components/MessageBubble";
@@ -41,13 +41,14 @@ const content = [
                     ]}
                 ]}                               
             />,
+
         image: require('../assets/images/WHITE_HAND_LOGO.png')
-        },
-        {type: 'recommendation',
+    },
+    {type: 'recommendation',
         content: text,
         image: require('../assets/images/WHITE_HAND_LOGO.png')
-        },
-        {type: 'bubble',
+    },
+    {type: 'bubble',
         content: text,
         image: require('../assets/images/WHITE_HAND_LOGO.png')
         },
@@ -82,8 +83,27 @@ const content = [
         image: require('../assets/images/WHITE_HAND_LOGO.png')
         }
     ];
+
 export default class ConversationScreen extends React.Component {
-    static navigationOptions = HeaderStyle;
+    static navigationOptions = ({navigation}) => ({
+        headerRight: (
+            <View>
+                <TouchableOpacity onPress={() => Alert.alert(
+                    'Are You Sure?',
+                    'Do you want to start the algorithm from the start?',
+                    [
+                        {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                        {text: 'Yes', onPress: () => navigation.navigate('Home')}
+
+                    ])}>
+                    <Text style={styles.startOverButton}>
+                        Start Over
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        )
+
+    });
 
     loadMessages(content) {
         let messages = [];
@@ -95,6 +115,7 @@ export default class ConversationScreen extends React.Component {
                     content= {content[x].content}
                     image= {content[x].image}
                     />,                    
+
                 data: []
             };
         }
@@ -164,6 +185,13 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         color: "#000",
         textAlign: "auto"
+    },
+    startOverButton: {
+        color: '#fff',
+        paddingRight: 8,
+        paddingTop: 5,
+        fontSize: 18
     }
-    
+
 });
+
