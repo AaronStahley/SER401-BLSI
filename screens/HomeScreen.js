@@ -1,11 +1,12 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text, View, Button, SectionList, FlatList, Image} from 'react-native';
 import {Card} from 'react-native-elements'
+import {observer} from 'mobx-react/native'
 import { ExpoLinksView } from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
 
-
+@observer
 export default class HomeScreen extends React.Component {
 
     render() {
