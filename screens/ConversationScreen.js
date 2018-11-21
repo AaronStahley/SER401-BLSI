@@ -13,6 +13,8 @@ import {
 import QuestionContent from "../components/QuestionBubbleContent";
 import MessageBubble from "../components/MessageBubble";
 import Colors from '../constants/Colors';
+import {observer} from 'mobx-react/native'
+
 
 const text = <Text style = {
                     {paddingTop: 5,
@@ -83,6 +85,8 @@ const content = [
         }
     ];
 
+
+@observer
 export default class ConversationScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         headerRight: (
