@@ -10,6 +10,7 @@ import {
     Dimensions,
     SectionList, Button, Alert
 } from 'react-native';
+import {observer} from 'mobx-react/native'
 import MessageBubble from "../components/MessageBubble"
 
 const text = <Text style = {
@@ -34,6 +35,8 @@ const content = [
         image: require('../assets/images/WHITE_HAND_LOGO.png')
     }
 ];
+
+@observer
 export default class ConversationScreen extends React.Component {
     static navigationOptions = ({navigation}) => ({
         headerRight: (

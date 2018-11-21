@@ -4,6 +4,7 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import HomeScreen from "./screens/HomeScreen";
 
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
