@@ -15,6 +15,7 @@ export default class TextField extends React.Component {
         let {value} = this.state; 
         return(<View style={styles.textfieldContainer}>
                 <TextInput style={[styles.textfield]}
+                underlineColorAndroid = '#0000'
                 placeholder={this.props.label}
                 keyboardType={this.props.keyboardType}
                 baseColor={Colors.questionBubble}
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: Colors.questionBubble,
     paddingHorizontal: 5,
-    paddingTop: -5,
+    paddingTop: 5,
     paddingBottom: 5,
     borderColor: Colors.questionCheckBoxBorder,
     borderWidth: 2,
