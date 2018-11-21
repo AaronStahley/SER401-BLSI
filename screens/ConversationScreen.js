@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import QuestionContent from "../components/QuestionBubbleContent";
 import MessageBubble from "../components/MessageBubble";
-import HeaderStyle from "../components/HeaderStyle";
 import Colors from '../constants/Colors';
 
 const text = <Text style = {
