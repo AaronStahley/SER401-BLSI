@@ -8,6 +8,9 @@ export default {
   noticeBackground: 'red',
   noticeText: '#fff',
 
+  //Conversation Screen Colors
+  conversationBackground: '#fff',
+
   //Message Bubble Colors
   recommendationIcon: '#777',
   questionIcon: '#f33338',

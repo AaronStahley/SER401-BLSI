@@ -4,6 +4,7 @@ import Svg, { Circle, Text as TextSvg} from 'react-native-svg';
 //import {CheckBox} from "react-native-elements";
 import CheckBox from '../components/CheckBox';
 import Textfield from '../components/TextField';
+//import {Textfield} from "react-native-material-textfield";
 import Colors from '../constants/Colors';
 
 const { width, height} = Dimensions.get('window');
@@ -15,7 +16,7 @@ export default class QuestionBubbleContent extends React.Component {
         super(props);
     } 
 
-    getAnswers(answers) {
+    getPickerAnswers(answers) {
         let length = Object.keys(answers).length;
         let items = [];
         for(let x = 0; x < length; x++) {
@@ -28,29 +29,30 @@ export default class QuestionBubbleContent extends React.Component {
      return items;
     }
 
-    createQuestionType(question) {       
-        let length = Object.keys(question.answers).length;        
-        switch(length) { //TODO: move to if statements
-            case 1: //create checkbox
-                if(question.answers[0].text) {
-                    return(<CheckBox                         
-                        title={ question.answers[0].text}
-                        onPress= {() => {
-                            this.setState({checked: !this.state.checked});
-                            this.state.checked2 = false;
-                            this.setState({checked2: false});
-                        }}
-                        checked={this.state.checked}                      
-                    />);
-                }
-                else {
-                    return(<Textfield
-                        onChangeText={() => {
-                        }}
-                        value
-                    />);
-                }
-                
+    createQuestionType(question) {    
+        let length = Object.keys(question.answers).length; 
+        if (question.type == 'textfield') {
+            return(<Textfield keyboardType={'numeric'} label={question.answers[0].prompt}/>);
+        }
+        else if (question.type == 'checkbox') {
+            return(this.createCheckBox(question));
+        }     
+    }
+
+    createCheckBox(question) {
+        let length = Object.keys(question.answers).length; 
+        switch(length) {
+            case 1: //create checkbox              
+                return(<CheckBox
+                    title={ question.answers[0].text}
+                    onPress= {() => {
+                        this.setState({checked: !this.state.checked});
+                        this.state.checked2 = false;
+                        this.setState({checked2: false});
+                    }}
+                    checked={this.state.checked}                      
+                />);
+                               
             case 2: //Create yes/no buttons
                     //To return buttons to vertical mode, remove container
                 return(
@@ -93,7 +95,7 @@ export default class QuestionBubbleContent extends React.Component {
                         onValueChange={(itemValue, itemIndex) => {
                             this.setState({answer: itemValue});
                         }}>
-                        {this.getAnswers(question.answers)}
+                        {this.getPickerAnswers(question.answers)}
                     </Picker>
                 </View>);
         }
@@ -104,7 +106,7 @@ export default class QuestionBubbleContent extends React.Component {
         let sectionList = [];
         for(let x = 0; x < length; x++) {
             sectionList[x] = { //To make center question circle change stretch to center
-                title: <View style={[styles.container, {alignItems: 'stretch'}]}> 
+                title: <View style={[styles.container]}> 
                     <Svg
                         height='22'
                         width='22'
@@ -132,10 +134,9 @@ export default class QuestionBubbleContent extends React.Component {
                 <Text style={{ color: '#000' }}>{x /*TODO: Remove after number fixed*/}</Text>
                 <Text> {props.questions[x].question} </Text>               
                 </View>,
-                data: [ <View style={[styles.container, {alignItems: 'stretch'}]}>{this.createQuestionType(props.questions[x])}</View>]
+                data: [ <View style={[styles.container, ]}>{this.createQuestionType(props.questions[x])}</View>]
             };
         }
-
         return sectionList;
     }
 
@@ -155,8 +156,7 @@ export default class QuestionBubbleContent extends React.Component {
                     <View >
                         {title}
                     </View>
-                }
-                
+                }                
                 sections= {this.createQuestionContent(this.props)}
                 keyExtractor={(item, index) => item + index} 
             /> 
@@ -209,13 +209,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.questionPickerBorder,
     borderRadius: 2
   },
+  
   picker: {
     flex: 1,
     backgroundColor: Colors.questionPickerFill,
     color: "#000"
-  },
-  pickerItem: {
-      
   },
   seperator: {
     paddingTop: 1,

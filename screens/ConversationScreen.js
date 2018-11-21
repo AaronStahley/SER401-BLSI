@@ -13,6 +13,7 @@ import {
 import QuestionContent from "../components/QuestionBubbleContent";
 import MessageBubble from "../components/MessageBubble";
 import HeaderStyle from "../components/HeaderStyle";
+import Colors from '../constants/Colors';
 
 const text = <Text style = {
                     {paddingTop: 5,
@@ -27,13 +28,13 @@ const content = [
         content: <QuestionContent text={"This is important to do."} 
                 tasks={['Do this.', 'Do that.']}
                 questions={[
-                    {question: "What is the patient's Hb level?",
+                    {question: "What is the patient's Hb level?", type: 'checkbox',
                     answers: [
                         { text: "Hb > 7.0", value: "yes"},
                         { text: "Hb < 7.0", value: "no" },
                         { text: "> 7.0 and Symptomatic", value: "2323"}
                     ]},
-                    {question: "Is the patient symptomatic?",
+                    {question: "Is the patient symptomatic?", type: 'checkbox',
                     answers: [
                         { text: "Yes", value: "yes"},
                         { text: "No", value: "no" },                   
@@ -54,11 +55,28 @@ const content = [
         content: <QuestionContent text={"This is important to do."} 
             tasks={['Do this.', 'Do that.']}
             questions={[
-            {question: "What is the patient's Hb level?",
-            answers: [{prompt: 'Hb'}, { text: "Yes", value: "yes"}]}, //TODO: remove to continue testing text
-            {question: "Is the patient symptomatic?",
+            {question: "What is the patient's Hb level?", type: 'textfield',
+            answers: [{prompt: 'Hb'}]}, //TODO: remove to continue testing text
+            {question: "Is the patient symptomatic?", type: 'checkbox',
             answers: [
                 { text: "Yes", value: "yes"}                 
+            ]}
+        ]}/>,
+        image: require('../assets/images/WHITE_HAND_LOGO.png')
+        },
+        {type: 'question',
+        content: <QuestionContent text={"This is important to do."} 
+            tasks={['Do this.', 'Do that.']}
+            questions={[
+            {question: "Is the patient symptomatic?", type: 'checkbox',
+                answers: [
+                    { text: "Yes", value: "yes"},
+                    { text: "No", value: "no" },                   
+            ]}, 
+            {question: "Is the patient symptomatic?", type: 'checkbox',
+                answers: [
+                    { text: "Yes", value: "yes"},
+                    { text: "No", value: "no" },                   
             ]}
         ]}/>,
         image: require('../assets/images/WHITE_HAND_LOGO.png')
@@ -124,13 +142,15 @@ export default class ConversationScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'row',       
-        backgroundColor: '#fff', 
+        flexDirection: 'column',    
+        backgroundColor: Colors.conversationBackground, 
+        paddingTop: 10,
+        paddingBottom: 10
     },
     welcomeContainer: {
         alignItems: 'center',
         marginTop: 10,
-        marginBottom: 20
+        paddingBottom: 10
     },
     text: {
         paddingTop: 5,
