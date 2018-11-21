@@ -1,5 +1,5 @@
 import AbstractStore from "./AbstractStore";
-import State from "data/model/State";
+import State from "./../model/State";
 
 export default class StateStore extends AbstractStore {
     constructor(transporter) {

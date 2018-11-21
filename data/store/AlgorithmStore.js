@@ -1,5 +1,5 @@
 import AbstractStore from "./AbstractStore";
-import Algorithm from "data/model/Algorithm";
+import Algorithm from "./../model/Algorithm";
 
 export default class AlgorithmStore extends AbstractStore {
     constructor(transporter) {
