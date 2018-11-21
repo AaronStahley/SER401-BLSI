@@ -1,10 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Picker, SectionList} from 'react-native';
 import Svg, { Circle, Text as TextSvg} from 'react-native-svg';
-//import {CheckBox} from "react-native-elements";
 import CheckBox from '../components/CheckBox';
 import Textfield from '../components/TextField';
-//import {Textfield} from "react-native-material-textfield";
 import Colors from '../constants/Colors';
 
 const { width, height} = Dimensions.get('window');
@@ -58,22 +56,18 @@ export default class QuestionBubbleContent extends React.Component {
                 return(
                 <View style={styles.container}>  
                         <CheckBox 
-                        containerStyle={styles.checkBoxButton}
                         checkedColor = {Colors.questionCheckBoxChecked}
                         uncheckedColor= {Colors.questionCheckBoxUnchecked}
                         text={ question.answers[0].text}
                         onPress= {() => {
                             this.setState({checked: !this.state.checked});
                             this.state.checked2 = false;
-                            this.setState({checked2: false});
-                            
-                        }}
-                        
+                            this.setState({checked2: false});                            
+                        }}                        
                         checked={this.state.checked}
                         />
 
                         <CheckBox 
-                        containerStyle={styles.checkBoxButton}
                         checkedColor = {Colors.questionCheckBoxChecked} 
                         uncheckedColor= {Colors.questionCheckBoxUnchecked}
                         text={question.answers[1].text}
@@ -106,33 +100,9 @@ export default class QuestionBubbleContent extends React.Component {
         let sectionList = [];
         for(let x = 0; x < length; x++) {
             sectionList[x] = { //To make center question circle change stretch to center
-                title: <View style={[styles.container]}> 
-                    <Svg
-                        height='22'
-                        width='22'
-                        style={{alignContent: "center"}}
-                    >       
-                        <TextSvg 
-                            x = '11'
-                            y = '11'
-                            fill='#000'                
-                            fontSize = "16"
-                        >
-                        {x}
-                        </TextSvg>                
-                        <Circle
-                            cx='11'
-                            cy='11'
-                            stroke={Colors.questionCircleBorder}
-                            strokeWidth='2'
-                            fill = {Colors.questionCircleFill}
-                            r='9'   
-                        />
-                                                                    
-                    </Svg>
-                    
-                <Text style={{ color: '#000' }}>{x /*TODO: Remove after number fixed*/}</Text>
-                <Text> {props.questions[x].question} </Text>               
+                title: <View style={[styles.container, {flexDirection: 'row'}]}>                                       
+                <Text style={styles.icon}>{(x + 1)}</Text>  
+                <Text style={{padding: 5}}>{'  ' + props.questions[x].question }</Text>      
                 </View>,
                 data: [ <View style={[styles.container, ]}>{this.createQuestionType(props.questions[x])}</View>]
             };
@@ -145,8 +115,8 @@ export default class QuestionBubbleContent extends React.Component {
         height = Dimensions.get("window").height;
 
         return (
-            <SectionList  
-                SectionSeparatorComponent={({leadingItem}) => leadingItem ? <View style={styles.seperator}></View> : null}
+            <SectionList
+                SectionSeparatorComponent={({leadingItem}) => leadingItem ? <View style={styles.seperator}></View> : <View/>}
                 renderItem={({item, index, section}) => 
                     <View key={index}>
                         {item}
@@ -167,35 +137,17 @@ export default class QuestionBubbleContent extends React.Component {
 const styles = StyleSheet.create({
 
   icon: {    //Used for the recommendation side of createImage()
-    backgroundColor: Colors.recommendationIcon,
+    backgroundColor: Colors.questionNumberBorder,
     paddingTop: 5,
     paddingBottom: 5,
-    paddingLeft: 5,
-    paddingRight: 5,
-    borderRadius: 50,
-    marginLeft: 10,
-    marginRight: 5,
+    paddingHorizontal: 10,
+    borderRadius: 25,
     maxHeight: height,
     maxWidth: width,
   }, 
-  iconContent: { //Used to format the image
-    width: 40,
-    height: 40,
-    resizeMode: "contain"
-  },
-  checkBoxButton: {
-      flex: 1,
-      backgroundColor: Colors.questionBubble,
-      paddingBottom: 5,
-      paddingTop: 5,
-      paddingHorizontal: 5,
-      borderColor: Colors.questionCheckBoxBorder,
-      borderWidth: 2,
-      height: height / 20,
-  },
   container: { //Used at the top layer of the component aka SectionList
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "column",
     paddingTop: 5,
     paddingBottom: 5,
   },
@@ -209,7 +161,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.questionPickerBorder,
     borderRadius: 2
   },
-  
   picker: {
     flex: 1,
     backgroundColor: Colors.questionPickerFill,
@@ -221,6 +172,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     marginTop: 5,
     flex: 1,
-    backgroundColor: "#3339"
+    backgroundColor: "#000"
   }
 });

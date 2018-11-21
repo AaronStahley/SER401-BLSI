@@ -112,6 +112,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         marginLeft: 10,
         marginRight: 5,
+        marginBottom: 10,
         width: (4 * width / 5) - 5,
     },
     recommendationBubble: { //Used for the recommendation side of createBubble()
@@ -132,7 +133,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         width: (19 * width / 20) - 5,
         marginLeft: 10,
-        marginRight: 10
+        marginRight: 10,
+        marginBottom: 10,
     },
     questionImage: { //Used for question side of createImage()
         backgroundColor: Colors.questionIcon,

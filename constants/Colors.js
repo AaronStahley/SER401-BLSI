@@ -16,19 +16,17 @@ export default {
   questionIcon: '#f33338',
   bubble:'#ddd',
   recommendationBubble: '#f6666455',
-  questionBubble: '#f5f3f3',
+  questionBubble: '#efefef',
 
   //Question Bubble Color
-  questionPickerBorder: '#f33338',
+  questionPickerBorder: '#f33338aa',
   questionPickerFill: '#f5f3f3',
-  questionCheckBoxBorder: '#f33338',
+  questionCheckBoxBorder: '#f33338aa',
   questionCheckBoxFill: '#f5f3f3',
   questionContainer: '#f55555',
-  questionNumber: '#f55555',
+  questionNumberBorder: '#f55555a3',
   questionCheckBoxChecked: '#f55555',
   questionCheckBoxUnchecked: '#777',
-  questionCircleFill: '#f5f3f3',
-  questionCircleBorder: '#222',
 
   //Header Style Colors
   navBarBackground: '#ee3e41',

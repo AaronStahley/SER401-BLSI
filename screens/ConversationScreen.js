@@ -147,6 +147,13 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10
     },
+    messageContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: Colors.conversationBackground,
+        paddingTop: 10,
+        paddingBottom: 10
+    },
     welcomeContainer: {
         alignItems: 'center',
         marginTop: 10,
