@@ -28,6 +28,9 @@ export default {
   questionCheckBoxChecked: '#f55555',
   questionCheckBoxUnchecked: '#777',
 
+  //Recommendation Bubble Color
+  recommendationHeaderBorder: '#f55555a3',
+  
   //Header Style Colors
   navBarBackground: '#ee3e41',
   headerStyleRightButton: '#fff',

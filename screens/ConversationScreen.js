@@ -11,6 +11,7 @@ import {
     SectionList, Button, Alert
 } from 'react-native';
 import QuestionContent from "../components/QuestionBubbleContent";
+import RecommendationContent from "../components/RecommendationBubbleContent";
 import MessageBubble from "../components/MessageBubble";
 import Colors from '../constants/Colors';
 import {observer} from 'mobx-react/native'
@@ -25,65 +26,64 @@ const text = <Text style = {
                 Hello there something about the app
                 </Text>;
 const content = [
-        {type: 'question',
-        content: <QuestionContent text={"This is important to do."} 
-                tasks={['Do this.', 'Do that.']}
-                questions={[
-                    {question: "What is the patient's Hb level?", type: 'checkbox',
-                    answers: [
-                        { text: "Hb > 7.0", value: "yes"},
-                        { text: "Hb < 7.0", value: "no" },
-                        { text: "> 7.0 and Symptomatic", value: "2323"}
-                    ]},
-                    {question: "Is the patient symptomatic?", type: 'checkbox',
-                    answers: [
-                        { text: "Yes", value: "yes"},
-                        { text: "No", value: "no" },                   
-                    ]}
-                ]}                               
-            />,
-
+    {type: 'question',
+        questions: [
+            {question: "What is the patient's Hb level?", type: 'checkbox',
+                answers: [
+                    { text: "Hb > 7.0", value: "yes"},
+                    { text: "Hb < 7.0", value: "no" },
+                    { text: "> 7.0 and Symptomatic", value: "2323"}
+                ]},
+            {question: "Is the patient symptomatic?", type: 'checkbox',
+                answers: [
+                    { text: "Yes", value: "yes"},
+                    { text: "No", value: "no" },                   
+                ]
+            }],
         image: require('../assets/images/WHITE_HAND_LOGO.png')
     },
     {type: 'recommendation',
-        content: text,
+        header: 'This is what you need to do. You need to do this. And that.',
+        recommendations: [{
+            task: 'Please do this.',
+            link: 'Please do this. Please do that. Please do this.'
+        },
+        {
+            task: 'Please do this.',
+            link: {}
+        }],
         image: require('../assets/images/WHITE_HAND_LOGO.png')
     },
     {type: 'bubble',
-        content: text,
+        text: 'Hello this is that status of the patiant. Please continue',        
         image: require('../assets/images/WHITE_HAND_LOGO.png')
-        },
-        {type: 'question',
-        content: <QuestionContent text={"This is important to do."} 
-            tasks={['Do this.', 'Do that.']}
-            questions={[
+    },
+    {type: 'question',
+        questions:  [
             {question: "What is the patient's Hb level?", type: 'textfield',
-            answers: [{prompt: 'Hb'}]}, //TODO: remove to continue testing text
+            answers: [{prompt: 'Hb'}]}, 
             {question: "Is the patient symptomatic?", type: 'checkbox',
-            answers: [
-                { text: "Yes", value: "yes"}                 
-            ]}
-        ]}/>,
+            answers: [{ text: "Yes", value: "yes"}]
+            }],
         image: require('../assets/images/WHITE_HAND_LOGO.png')
-        },
-        {type: 'question',
-        content: <QuestionContent text={"This is important to do."} 
-            tasks={['Do this.', 'Do that.']}
-            questions={[
+    },
+    {type: 'question',
+        questions: [
+            {question: "What is the patient's Hb level?", type: 'checkbox',
+                answers: [
+                    { text: "Hb > 7.0", value: "yes"},
+                    { text: "Hb < 7.0", value: "no" },
+                    { text: "> 7.0 and Symptomatic", value: "2323"}
+                ]},
             {question: "Is the patient symptomatic?", type: 'checkbox',
                 answers: [
                     { text: "Yes", value: "yes"},
                     { text: "No", value: "no" },                   
-            ]}, 
-            {question: "Is the patient symptomatic?", type: 'checkbox',
-                answers: [
-                    { text: "Yes", value: "yes"},
-                    { text: "No", value: "no" },                   
-            ]}
-        ]}/>,
+                ]
+            }],
         image: require('../assets/images/WHITE_HAND_LOGO.png')
-        }
-    ];
+    },
+];
 
 
 @observer
@@ -112,10 +112,26 @@ export default class ConversationScreen extends React.Component {
         let messages = [];
         let length = Object.keys(content).length;
         for (let x = 0; x < length; x++) {
+            let component;
+            if(content[x].type == 'recommendation') {
+                component = <RecommendationContent text={"This is important to do."} 
+                    recommendations={content[x].recommendations}
+                    header={content[x].header}
+                    />;
+            } 
+            else if (content[x].type == 'question') {
+                component = <QuestionContent text={"This is important to do."} 
+                    questions={content[x].questions}
+                    />;
+            }  
+            else if(content[x].type == 'bubble') {
+                component = text;
+            }
+
             messages[x] = {
                 title: <MessageBubble 
                     type= {content[x].type}
-                    content= {content[x].content}
+                    content={component}
                     image= {content[x].image}
                     />,                    
 
@@ -125,22 +141,6 @@ export default class ConversationScreen extends React.Component {
         return messages;
     }
 
-    //this.createStyle(content, index)
-    createStyle(content, index) {
-        switch(content[index].type) {
-            case "recommendation":
-                return ([styles.container, {
-                    justifyContent: 'space-between',
-                    alignItems: 'stretch',
-                }]);
-
-            case "question":
-                return([styles.container]);
-
-            default:
-                return ([styles.container]);
-        }
-    }
     render() {
         return (<ScrollView style={styles.container}>
             <View style={styles.welcomeContainer}>

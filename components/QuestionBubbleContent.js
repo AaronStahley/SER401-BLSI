@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Picker, SectionList} from 'react-native';
-import Svg, { Circle, Text as TextSvg} from 'react-native-svg';
 import CheckBox from '../components/CheckBox';
 import Textfield from '../components/TextField';
 import Colors from '../constants/Colors';
@@ -135,7 +134,6 @@ export default class QuestionBubbleContent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
   icon: {    //Used for the recommendation side of createImage()
     backgroundColor: Colors.questionNumberBorder,
     paddingTop: 5,
