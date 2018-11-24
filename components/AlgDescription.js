@@ -1,6 +1,9 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 
+var algData = require('../data/algorithms.json');
+var index = 0;
+
 export default class AlgDescription extends React.Component {
     constructor(props) {
         super(props);
@@ -9,8 +12,8 @@ export default class AlgDescription extends React.Component {
     render() {
         return(
             <View>
-                <Text style={styles.titleText}>Test Title</Text>
-                <Text style={styles.descriptionText}>Test description</Text>            
+                <Text style={styles.titleText}>{algData[index].name}</Text>
+                <Text style={styles.descriptionText}>{algData[index].description}</Text>
             </View>
         );
     }
