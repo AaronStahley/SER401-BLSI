@@ -44,21 +44,20 @@ export default class RecommendationBubbleContent extends React.Component {
                     {this.props.header}
                 </Text>
                             
-                <View> 
-                    <SectionList
-                        SectionSeparatorComponent={({leadingItem}) => leadingItem ? <View style={styles.seperator}></View> : <View/>}
-                        renderItem={({item, index, section}) => 
-                            <View key={index}>
-                                {item}
-                            </View>}
-                        renderSectionHeader={({section: {title}}) =>
-                            <View >
-                                {title}
+                
+                <SectionList
+                    SectionSeparatorComponent={({leadingItem}) => leadingItem ? <View style={styles.seperator}></View> : <View/>}
+                    renderItem={({item, index, section}) => 
+                        <View key={index}>
+                            {item}
+                        </View>}
+                    renderSectionHeader={({section: {title}}) =>
+                        <View>
+                            {title}
                         </View>}                
-                        sections= {this.createRecommendationContent(this.props)}
-                        keyExtractor={(item, index) => item + index} 
-                    /> 
-                </View>
+                    sections= {this.createRecommendationContent(this.props)}
+                    keyExtractor={(item, index) => item + index} 
+                />                
             </View>
         );
     }

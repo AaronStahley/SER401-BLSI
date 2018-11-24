@@ -73,7 +73,6 @@ const content = [
                 answers: [
                     { text: "Hb > 7.0", value: "yes"},
                     { text: "Hb < 7.0", value: "no" },
-                    { text: "> 7.0 and Symptomatic", value: "2323"}
                 ]},
             {question: "Is the patient symptomatic?", type: 'checkbox',
                 answers: [
@@ -112,20 +111,30 @@ export default class ConversationScreen extends React.Component {
         let messages = [];
         let length = Object.keys(content).length;
         for (let x = 0; x < length; x++) {
-            let component;
+            let component, data;
             if(content[x].type == 'recommendation') {
                 component = <RecommendationContent text={"This is important to do."} 
-                    recommendations={content[x].recommendations}
-                    header={content[x].header}
+                        recommendations={content[x].recommendations}
+                        header={content[x].header}
                     />;
+                data = <View style={styles.seperator}> 
+                        <Button
+                            onPress={() => this.props.navigation.navigate('Conversation')}
+                            color= '#ee3e41'
+                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                            title='Proceed' />
+                    </View>      
+                    
             } 
             else if (content[x].type == 'question') {
                 component = <QuestionContent text={"This is important to do."} 
                     questions={content[x].questions}
                     />;
+                data = null;
             }  
             else if(content[x].type == 'bubble') {
                 component = text;
+                data = null;
             }
 
             messages[x] = {
@@ -135,7 +144,7 @@ export default class ConversationScreen extends React.Component {
                     image= {content[x].image}
                     />,                    
 
-                data: []
+                data: [data]
             };
         }
         return messages;
@@ -149,7 +158,12 @@ export default class ConversationScreen extends React.Component {
                 </Text>
             </View>
             <View>
-                <SectionList            
+                <SectionList  
+                    renderItem={({item, index, section}) => 
+                        <View key={index}>
+                            {item}
+                        </View>
+                    }          
                     renderSectionHeader={({section: {title}}, index) =>
                         <View>
                             {title}
@@ -194,6 +208,20 @@ const styles = StyleSheet.create({
         paddingRight: 8,
         paddingTop: 5,
         fontSize: 18
+    },
+    proceedButton: {
+        alignContent: 'center',
+        marginTop: -10
+    },
+    seperator: {
+        paddingTop: 1,       
+        borderRadius: 50,
+        marginBottom: 10,
+        marginTop: 10.,
+        marginHorizontal: 20,
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: "#000"
     }
 
 });
