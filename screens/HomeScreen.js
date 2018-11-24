@@ -4,7 +4,7 @@ import {Card} from 'react-native-elements'
 import { ExpoLinksView } from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
-
+import {getShortDesc} from '../components/AlgorithmData'
 
 export default class HomeScreen extends React.Component {
 
@@ -18,9 +18,7 @@ export default class HomeScreen extends React.Component {
               <Card
                   title='NOM BLSI'>
                   <Text style={{marginBottom: 10}}>
-                      Nonoperative management of blunt liver and spleen injury
-                      in children (NOMBLSI) helps prevent unnecessary surgeries in children when
-                      there may or may not be internal bleeding.
+                      {getShortDesc(0)}
                   </Text>
                   <Button
                       onPress={() => this.props.navigation.navigate('AlgDescription')}                    
