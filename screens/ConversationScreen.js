@@ -15,6 +15,7 @@ import RecommendationContent from "../components/RecommendationBubbleContent";
 import MessageBubble from "../components/MessageBubble";
 import Colors from '../constants/Colors';
 import {observer} from 'mobx-react/native'
+import State from '../data/model/State'
 
 
 const text = <Text style = {
@@ -84,6 +85,7 @@ const content = [
     },
 ];
 
+let algorithmState = new State();
 
 @observer
 export default class ConversationScreen extends React.Component {
@@ -117,11 +119,12 @@ export default class ConversationScreen extends React.Component {
                         recommendations={content[x].recommendations}
                         header={content[x].header}
                     />;
-                data = <View style={styles.seperator}> 
+                data = <View > 
+                        <View style={styles.seperator}></View>
                         <Button
-                            onPress={() => this.props.navigation.navigate('Conversation')}
+                            onPress={algorithmState.calculateNextState()}
                             color= '#ee3e41'
-                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                            buttonStyle={styles.proceedButton}
                             title='Proceed' />
                     </View>      
                     
@@ -151,13 +154,14 @@ export default class ConversationScreen extends React.Component {
     }
 
     render() {
-        return (<ScrollView style={styles.container}>
+        return (<ScrollView style={styles.container}
+                indicatorStyle={'default'}>
             <View style={styles.welcomeContainer}>
                 <Text>
                     Questions Screen
                 </Text>
             </View>
-            <View>
+            <View >
                 <SectionList  
                     renderItem={({item, index, section}) => 
                         <View key={index}>
@@ -211,17 +215,21 @@ const styles = StyleSheet.create({
     },
     proceedButton: {
         alignContent: 'center',
-        marginTop: -10
+        marginTop: 10,
+        marginBottom: 10,
     },
     seperator: {
+        flex: 1,
+        flexDirection: 'row',
         paddingTop: 1,       
         borderRadius: 50,
         marginBottom: 10,
-        marginTop: 10.,
+        marginTop: 10,
+        marginBottom: -10,
         marginHorizontal: 20,
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: "#000"
+        
+        backgroundColor: "#000",
+        alignContent: 'center',
     }
 
 });
