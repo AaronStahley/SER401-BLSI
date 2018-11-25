@@ -18,7 +18,6 @@ import Colors from '../constants/Colors';
 import {observer} from 'mobx-react/native';
 import State from '../data/model/State';
 
-
 const text = <Text style = {
                     {paddingTop: 5,
                     paddingBottom: 5,
@@ -27,8 +26,52 @@ const text = <Text style = {
                 }>
                 Hello there something about the app
                 </Text>;
-const content = [
-    {type: 'question',
+
+const bubble = {type: 'bubble',
+        text: 'Hello this is that status of the patiant. Please continue',        
+        image: require('../assets/images/WHITE_HAND_LOGO.png'),
+    next: null};
+
+const recommendation1 = {type: 'recommendation',
+        header: 'This is what you need to do. You need to do this. And that.',
+        recommendations: [{
+            task: 'Please do this.',
+            link: 'Please do this. Please do that. Please do this.'
+        },
+        {
+            task: 'Please do this.',
+            link: {}
+        }],
+        image: require('../assets/images/WHITE_HAND_LOGO.png'),
+    next: question2};
+
+const recommendation2 = {type: 'recommendation',
+        header: 'This is what you need to do. You need to do this. And that.',
+        recommendations: [{
+            task: 'Please do this.',
+            link: 'Please do this. Please do that. Please do this.'
+        },
+        {
+            task: 'Please do this.',
+            link: {}
+        }],
+        image: require('../assets/images/WHITE_HAND_LOGO.png'),
+    next: question3};
+
+const recommendation3 = {type: 'recommendation',
+    header: 'This is what you need to do. You need to do this. And that.',
+    recommendations: [{
+        task: 'Please do this.',
+        link: 'Please do this. Please do that. Please do this.'
+    },
+    {
+        task: 'Please do this.',
+        link: {}
+    }],
+    image: require('../assets/images/WHITE_HAND_LOGO.png'),
+    next: bubble};
+
+const question1 = {type: 'question',
         questions: [
             {question: "What is the patient's Hb level?", type: 'checkbox',
                 answers: [
@@ -42,54 +85,45 @@ const content = [
                     { text: "No", value: "no" },                   
                 ]
             }],
-        image: require('../assets/images/WHITE_HAND_LOGO.png')
-    },
-    {type: 'recommendation',
-        header: 'This is what you need to do. You need to do this. And that.',
-        recommendations: [{
-            task: 'Please do this.',
-            link: 'Please do this. Please do that. Please do this.'
-        },
-        {
-            task: 'Please do this.',
-            link: {}
-        }],
-        image: require('../assets/images/WHITE_HAND_LOGO.png')
-    },
-    {type: 'bubble',
-        text: 'Hello this is that status of the patiant. Please continue',        
-        image: require('../assets/images/WHITE_HAND_LOGO.png')
-    },
-    {type: 'question',
+        image: require('../assets/images/WHITE_HAND_LOGO.png'),
+    next: recommendation1};
+
+const  question2 = {type: 'question',
         questions:  [
             {question: "What is the patient's Hb level?", type: 'textfield',
             answers: [{prompt: 'Hb'}]}, 
             {question: "Is the patient symptomatic?", type: 'checkbox',
             answers: [{ text: "Yes", value: "yes"}]
             }],
-        image: require('../assets/images/WHITE_HAND_LOGO.png')
-    },
-    {type: 'question',
-        questions: [
-            {question: "What is the patient's Hb level?", type: 'checkbox',
-                answers: [
-                    { text: "Hb > 7.0", value: "yes"},
-                    { text: "Hb < 7.0", value: "no" },
-                ]},
-            {question: "Is the patient symptomatic?", type: 'checkbox',
-                answers: [
-                    { text: "Yes", value: "yes"},
-                    { text: "No", value: "no" },                   
-                ]
-            }],
-        image: require('../assets/images/WHITE_HAND_LOGO.png')
-    },
-];
+        image: require('../assets/images/WHITE_HAND_LOGO.png'),
+    next: recommendation2};
 
-let algorithmState = new State();
+const question3 = {type: 'question',
+    questions: [
+        {question: "What is the patient's Hb level?", type: 'checkbox',
+            answers: [
+                { text: "Hb > 7.0", value: "yes"},
+                { text: "Hb < 7.0", value: "no" },
+            ]},
+        {question: "Is the patient symptomatic?", type: 'checkbox',
+            answers: [
+                { text: "Yes", value: "yes"},
+                { text: "No", value: "no" },                   
+            ]
+        }],
+    image: require('../assets/images/WHITE_HAND_LOGO.png'),
+    next: recommendation3};
+
 
 @observer
 export default class ConversationScreen extends React.Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {current: question1, history: []};
+        this.componentDidMount = this.loadMessages(this);
+    }
+
     static navigationOptions = ({navigation}) => ({
         headerRight: (
             <View>
@@ -107,50 +141,59 @@ export default class ConversationScreen extends React.Component {
                 </TouchableOpacity>
             </View>
         )
-
     });
 
-    loadMessages(content) {
-        let messages = [];
-        let length = Object.keys(content).length;
-        for (let x = 0; x < length; x++) {
-            let component, data;
-            if(content[x].type == 'recommendation') {
-                component = <RecommendationContent text={"This is important to do."} 
-                        recommendations={content[x].recommendations}
-                        header={content[x].header}/>;
-                data = <ProceedButton onPress={() => {
-                            algorithmState.calculateNextState();                            
-                        }}
-                        title="Proceed" />;                          
-            } 
-            else if (content[x].type == 'question') {
-                component = <QuestionContent text={"This is important to do."} 
-                    questions={content[x].questions}
-                    />;
-                data = null;
-            }  
-            else if(content[x].type == 'bubble') {
-                component = text;
-                data = null;
-            }
+    loadMessages(parent) {
+        let component, data;
+        let current = parent.state.current;
 
-            messages[x] = {
-                title: <MessageBubble 
-                    type= {content[x].type}
-                    content={component}
-                    image= {content[x].image}
-                    />,                    
-
-                data: [data]
-            };
+        if(current.type == undefined){
+            return;
         }
-        return messages;
+        if(current.type == 'recommendation') {
+            component = <RecommendationContent text={"This is important to do."} 
+                    recommendations={parent.state.current.recommendations}
+                    header={parent.state.current.header}/>;
+
+            data = <ProceedButton onPress={() => {
+                        algorithmState.calculateNextState(); 
+                        parent.loadMessages(parent);
+                        parent.forceUpdate(); //Update conversation screen to move on
+                    }}
+                    title="Proceed" />;                          
+        } 
+        else if (current.type == 'question') {
+            component = <QuestionContent 
+                questions={current.questions}
+                onComplete={parent.loadMessages}
+                parent={parent}
+                />;
+
+            data = null;
+        }  
+        else if (current.type == 'bubble') {
+            component = text;
+            data = null;
+        }
+
+        //Add to history
+        let history = parent.state.history
+        parent.state.history[history.length] = {
+                title: < MessageBubble
+                type= {current.type}
+                content={component}
+                image= {current.image}
+                />,                    
+            data: [data]}
+        
+        parent.state.current = parent.state.current.next;
+        parent.componentDidMount;
     }
 
     render() {
         return (<ScrollView style={styles.container}
                 indicatorStyle={'default'}>
+                {this.componentDidMount}
             <View style={styles.welcomeContainer}>
                 <Text>
                     Questions Screen
@@ -168,7 +211,7 @@ export default class ConversationScreen extends React.Component {
                             {title}
                         </View>
                     }
-                    sections= {this.loadMessages(content)}
+                    sections= {this.state.history}
                     keyExtractor={(item, index) => item + index} 
                 /> 
             </View>
