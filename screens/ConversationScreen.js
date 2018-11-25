@@ -13,9 +13,10 @@ import {
 import QuestionContent from "../components/QuestionBubbleContent";
 import RecommendationContent from "../components/RecommendationBubbleContent";
 import MessageBubble from "../components/MessageBubble";
+import ProceedButton from "../components/ProceedButton";
 import Colors from '../constants/Colors';
-import {observer} from 'mobx-react/native'
-import State from '../data/model/State'
+import {observer} from 'mobx-react/native';
+import State from '../data/model/State';
 
 
 const text = <Text style = {
@@ -119,14 +120,10 @@ export default class ConversationScreen extends React.Component {
                         recommendations={content[x].recommendations}
                         header={content[x].header}
                     />;
-                data = <View > 
-                        <View style={styles.seperator}></View>
-                        <Button
-                            onPress={algorithmState.calculateNextState()}
-                            color= '#ee3e41'
-                            buttonStyle={styles.proceedButton}
-                            title='Proceed' />
-                    </View>      
+                data = <ProceedButton onPress={() => {
+                            algorithmState.calculateNextState();                            
+                        }}
+                        title="Proceed" />;      
                     
             } 
             else if (content[x].type == 'question') {
@@ -217,17 +214,13 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginTop: 10,
         marginBottom: 10,
+        borderRadius: 0
     },
     seperator: {
         flex: 1,
         flexDirection: 'row',
-        paddingTop: 1,       
-        borderRadius: 50,
-        marginBottom: 10,
-        marginTop: 10,
-        marginBottom: -10,
-        marginHorizontal: 20,
-        
+        paddingTop: 1,
+        borderRadius: 50,      
         backgroundColor: "#000",
         alignContent: 'center',
     }
