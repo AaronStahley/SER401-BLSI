@@ -10,6 +10,7 @@ export default {
 
   //Conversation Screen Colors
   conversationBackground: '#fff',
+  proceedButton: '#ee3e41',
 
   //Message Bubble Colors
   recommendationIcon: '#777',

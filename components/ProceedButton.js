@@ -1,8 +1,7 @@
 import React from 'react';
-import {Button} from 'react-native';
+import {Button, StyleSheet} from 'react-native';
 import Colors from '../constants/Colors';
 
-const { width, height} = Dimensions.get('window');
 
 export default class ProceedButton extends React.Component {
    
@@ -12,17 +11,23 @@ export default class ProceedButton extends React.Component {
     }
 
     render() {
-        width = Dimensions.get("window").width;
-        height = Dimensions.get("window").height;
-
         if(this.state.render) {
-            return(<Button onPress={() => {this.setState({render: false});}}
+            return(<Button onPress={() => {this.setState({render: false})}}
                 color={Colors.proceedButton} 
                 buttonStyle={styles.proceedButton} 
                 title={this.props.title} />);
         }
         else {
             return(null);
-        }
+        }    
     }
 }
+
+const styles = StyleSheet.create({
+    proceedButton: {
+        alignContent: 'center',
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 0
+    }
+});

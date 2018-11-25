@@ -118,13 +118,11 @@ export default class ConversationScreen extends React.Component {
             if(content[x].type == 'recommendation') {
                 component = <RecommendationContent text={"This is important to do."} 
                         recommendations={content[x].recommendations}
-                        header={content[x].header}
-                    />;
+                        header={content[x].header}/>;
                 data = <ProceedButton onPress={() => {
                             algorithmState.calculateNextState();                            
                         }}
-                        title="Proceed" />;      
-                    
+                        title="Proceed" />;                          
             } 
             else if (content[x].type == 'question') {
                 component = <QuestionContent text={"This is important to do."} 
@@ -209,12 +207,6 @@ const styles = StyleSheet.create({
         paddingRight: 8,
         paddingTop: 5,
         fontSize: 18
-    },
-    proceedButton: {
-        alignContent: 'center',
-        marginTop: 10,
-        marginBottom: 10,
-        borderRadius: 0
     },
     seperator: {
         flex: 1,
