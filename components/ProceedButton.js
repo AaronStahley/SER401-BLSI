@@ -2,7 +2,6 @@ import React from 'react';
 import {Button, StyleSheet} from 'react-native';
 import Colors from '../constants/Colors';
 
-
 export default class ProceedButton extends React.Component {
    
     constructor(props) {
@@ -12,7 +11,11 @@ export default class ProceedButton extends React.Component {
 
     render() {
         if(this.state.render) {
-            return(<Button onPress={() => {this.setState({render: false})}}
+            return(<Button onPress={() => {
+                    this.setState({render: false})
+                    this.props.onPress(this.props.parent);
+                    this.props.parent.forceUpdate(); //Update conversation screen to move on
+                }}
                 color={Colors.proceedButton} 
                 buttonStyle={styles.proceedButton} 
                 title={this.props.title} />);

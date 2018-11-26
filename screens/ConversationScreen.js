@@ -151,16 +151,15 @@ export default class ConversationScreen extends React.Component {
             return;
         }
         if(current.type == 'recommendation') {
-            component = <RecommendationContent text={"This is important to do."} 
-                    recommendations={parent.state.current.recommendations}
-                    header={parent.state.current.header}/>;
+            component = <RecommendationContent 
+                text={"This is important to do."}
+                recommendations={parent.state.current.recommendations}
+                header={parent.state.current.header}/>;
 
-            data = <ProceedButton onPress={() => {
-                        algorithmState.calculateNextState(); 
-                        parent.loadMessages(parent);
-                        parent.forceUpdate(); //Update conversation screen to move on
-                    }}
-                    title="Proceed" />;                          
+            data = <ProceedButton 
+                onPress={parent.loadMessages}
+                parent={parent}
+                title="Proceed" />;                          
         } 
         else if (current.type == 'question') {
             component = <QuestionContent 
