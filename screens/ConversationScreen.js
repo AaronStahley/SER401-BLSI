@@ -58,6 +58,7 @@ export default class ConversationScreen extends React.Component {
 
     });
 
+
     loadMessages(content) {
         let messages = [];
         let length = Object.keys(content).length;
@@ -75,6 +76,10 @@ export default class ConversationScreen extends React.Component {
     }
 
     render() {
+
+        const { navigation } = this.props;
+        const algorithm = navigation.getParam('algorithm', null);
+
         return (<ScrollView style={styles.container}>
                 <View style={styles.welcomeContainer}>
                     <Text>
