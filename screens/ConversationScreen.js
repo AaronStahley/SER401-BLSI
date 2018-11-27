@@ -157,7 +157,7 @@ export default class ConversationScreen extends React.Component {
                 header={parent.state.current.header}/>;
 
             data = <ProceedButton 
-                onPress={parent.loadMessages}
+                //onPress={parent.loadMessages}
                 parent={parent}
                 title="Proceed" />;                          
         } 
