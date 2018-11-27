@@ -5,6 +5,7 @@ import {inject, observer} from 'mobx-react/native'
 import {ExpoLinksView} from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
+import {getShortDesc} from '../components/AlgorithmData'
 
 @inject("rootStore")
 @observer
@@ -29,7 +30,6 @@ export default class HomeScreen extends React.Component {
         const {navigate}   = this.props.navigation;
 
         return (
-
             <ScrollView style={styles.container}>
                 <View>
                     {
@@ -102,10 +102,21 @@ const styles = StyleSheet.create({
     },
     button   : {
         backgroundColor: '#ee3e41',
-        width          : 300,
-        height         : 45,
-        borderWidth    : 0,
-        borderRadius   : 5
-    }
+        width: 300,
+        height: 45,
+        borderWidth: 0,
+        borderRadius: 5
+    },
+    algorithmContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: 300,
+      padding: 15,
+      marginBottom: 10,
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: '#ccc',
+      backgroundColor: '#f2f2f2'
+	}
 });
 
