@@ -5,6 +5,7 @@ import {observer} from 'mobx-react/native'
 import { ExpoLinksView } from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
+import {getShortDesc} from '../components/AlgorithmData'
 
 @observer
 export default class HomeScreen extends React.Component {
@@ -19,10 +20,13 @@ export default class HomeScreen extends React.Component {
               <Card
                   title='NOM BLSI'>
                   <Text style={{marginBottom: 10}}>
-                      Nonoperative management of blunt liver and spleen injury
-                      in children (NOMBLSI) helps prevent unnecessary surgeries in children when
-                      there may or may not be internal bleeding.
+                      {getShortDesc(0)}
                   </Text>
+                  <Button
+                      onPress={() => this.props.navigation.navigate('AlgDescription')}                    
+                      color='#b3b3b3'
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Learn More' />
                   <Button
                       onPress={() => this.props.navigation.navigate('Conversation')}
                       color= '#ee3e41'
@@ -74,6 +78,17 @@ const styles = StyleSheet.create({
         height: 45,
         borderWidth: 0,
         borderRadius: 5
-    }
+    },
+    algorithmContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		width: 300,
+		padding: 15,
+		marginBottom: 10,
+		borderWidth: 1,
+		borderRadius: 5,
+		borderColor: '#ccc',
+		backgroundColor: '#f2f2f2'
+	}
 });
 
