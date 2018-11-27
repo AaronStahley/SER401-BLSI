@@ -1,16 +1,33 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text, View, Button, TouchableOpacity,SectionList, FlatList, Image} from 'react-native';
 import {Card} from 'react-native-elements'
-import {observer} from 'mobx-react/native'
-import { ExpoLinksView } from '@expo/samples';
+import {inject, observer} from 'mobx-react/native'
+import {ExpoLinksView} from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
+import {getShortDesc} from '../components/AlgorithmData'
 
+@inject("rootStore")
 @observer
 export default class HomeScreen extends React.Component {
 
+    state = {
+        algorithms: []
+    };
+
+    componentDidMount() {
+        this.props.rootStore.algorithmStore.findAll()
+            .then(res => {
+                this.setState({
+                    algorithms: res
+                });
+            })
+    }
+
+
     render() {
-        const { navigate } = this.props.navigation;
+        const {algorithms} = this.state;
+        const {navigate}   = this.props.navigation;
 
         return (
             /**
@@ -69,18 +86,21 @@ export default class HomeScreen extends React.Component {
           </View>
       </ScrollView>
     );
-  }
+
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex           : 1,
         backgroundColor: '#fff',
     },
     titleText: {
-        fontSize: 20,
+        fontSize    : 20,
         marginBottom: 30,
     },
+
+
     button: {
         flex: 1,
         backgroundColor: '#ee3e41',
@@ -99,7 +119,19 @@ const styles = StyleSheet.create({
 
     },bodyText:{
         fontSize: 16,
-        marginBottom: 15
-    }
+        marginBottom: 15,
+        borderRadius: 5
+    },
+    algorithmContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: 300,
+      padding: 15,
+      marginBottom: 10,
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: '#ccc',
+      backgroundColor: '#f2f2f2'
+	}
 });
 

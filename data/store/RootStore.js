@@ -11,9 +11,8 @@ export default class RootStore {
     recommendationStore;
     stateStore;
 
-    constructor() {
-
-        this.transporter         = new Transporter();
+    constructor(dbName) {
+        this.transporter         = new Transporter(dbName);
         this.algorithmStore      = new AlgorithmStore(this.transporter);
         this.questionStore       = new QuestionStore(this.transporter);
         this.recommendationStore = new RecommendationStore(this.transporter);

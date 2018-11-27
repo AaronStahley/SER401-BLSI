@@ -1,4 +1,4 @@
-import {observable} from 'mobx'
+import {observable} from "mobx";
 
 export default class AbstractStore {
     @observable collection = {};
@@ -29,6 +29,7 @@ export default class AbstractStore {
 
     processResults = (_array) => {
         return _array.map(row => {
+            console.log(row);
             let obj = new this.model(this);
             obj.fromObj(row);
 

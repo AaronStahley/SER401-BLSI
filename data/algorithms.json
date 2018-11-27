@@ -1,0 +1,16 @@
+[
+    {
+        "id": 0,
+        "name": "NOM BLSI",
+        "startState": 1,
+        "shortDesc": "Nonoperative management of blunt liver and spleen injury in children (NOMBLSI) helps prevent unnecessary surgeries in children when there may or may not be internal bleeding.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis mollis turpis lectus, a ornare turpis commodo ut. In ut nibh nec ante commodo hendrerit. Fusce gravida dolor urna, vitae scelerisque mauris imperdiet non. Pellentesque suscipit, magna nec ultrices pulvinar, nisi ante feugiat enim, non ultricies odio risus sed ipsum."
+    },
+    {
+        "id": 1,
+        "name": "Example Algorithm",
+        "startState": 1,
+        "shortDesc": "Donec pretium augue non maximus maximus.",
+        "description": "Etiam interdum quis mi a rutrum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam eget placerat nisl, eu tempus augue. In lacinia velit in leo auctor, non convallis ex aliquet. Morbi in ligula vel justo tempor dictum. Curabitur in eros quis massa ultricies interdum. Curabitur ex est, porta nec porttitor sit amet, rutrum non sem. Suspendisse potenti."
+    }
+]
