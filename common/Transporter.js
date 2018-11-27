@@ -4,15 +4,8 @@ import BluebirdPromise from "./BluebirdPromise";
 export default class Transporter {
     database;
 
-    constructor() {
-        this.database = SQLite.openDatabase('db.db');
-        this.initDb();
-    }
-
-    initDb() {
-        //todo:: sql create commands
-        //ex: this.execute('create table if not exists items (id integer primary key not null, done int, value text);');
-        // this.execute('');
+    constructor(dbName) {
+        this.database = SQLite.openDatabase(dbName);
     }
 
     execute(sql) {
@@ -22,11 +15,11 @@ export default class Transporter {
     }
 
     select(sql, params) {
-        new BluebirdPromise((resolve, reject) => {
+        return new BluebirdPromise((resolve, reject) => {
             this.database.transaction(tx => {
                 tx.executeSql(
                     sql,
-                    [ids],
+                    params,
                     (_, {rows: {_array}}) => {
                         resolve(_array);
                     }

@@ -10,9 +10,15 @@ export default class AbstractModel {
     }
 
     fromObj(json) {
-        for (let field in json) {
-            if (field in this) {
-                this[field] = json[field];
+        for (let dbField in json) {
+
+            let modelField = dbField.toLowerCase()
+                .split('_')
+                .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+                .join('');
+
+            if (modelField in this) {
+                this[modelField] = json[dbField];
             }
         }
         return this;

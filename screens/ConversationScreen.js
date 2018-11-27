@@ -19,7 +19,7 @@ const text = <Text style = {
         color: "#000",
         textAlign: "auto"}
 }>
-    Hello thereas daskjdh ashd askjfhaskjf askjfhasjkf hak
+    Hello!!!! thereas daskjdh ashd askjfhaskjf askjfhasjkf hak
 </Text>;
 const content = [
     {type: 'question',
