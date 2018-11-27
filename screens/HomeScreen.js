@@ -5,7 +5,6 @@ import {inject, observer} from 'mobx-react/native'
 import {ExpoLinksView} from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
-import {getShortDesc} from '../components/AlgorithmData'
 
 @inject("rootStore")
 @observer
@@ -41,7 +40,12 @@ export default class HomeScreen extends React.Component {
                                     {algorithm.Description}
                                 </Text>
                                 <Button
-                                    onPress={() => this.props.navigation.navigate('Conversation')}
+                                    onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm: algorithm})}
+                                    color='#b3b3b3'
+                                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                                    title='Learn More' />
+                                <Button
+                                    onPress={() => this.props.navigation.navigate('Conversation', {algorithm: algorithm})}
                                     color='#ee3e41'
                                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                                     title='Start'/>
