@@ -19,13 +19,12 @@ import {observer} from 'mobx-react/native';
 import State from '../data/model/State';
 
 const text = <Text style = {
-                    {paddingTop: 5,
-                    paddingBottom: 5,
-                    color: "#000",
-                    textAlign: "auto"}
-                }>
-                Hello there something about the app
-                </Text>;
+    {paddingTop: 5,
+    paddingBottom: 5,
+    color: "#000",
+    textAlign: "auto"}}>
+    Hello there, something about the app
+    </Text>;
 
 const bubble = {type: 'bubble',
         text: 'Hello this is that status of the patiant. Please continue',        
@@ -63,6 +62,7 @@ const recommendation3 = {type: 'recommendation',
     recommendations: [{
         task: 'Please do this.',
         link: 'Please do this. Please do that. Please do this.'
+
     },
     {
         task: 'Please do this.',
@@ -114,7 +114,6 @@ const question3 = {type: 'question',
     image: require('../assets/images/WHITE_HAND_LOGO.png'),
     next: recommendation3};
 
-
 @observer
 export default class ConversationScreen extends React.Component {
     
@@ -149,6 +148,7 @@ export default class ConversationScreen extends React.Component {
 
         if(current.type == undefined){
             return;
+
         }
         if(current.type == 'recommendation') {
             component = <RecommendationContent 
@@ -190,6 +190,10 @@ export default class ConversationScreen extends React.Component {
     }
 
     render() {
+
+        const { navigation } = this.props;
+        const algorithm = navigation.getParam('algorithm', null);
+
         return (<ScrollView style={styles.container}
                 indicatorStyle={'default'}>
                 {this.componentDidMount}

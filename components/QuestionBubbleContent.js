@@ -16,16 +16,16 @@ export default class QuestionBubbleContent extends React.Component {
             length: 0,
             completedCount: 0,     
         };
-
-        this.componentDidUpdate = () => {
-            if(this.state.completedCount == this.state.length) {
-                this.state.completedCount++; //Prevent from reentering when updating
-
-                this.props.onComplete(this.props.parent); //Run function presented in parent
-                this.props.parent.forceUpdate(); //Update conversation screen to move on
-            }               
-        }
     } 
+
+    componentDidUpdate() {
+        if (this.state.completedCount == this.state.length) {
+            this.state.completedCount++; //Prevent from reentering when updating
+
+            this.props.onComplete(this.props.parent); //Run function presented in parent
+            this.props.parent.forceUpdate(); //Update conversation screen to move on
+        }
+    }
 
     setDynamicState(name, value) {
         this.state[name] = value;
@@ -51,7 +51,9 @@ export default class QuestionBubbleContent extends React.Component {
     createQuestionType(question, index) {    
         let length = Object.keys(question.answers).length; 
         if (question.type == 'textfield') {
-            return(<Textfield keyboardType={'numeric'} label={question.answers[0].prompt}/>);
+            return(<Textfield 
+                keyboardType={'numeric'} 
+                label={question.answers[0].prompt}/>);
         }
         else if (question.type == 'checkbox') {
             return(this.createCheckBox(question, index));
