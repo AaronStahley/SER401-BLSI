@@ -5,15 +5,15 @@ export default class Algorithm extends AbstractModel {
     Id                     = null;
     VersionId              = null;
     Name                   = null;
-    StartSateId            = null;
+    StartStateId            = null;
     @observable StartState = null;
     Description            = null;
 
 
     fromObj(obj) {
 
-        if ('StartSateId' in obj) {
-            this.store.rootStore.stateStore.findPK(obj.StartSateId)
+        if ('StartStateId' in obj) {
+            this.store.rootStore.stateStore.findPK(obj.StartStateId)
                 .then(startState => {
                     this.StartState = startState;
                 });
