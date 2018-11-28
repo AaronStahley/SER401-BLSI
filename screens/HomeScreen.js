@@ -1,10 +1,7 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, Button, TouchableOpacity,SectionList, FlatList, Image} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
-import {ExpoLinksView} from '@expo/samples';
-import AlgorithmBox from "../components/AlgorithmBox";
-import Colors from "../constants/Colors";
 
 @inject("rootStore")
 @observer
@@ -23,7 +20,6 @@ export default class HomeScreen extends React.Component {
             })
     }
 
-
     render() {
         const {algorithms} = this.state;
         const {navigate}   = this.props.navigation;
@@ -41,10 +37,10 @@ export default class HomeScreen extends React.Component {
                                     {algorithm.Description}
                                 </Text>
                                 <View style={styles.buttonContiner}>
-                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Conversation')}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AlgDescription', algorithm)}>
                                         <Text style={styles.buttonText}>Info</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Conversation')}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Conversation', algorithm)}>
                                         <Text style={styles.buttonText}>Start</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -76,7 +72,7 @@ const styles = StyleSheet.create({
     },
     buttonText:{
         color: '#fff',
-        fontSize: 18,
+        fontSize: 16,
         margin: 5
     },
     buttonContiner:{
