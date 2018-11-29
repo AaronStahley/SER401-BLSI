@@ -1,8 +1,6 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, Button,} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Button, SectionList, FlatList, Image} from 'react-native';
 import {Card} from 'react-native-elements'
-import { ExpoLinksView } from '@expo/samples';
-import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
 
 
@@ -19,23 +17,25 @@ export default class HomeScreen extends React.Component {
                   title='Critical'>
                   <Text style={{marginBottom: 10}}>
                       An abbreviated period of bed rest of one day or less for stable patients is unequivocally
-                      supported for children whose hemoglobin has been documented to be stable. The use of bed
-                      rest on the day of admission will be discretionary until data is available.
+                      supported for children whose hemoglobin has been documented to be stable.
                   </Text>
               </Card>
               <Card
                   title='Major'>
                   <Text style={{marginBottom: 10}}>
-                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
-                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
+                      The use of bed rest on the day of admission will be discretionary until data is available.
                   </Text>
               </Card>
               <Card
                   title='Minor'>
                   <Text style={{marginBottom: 10}}>
-                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
-                      Algorithm Description Algorithm Description Algorithm Description Algorithm Description
+                      None
                   </Text>
+                  <Button
+                      onPress={() => this.props.navigation.navigate('Conversation')}
+                      color='#1E80BB' //Temporarily changed color to ugly blue 
+                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                      title='Back to Conversation Page'/>
               </Card>
           </View>
       </ScrollView>

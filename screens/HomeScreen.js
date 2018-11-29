@@ -89,6 +89,17 @@ export default class HomeScreen extends React.Component {
                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                             title='Start'/>
                     </Card>
+                    <Card
+                        title='Recommendations'>
+                        <Text style={{marginBottom: 10}}>
+                            TEST - Click to go to the recommendations page
+                        </Text>
+                        <Button
+                            onPress={() => this.props.navigation.navigate('Recommendation')}
+                            color='#1E80BB' //Temporarily changed color to ugly blue 
+                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                            title='Start'/>
+                    </Card>
                 </View>
             </ScrollView>
         );
