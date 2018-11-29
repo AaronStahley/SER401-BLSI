@@ -11,7 +11,7 @@ export default class AlgDescriptionScreen extends React.Component {
     });
     render() {
         const {navigation} = this.props;
-        const algorithm    = navigation.getParam('algorithm', this.props.navigation.state.params);
+        const algorithm    = navigation.getParam('algorithm', null);
 
 
         return (

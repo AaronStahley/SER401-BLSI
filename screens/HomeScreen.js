@@ -37,10 +37,10 @@ export default class HomeScreen extends React.Component {
                                     {algorithm.Description}
                                 </Text>
                                 <View style={styles.buttonContiner}>
-                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AlgDescription', algorithm)}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm:algorithm})}>
                                         <Text style={styles.buttonText}>Info</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Conversation', algorithm)}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Conversation', {algorithm:algorithm})}>
                                         <Text style={styles.buttonText}>Start</Text>
                                     </TouchableOpacity>
                                 </View>
