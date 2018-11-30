@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, SectionList} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, SectionList, Button} from 'react-native';
 import { Icon } from 'react-native-vector-icons';
 import Colors from '../constants/Colors';
 
@@ -20,13 +20,30 @@ export default class RecommendationBubbleContent extends React.Component {
         }     
     }
 
+    isThereALink(link) {
+        if(typeof(link) == "string" && link != ''){
+            return(<Button
+                onPress = {() => {
+                        this.props.navigate.navigate('Recommendation', link)
+                }}
+                color= {Colors.recommendationLink}
+                buttonStyle={styles.link}
+                title='Recommendation Cont.' />);
+        }
+        else {
+            return(null);
+        }
+    }
+
     createRecommendationContent(props) {
         let length = Object.keys(props.recommendations).length;
         let sectionList = [];
         for(let x = 0; x < length; x++) {
             sectionList[x] = { //To make center question circle change stretch to center
-                title: <View style={[styles.container, {flexDirection: 'row'}]}>                                       
-                <Text >{'• ' + props.recommendations[x].task}</Text>  
+                title: <View style={[styles.container, {flexDirection: 'row', alignItems: "center"}]}>                                       
+                    <Text >{'• ' + props.recommendations[x].task + ' '}</Text>
+                    {this.isThereALink(props.recommendations[x].link)}
+                    
                 </View>,
                 data: [ <View style={[styles.container]}>{this.createRecommendationType(props.recommendations[x])}</View>]
             };
@@ -86,5 +103,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         flex: 1,
         backgroundColor: "#000"
+    },
+    link: {
+        borderRadius: 0,
+        marginLeft: 20,
+        marginRight: 0,
+        marginBottom: 0,
+        paddingLeft: 20,
+        paddingBottom: 20,
+        color: Colors.recommendationLink
     }
 });

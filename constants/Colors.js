@@ -31,6 +31,7 @@ export default {
 
   //Recommendation Bubble Color
   recommendationHeaderBorder: '#f55555a3',
+  recommendationLink: '#ee3e41',
   
   //Header Style Colors
   navBarBackground: '#ee3e41',
