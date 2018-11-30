@@ -4,7 +4,7 @@ import {Card} from 'react-native-elements'
 import Colors from "../constants/Colors";
 
 
-export default class HomeScreen extends React.Component {
+export default class RecommendationScreen extends React.Component {
 
     render() {
         const { navigate } = this.props.navigation;
@@ -31,11 +31,19 @@ export default class HomeScreen extends React.Component {
                   <Text style={{marginBottom: 10}}>
                       None
                   </Text>
-                  <Button
-                      onPress={() => this.props.navigation.navigate('Conversation')}
-                      color='#b3b3b3'
-                      buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                      title='Back to Conversation Page'/>
+              </Card>
+              <Card
+                  containerStyle={{padding: 30}}>
+                      <Button
+                          onPress={() => this.props.navigation.navigate('Conversation')}
+                          color='#b3b3b3'
+                          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                          title='Back to Conversation Page'/>
+                      <Button
+                          onPress={() => this.props.navigation.navigate('Discharge')}
+                          color='#ee3e41'
+                          buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                          title='Discharge Page'/>
               </Card>
           </View>
       </ScrollView>
@@ -58,6 +66,12 @@ const styles = StyleSheet.create({
         height: 45,
         borderWidth: 0,
         borderRadius: 5
+    },
+    startOverButton: {
+        color: '#fff',
+        paddingRight: 8,
+        paddingTop: 5,
+        fontSize: 18
     }
 });
 
