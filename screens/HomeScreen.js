@@ -89,6 +89,7 @@ export default class HomeScreen extends React.Component {
                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                             title='Start'/>
                     </Card>
+                    //Test button - will remove once implemented in ConversationScreen
                     <Card
                         title='Recommendations'>
                         <Text style={{marginBottom: 10}}>
@@ -96,9 +97,9 @@ export default class HomeScreen extends React.Component {
                         </Text>
                         <Button
                             onPress={() => this.props.navigation.navigate('Recommendation')}
-                            color='#1E80BB' //Temporarily changed color to ugly blue 
+                            color='#b3b3b3'
                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                            title='Start'/>
+                            title='Detailed Recommendations'/>
                     </Card>
                 </View>
             </ScrollView>

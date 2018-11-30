@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
                   </Text>
                   <Button
                       onPress={() => this.props.navigation.navigate('Conversation')}
-                      color='#1E80BB' //Temporarily changed color to ugly blue 
+                      color='#b3b3b3'
                       buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                       title='Back to Conversation Page'/>
               </Card>
