@@ -5,6 +5,7 @@ import {inject, observer} from 'mobx-react/native'
 import {ExpoLinksView} from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
+import HTMLView from 'react-native-htmlview';
 
 @inject("rootStore")
 @observer
@@ -36,9 +37,7 @@ export default class HomeScreen extends React.Component {
                             <Card
                                 key={algorithm.Id}
                                 title={algorithm.Name}>
-                                <Text style={{marginBottom: 10}}>
-                                    {algorithm.Description}
-                                </Text>
+                                <HTMLView style={styles.descriptionText} value={algorithm.Description} />
                                 <Button
                                     onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm: algorithm})}
                                     color='#b3b3b3'
@@ -103,6 +102,10 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize    : 20,
         marginBottom: 30,
+    },
+    descriptionText: {
+        marginBottom: 10,
+        flexDirection: 'row'
     },
     button   : {
         backgroundColor: '#ee3e41',
