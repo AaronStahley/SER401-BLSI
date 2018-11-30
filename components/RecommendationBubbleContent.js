@@ -24,7 +24,7 @@ export default class RecommendationBubbleContent extends React.Component {
         if(typeof(link) == "string" && link != ''){
             return(<Button
                 onPress = {() => {
-                        this.props.navigate.navigate('Recommendation', link)
+                        //this.props.navigate.navigate('Recommendation', link)
                 }}
                 color= {Colors.recommendationLink}
                 buttonStyle={styles.link}
