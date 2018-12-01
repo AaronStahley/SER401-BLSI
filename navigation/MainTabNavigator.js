@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Platform} from 'react-native';
+import {Image, View,Platform} from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 
 import ConversationScreen from '../screens/ConversationScreen';
@@ -36,10 +36,12 @@ const navigationConfig = {
             }}
             source={require('../assets/images/WHITE_HAND_LOGO.png')}/>
 
-        ),headerStyle: {
+        ),
+        headerStyle: {
             backgroundColor: Colors.navBarBackground,
             paddingBottom: 8,
-    }}
+        }
+        },
 }
 
 /**

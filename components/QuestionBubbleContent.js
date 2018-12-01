@@ -143,7 +143,7 @@ export default class QuestionBubbleContent extends React.Component {
                                 this.state.completedCount++;
                             }
                         }}>
-                        {this.getPickerAnswers(question.answers)}                       
+                        {this.getPickerAnswers(question.answers)}
                     </Picker>
                 </View>);
         }
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   picker: {
     flex: 1,
     backgroundColor: Colors.questionPickerFill,
-    color: "#000"
+    //color: "#000" //For some reason this was throwing an error on IOS
   },
   seperator: {
     paddingTop: 1,
