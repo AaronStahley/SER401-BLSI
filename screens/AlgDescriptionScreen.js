@@ -1,8 +1,16 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import HTMLView from 'react-native-htmlview';
+import {Alert, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 
 export default class AlgDescriptionScreen extends React.Component {
+    static navigationOptions = ({navigation}) => ({
+        //Fixes Error where PCH Icon shifts to the right.
+        headerRight: (
+            <View></View>
+        )
+
+    });
     render() {
         const {navigation} = this.props;
         const algorithm    = navigation.getParam('algorithm', null);

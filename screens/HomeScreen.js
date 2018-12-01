@@ -1,7 +1,8 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, Button, SectionList, FlatList, Image} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
+
 import {ExpoLinksView} from '@expo/samples';
 import AlgorithmBox from "../components/AlgorithmBox";
 import Colors from "../constants/Colors";
@@ -24,12 +25,12 @@ export default class HomeScreen extends React.Component {
             })
     }
 
-
     render() {
         const {algorithms} = this.state;
         const {navigate}   = this.props.navigation;
 
         return (
+
             <ScrollView style={styles.container}>
                 <View>
                     {
@@ -37,57 +38,31 @@ export default class HomeScreen extends React.Component {
                             <Card
                                 key={algorithm.Id}
                                 title={algorithm.Name}>
+          
                                 <HTMLView style={styles.descriptionText} value={algorithm.Description} />
-                                <Button
-                                    onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm: algorithm})}
-                                    color='#b3b3b3'
-                                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                                    title='Learn More' />
-                                <Button
-                                    onPress={() => this.props.navigation.navigate('Conversation', {algorithm: algorithm})}
-                                    color='#ee3e41'
-                                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                                    title='Start'/>
+                                <View style={styles.buttonContiner}>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm:algorithm})}>
+                                        <Text style={styles.buttonText}>Info</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Conversation', {algorithm:algorithm})}>
+                                        <Text style={styles.buttonText}>Start</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </Card>
                         )
                     }
-                    <Card
-                        title='NOM BLSI'>
-                        <Text style={{marginBottom: 10}}>
-                            Nonoperative management of blunt liver and spleen injury
-                            in children (NOMBLSI) helps prevent unnecessary surgeries in children when
-                            there may or may not be internal bleeding.
-                        </Text>
-                        <Button
-                            onPress={() => this.props.navigation.navigate('Conversation')}
-                            color='#ee3e41'
-                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                            title='Start'/>
-                    </Card>
-                    <Card
-                        title='Other Algorithm'>
-                        <Text style={{marginBottom: 10}}>
-                            Algorithm Description Algorithm Description Algorithm Description Algorithm Description
-                            Algorithm Description Algorithm Description Algorithm Description Algorithm Description
-                        </Text>
-                        <Button
-                            onPress={() => navigate('Questions')}
-                            color='#ee3e41'
-                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                            title='Start'/>
-                    </Card>
-                    <Card
-                        title='Other Algorithm'>
-                        <Text style={{marginBottom: 10}}>
-                            Algorithm Description Algorithm Description Algorithm Description Algorithm Description
-                            Algorithm Description Algorithm Description Algorithm Description Algorithm Description
-                        </Text>
-                        <Button
-                            onPress={() => navigate('Questions')}
-                            color='#ee3e41'
-                            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                            title='Start'/>
-                    </Card>
+                     <Card
+                         title='Recommendations'>
+                         <Text style={{marginBottom: 10}}>
+                            TEST - Click to go to the recommendations page
+                       </Text>
+                         <Button
+                             onPress={() => this.props.navigation.navigate('Recommendation')}
+                            color='#b3b3b3'
+                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                             title='Detailed Recommendations'/>
+                     </Card>
+
                 </View>
             </ScrollView>
         );
@@ -106,11 +81,25 @@ const styles = StyleSheet.create({
     descriptionText: {
         marginBottom: 10
     },
-    button   : {
+    button: {
+        flex: 1,
         backgroundColor: '#ee3e41',
-        width: 300,
-        height: 45,
         borderWidth: 0,
+        borderRadius: 5,
+        alignItems: 'center',
+        margin: 5
+    },
+    buttonText:{
+        color: '#fff',
+        fontSize: 16,
+        margin: 5
+    },
+    buttonContiner:{
+        flexDirection: 'row',
+
+    },bodyText:{
+        fontSize: 16,
+        marginBottom: 15,
         borderRadius: 5
     },
     algorithmContainer: {

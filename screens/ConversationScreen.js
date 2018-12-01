@@ -25,7 +25,7 @@ const text = <Text style = {
     textAlign: "auto"}}>
     Hello there, something about the app
     </Text>;
-
+        
 const bubble = {type: 'bubble',
         text: 'Hello this is that status of the patiant. Please continue',        
         image: require('../assets/images/WHITE_HAND_LOGO.png'),
@@ -35,11 +35,11 @@ const recommendation1 = {type: 'recommendation',
         header: 'This is what you need to do. You need to do this. And that.',
         recommendations: [{
             task: 'Please do this.',
-            link: 'Please do this. Please do that. Please do this.'
+            link: ""
         },
         {
             task: 'Please do this.',
-            link: {}
+            link: "this will be a link to the sources"
         }],
         image: require('../assets/images/WHITE_HAND_LOGO.png'),
     next: question2};
