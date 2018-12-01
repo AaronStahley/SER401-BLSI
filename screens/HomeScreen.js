@@ -104,8 +104,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     descriptionText: {
-        marginBottom: 10,
-        flexDirection: 'row'
+        marginBottom: 10
     },
     button   : {
         backgroundColor: '#ee3e41',
