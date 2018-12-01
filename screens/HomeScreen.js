@@ -3,9 +3,6 @@ import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button} from 'reac
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 
-import {ExpoLinksView} from '@expo/samples';
-import AlgorithmBox from "../components/AlgorithmBox";
-import Colors from "../constants/Colors";
 import HTMLView from 'react-native-htmlview';
 
 @inject("rootStore")
