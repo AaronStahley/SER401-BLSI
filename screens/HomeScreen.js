@@ -3,6 +3,8 @@ import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button} from 'reac
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 
+import HTMLView from 'react-native-htmlview';
+
 @inject("rootStore")
 @observer
 export default class HomeScreen extends React.Component {
@@ -33,9 +35,8 @@ export default class HomeScreen extends React.Component {
                             <Card
                                 key={algorithm.Id}
                                 title={algorithm.Name}>
-                                <Text style={{marginBottom: 10}}>
-                                    {algorithm.Description}
-                                </Text>
+          
+                                <HTMLView style={styles.descriptionText} value={algorithm.Description} />
                                 <View style={styles.buttonContiner}>
                                     <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm:algorithm})}>
                                         <Text style={styles.buttonText}>Info</Text>
@@ -73,6 +74,9 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize    : 20,
         marginBottom: 30,
+    },
+    descriptionText: {
+        marginBottom: 10
     },
     button: {
         flex: 1,
