@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 
@@ -47,18 +47,17 @@ export default class HomeScreen extends React.Component {
                             </Card>
                         )
                     }
-
-//                     <Card
-//                         title='Recommendations'>
-//                         <Text style={{marginBottom: 10}}>
-//                             TEST - Click to go to the recommendations page
-//                         </Text>
-//                         <Button
-//                             onPress={() => this.props.navigation.navigate('Recommendation')}
-//                             color='#b3b3b3'
-//                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-//                             title='Detailed Recommendations'/>
-//                     </Card>
+                     <Card
+                         title='Recommendations'>
+                         <Text style={{marginBottom: 10}}>
+                            TEST - Click to go to the recommendations page
+                       </Text>
+                         <Button
+                             onPress={() => this.props.navigation.navigate('Recommendation')}
+                            color='#b3b3b3'
+                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                             title='Detailed Recommendations'/>
+                     </Card>
 
                 </View>
             </ScrollView>
