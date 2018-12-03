@@ -1,10 +1,9 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, Button, SectionList, FlatList, Image} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
-import {ExpoLinksView} from '@expo/samples';
-import AlgorithmBox from "../components/AlgorithmBox";
-import Colors from "../constants/Colors";
+
+import HTMLView from 'react-native-htmlview';
 
 @inject("rootStore")
 @observer
@@ -15,7 +14,6 @@ export default class HomeScreen extends React.Component {
     };
 
     componentDidMount() {
-        console.log("mounted");
         this.props.rootStore.algorithmStore.findAll()
             .then(res => {
                 this.setState({
@@ -24,12 +22,12 @@ export default class HomeScreen extends React.Component {
             })
     }
 
-
     render() {
         const {algorithms} = this.state;
         const {navigate}   = this.props.navigation;
-console.log(algorithms);
+
         return (
+
             <ScrollView style={styles.container}>
                 <View>
                     {
@@ -38,7 +36,7 @@ console.log(algorithms);
                                 key={algorithm.Id}
                                 title={algorithm.Name}>
                                 <Text style={{marginBottom: 10}}>
-                                    {algorithm.Description}
+                                    {algorithm.ShortDescription}
                                 </Text>
                                 <Button
                                     onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm: algorithm})}
@@ -53,6 +51,18 @@ console.log(algorithms);
                             </Card>
                         )
                     }
+                     <Card
+                         title='Recommendations'>
+                         <Text style={{marginBottom: 10}}>
+                            TEST - Click to go to the recommendations page
+                       </Text>
+                         <Button
+                             onPress={() => this.props.navigation.navigate('Recommendation')}
+                            color='#b3b3b3'
+                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                             title='Detailed Recommendations'/>
+                     </Card>
+
                 </View>
             </ScrollView>
         );

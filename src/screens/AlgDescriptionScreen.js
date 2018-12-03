@@ -1,17 +1,25 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import HTMLView from 'react-native-htmlview';
+import {Alert, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 
 export default class AlgDescriptionScreen extends React.Component {
+    static navigationOptions = ({navigation}) => ({
+        //Fixes Error where PCH Icon shifts to the right.
+        headerRight: (
+            <View></View>
+        )
+
+    });
     render() {
         const {navigation} = this.props;
         const algorithm    = navigation.getParam('algorithm', null);
-
-
+        
         return (
             <ScrollView style={styles.container}>
                 <View>
                     <Text style={styles.titleText}>{algorithm.Name}</Text>
-                    <Text style={styles.descriptionText}>{algorithm.Description}</Text>
+                    <HTMLView style={styles.descriptionText} value={algorithm.Description} />
                 </View>
             </ScrollView>
         );
@@ -30,6 +38,7 @@ const styles = StyleSheet.create({
         fontSize    : 30,
     },
     descriptionText: {
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        flex: 1
     }
 });
