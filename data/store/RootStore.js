@@ -3,6 +3,7 @@ import QuestionStore from './QuestionStore';
 import RecommendationStore from './RecommendationStore';
 import StateStore from './StateStore';
 import Transporter from "../../common/Transporter";
+import QuestionAnswerStore from "./QuestionAnswerStore";
 
 export default class RootStore {
     transporter;
@@ -13,10 +14,14 @@ export default class RootStore {
 
     constructor(dbName) {
         this.transporter         = new Transporter(dbName);
-        this.algorithmStore      = new AlgorithmStore(this.transporter);
-        this.questionStore       = new QuestionStore(this.transporter);
-        this.recommendationStore = new RecommendationStore(this.transporter);
-        this.stateStore          = new StateStore(this.transporter);
+        this.algorithmStore      = new AlgorithmStore(this, this.transporter);
+        this.questionStore       = new QuestionStore(this, this.transporter);
+        this.questionAnswerStore = new QuestionAnswerStore(this, this.transporter);
+        this.recommendationStore = new RecommendationStore(this, this.transporter);
+        this.stateStore          = new StateStore(this, this.transporter);
+    }
 
+    init() {
+        return this.transporter.init();
     }
 }

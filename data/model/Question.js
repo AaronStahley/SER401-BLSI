@@ -4,7 +4,15 @@ import {observable} from "mobx";
 export default class Question extends AbstractModel {
     Id       = null;
     Question = null;
+    Type     = null;
+    Prompt   = "";
     Options  = [];
+    Answer   = null;
+    State    = null;
+
+    get Selected() {
+        return this.Options.filter(option => option.Selected)[0];
+    }
 
     fromObj(obj) {
         if ('Options' in obj) {
@@ -14,20 +22,23 @@ export default class Question extends AbstractModel {
 
             delete obj.Options;
         }
+
         return super.fromObj(obj);
     }
 }
 
 
 export class QuestionOption {
+    Id                   = null;
     Value                = null;
     Result               = null;//good|bad
     @observable Selected = false;
 
     constructor(obj) {
-        this.Value    = obj.value;
-        this.Result   = obj.result;
-        this.Selected = obj.selected;
+        this.Id       = obj.Id;
+        this.Value    = obj.Value;
+        this.Result   = obj.Result;
+        this.Selected = obj.Selected;
     }
 
 }

@@ -64,7 +64,7 @@ export default class RecommendationBubbleContent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  icon: { //Used for the recommendation side of createImage()
+  icon       : { //Used for the recommendation side of createImage()
     backgroundColor: Colors.recommendationHeaderBorder,
     paddingTop: 5,
     paddingBottom: 5,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         paddingBottom: 5,
     },
-    seperator: {
+    separator: {
         paddingTop: 1,
         borderRadius: 50,
         marginBottom: 10,

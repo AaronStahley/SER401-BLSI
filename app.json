@@ -25,11 +25,17 @@
     ],
     "packagerOpts": {
       "assetExts": [
-        "ttf", "db", "png"
+        "ttf",
+        "db",
+        "png"
       ]
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.yourappname"
+    },
+    "android": {
+      "package": "com.yourcompany.yourappname"
     }
   }
 }

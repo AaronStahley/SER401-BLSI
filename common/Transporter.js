@@ -2,10 +2,20 @@ import {SQLite} from "expo";
 import BluebirdPromise from "./BluebirdPromise";
 
 export default class Transporter {
+    databaseName;
     database;
 
     constructor(dbName) {
-        this.database = SQLite.openDatabase(dbName);
+        this.databaseName = dbName;
+    }
+
+    init() {
+        return new BluebirdPromise((resolve, reject) => {
+            SQLite.openDatabase(this.databaseName, '1.0', "main", 1, (database) => {
+                this.database = database;
+                resolve(database);
+            });
+        });
     }
 
     execute(sql) {
@@ -24,6 +34,9 @@ export default class Transporter {
                         resolve(_array);
                     }
                 );
+            }, err => {
+                console.log(err);
+                reject(err);
             });
         });
     }

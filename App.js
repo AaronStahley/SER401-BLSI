@@ -31,7 +31,6 @@ export default class App extends React.Component {
             );
         }
 
-
         return (
             <Provider rootStore={this.rootStore}>
                 <View style={styles.container}>
@@ -56,6 +55,9 @@ export default class App extends React.Component {
                 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
             }),
             this.initDatabase()
+                .then(() => {
+                    return this.rootStore.init()
+                })
         ]);
     };
 
@@ -75,9 +77,7 @@ export default class App extends React.Component {
         // First, ensure that the SQLite directory is indeed a directory
         // For that we will first get information about the filesystem node
         // and handle non-existent scenario.
-        const {exists, isDirectory} = await FileSystem.getInfoAsync(
-            sqliteDirectory
-        );
+        const {exists, isDirectory} = await FileSystem.getInfoAsync(sqliteDirectory);
         if (!exists) {
             await FileSystem.makeDirectoryAsync(sqliteDirectory);
         } else if (!isDirectory) {
@@ -86,6 +86,12 @@ export default class App extends React.Component {
 
         const pathToDownloadTo = `${sqliteDirectory}/database.db`;
         const uriToDownload    = Asset.fromModule(require('./assets/db/database.db')).uri;
+
+
+        let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
+        await filesArray.forEach( (item) => {
+             FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {idempotent: true});
+        });
 
         await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
     };

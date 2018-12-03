@@ -10,17 +10,48 @@ export default class AbstractModel {
     }
 
     fromObj(json) {
-        for (let dbField in json) {
-
-            let modelField = dbField.toLowerCase()
-                .split('_')
-                .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                .join('');
-
-            if (modelField in this) {
-                this[modelField] = json[dbField];
+        for (let field in json) {
+            if (field in this) {
+                this[field] = json[field];
             }
         }
         return this;
+    }
+
+    toJson() {
+        let ignore = ['store'];
+
+        let arrayConverter = (array) => {
+            return array.map(item => {
+                return valConverter(item);
+            })
+        };
+
+        let objectConverter = (obj) =>{
+            let resultObj = {};
+            obj = 'toJS' in obj ? obj.toJS() : obj;
+
+            Object.keys(obj).forEach(field => {
+                if (!(ignore.includes(field))) {
+                    resultObj[field] = valConverter(obj[field]);
+                }
+            });
+            return resultObj;
+        };
+
+        let valConverter = (val) => {
+            switch (true) {
+                case val instanceof AbstractModel:
+                    return val.toJson();
+                case val instanceof Array:
+                    return arrayConverter(val);
+                case val instanceof Object:
+                    return objectConverter(val);
+                default:
+                    return val;
+            }
+        };
+
+        return objectConverter(this);
     }
 }

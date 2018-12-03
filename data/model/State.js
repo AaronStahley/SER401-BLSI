@@ -1,4 +1,4 @@
-import {observable, action} from 'mobx'
+import {observable, action, computed} from 'mobx'
 import AbstractModel from "./AbstractModel";
 
 export default class State extends AbstractModel {
@@ -9,33 +9,29 @@ export default class State extends AbstractModel {
     };
     @observable Questions       = [];
     @observable Recommendations = [];
-    @observable NextState       = null;
 
-    @action calculateNextState() {
-        // add logic to determine next state based on question answers
+    @computed
+    get completed() {
+        return this.Questions.filter(question => {
+            return question.Answer == null
+        }).length === 0;
     }
 
-
-    fromObj(obj) {
-
-        if ('Questions' in obj) {
-            this.store.rootStore.questionStore.findPKs(obj.Questions)
-                .then(questions => {
-                    this.Questions = questions;
-                });
-
-            delete obj.Questions;
-        }
-
-        if ('Recommendations' in obj) {
-            this.store.rootStore.recommendationStore.findPKs(obj.Recommendations)
-                .then(recommendations => {
-                    this.Recommendations = recommendations;
-                });
-
-            delete obj.Questions;
-        }
-
-        return super.fromObj(obj);
+    @computed
+    get started() {
+        return this.Questions.filter(question => {
+            return question.Answer == null
+        }).length !== this.Questions.length
     }
+
+    @computed
+    get NextStateId() {
+        if (this.completed) {
+            return this.Questions.filter(question => {
+                return question.Answer.Result === 'bad'
+            }).length > 0 ? this.Next.BadStateId : this.Next.GoodStateId;
+        }
+        return null;
+    }
+
 }

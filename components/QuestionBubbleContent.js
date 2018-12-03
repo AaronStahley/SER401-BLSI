@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Picker, SectionList, YellowBox} from 'react-native';
-import CheckBox from '../components/CheckBox';
+import CheckBox from './question/CheckBox';
 import Textfield from '../components/TextField';
 import Colors from '../constants/Colors';
 
@@ -191,7 +191,7 @@ export default class QuestionBubbleContent extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  icon: {    //Used for the recommendation side of createImage()
+  icon           : {    //Used for the recommendation side of createImage()
     backgroundColor: Colors.questionNumberBorder,
     paddingTop: 5,
     paddingBottom: 5,
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     maxHeight: height,
     maxWidth: width,
   }, 
-  container: { //Used at the top layer of the component aka SectionList
+  container      : { //Used at the top layer of the component aka SectionList
     flex: 1,
     flexDirection: "column",
     paddingTop: 5,
@@ -216,12 +216,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.questionPickerBorder,
     borderRadius: 2
   },
-  picker: {
+  picker         : {
     flex: 1,
     backgroundColor: Colors.questionPickerFill,
     color: "#000"
   },
-  seperator: {
+  separator      : {
     paddingTop: 1,
     borderRadius: 50,
     marginBottom: 5,
