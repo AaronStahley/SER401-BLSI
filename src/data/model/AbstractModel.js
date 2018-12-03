@@ -27,16 +27,8 @@ export default class AbstractModel {
             })
         };
 
-        let objectConverter = (obj) =>{
-            let resultObj = {};
-            obj = 'toJS' in obj ? obj.toJS() : obj;
-
-            Object.keys(obj).forEach(field => {
-                if (!(ignore.includes(field))) {
-                    resultObj[field] = valConverter(obj[field]);
-                }
-            });
-            return resultObj;
+        let objectConverter = (obj) => {
+            return 'toJS' in obj ? obj.toJS() : obj.constructor.name;
         };
 
         let valConverter = (val) => {
@@ -52,6 +44,12 @@ export default class AbstractModel {
             }
         };
 
-        return objectConverter(this);
+        let resultObj = {};
+        Object.keys(this).forEach(field => {
+            if (!(ignore.includes(field))) {
+                resultObj[field] = valConverter(this[field]);
+            }
+        });
+        return resultObj;
     }
 }

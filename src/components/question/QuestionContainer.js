@@ -4,17 +4,12 @@ import Colors from '../../constants/Colors';
 import Question from "./Question";
 import Images from "../../constants/Images";
 import {Col, Grid} from "react-native-easy-grid";
+import {inject, observer} from "mobx-react/native";
 
+@inject("rootStore")
+@observer
 export default class QuestionContainer extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            init          : true,
-            length        : 0,
-            completedCount: 0,
-        };
-    }
 
     render() {
         let {questions} = this.props;
@@ -26,10 +21,13 @@ export default class QuestionContainer extends React.Component {
                         {
                             questions.map((question, index) => (
                                     <View key={question.Id}>
-                                        <Question question={question} number={index + 1}/>
+                                        <Question
+                                            question={question}
+                                            number={index + 1}
+                                        />
                                         {
                                             ((index + 1) !== questions.length) &&
-                                            <View style={styles.separator}></View>
+                                            <View style={styles.separator}/>
                                         }
                                     </View>
                                 )

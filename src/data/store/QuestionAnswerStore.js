@@ -9,17 +9,19 @@ export default class QuestionAnswerStore extends AbstractStore {
         super(QuestionAnswer, 'question_answer', rootStore, transporter);
     }
 
-    findQuestionAnswer = question => {
-        if (!question.State) {
-            return new BluebirdPromise((resolve, reject) => {
-                resolve(new QuestionAnswer(this));
-            })
-        }
-
-        return this.transporter.select(`select * from ${this.table} where question = ? and state_id =?;`, [question.id, question.State.id])
-            .then(this.preProcessResults)
+    findQuestionAnswer = (question) => {
+        return this.transporter.select(`select * from ${this.table} where question_id = ? and state_id = ?;`, [question.Id, question.State.Id])
             .then(this.processResults)
-            .then(this.postProcessResults);
+            .then(objects => objects.length > 0 ? objects[0] : null)
     };
+
+
+    create = (question) => {
+        return new QuestionAnswer(this)
+            .fromObj({
+                QuestionId: question.id,
+                StateId   : question.State.id
+            })
+    }
 
 }

@@ -4,14 +4,14 @@ import {CheckBox as CB} from "react-native-elements";
 import Colors from '../constants/Colors';
 import QuestionContent from "./QuestionBubbleContent";
 import RecommendationContent from "./RecommendationBubbleContent";
-import ProceedButton from "./ProceedButton";
+import ProceedButton from "./ui/ProceedButton";
 import QuestionContainer from "./question/QuestionContainer";
-import {inject} from "mobx-react/native";
-
+import {inject, observer} from "mobx-react/native";
+import {computed} from "mobx";
 
 @inject("rootStore")
+@observer
 export default class StateContainer extends React.Component {
-
     state = {
         proceedClicked: false,
         state         : null
@@ -27,7 +27,9 @@ export default class StateContainer extends React.Component {
                         state         : state,
                         proceedClicked: state.started
                     });
+                    return state;
                 });
+
         }
     }
 
@@ -43,10 +45,6 @@ export default class StateContainer extends React.Component {
         let {skipProceed = false}   = this.props;
         let {state, proceedClicked} = this.state;
 
-        if (!state) {
-            return <View></View>;
-        }
-
         if (!proceedClicked && !skipProceed) {
             return (
                 <View>
@@ -55,26 +53,33 @@ export default class StateContainer extends React.Component {
             );
         }
 
+        if (!state) {
+            return <View/>;
+        }
+
         return (
             <View>
                 <View>
                     <QuestionContainer questions={state.Questions}/>
                 </View>
                 {
+                    state.loaded &&
                     state.completed &&
-                    <Fragment>
+                    <View>
                         <View>
-                            <RecommendationContent recommendations={state.Recommendations}/>
+                            <Text>Made It!!!</Text>
+                            <Text>{state.NextStateId}</Text>
+                            {/*<RecommendationContent recommendations={state.Recommendations}/>*/}
                         </View>
 
                         {
-                            state.NextStateId &&
-                            <View>
-                                <StateContainer id={state.NextStateId}
-                                                skipProceed={state.Recommendations.length === 0}/>
-                            </View>
+                            // state.NextStateId &&
+                            // <View>
+                            //     <StateContainer id={state.NextStateId}
+                            //                     skipProceed={state.Recommendations.length === 0}/>
+                            // </View>
                         }
-                    </Fragment>
+                    </View>
                 }
             </View>
         );

@@ -1,39 +1,53 @@
-import {observable} from "mobx";
 import BluebirdPromise from "../../common/BluebirdPromise";
 
 export default class AbstractStore {
-    @observable collection = {};
-                transporter;
-                model;
-                table;
+    collection = {};
+    storeLocally;
+    allFound   = false;
+    transporter;
+    model;
+    table;
 
-    constructor(model, tableName, rootStore, transporter) {
-        this.model       = model;
-        this.transporter = transporter;
-        this.rootStore   = rootStore;
-        this.table       = tableName;
+    constructor(model, tableName, rootStore, transporter, storeLocally = false) {
+        this.model        = model;
+        this.transporter  = transporter;
+        this.rootStore    = rootStore;
+        this.table        = tableName;
+        this.storeLocally = storeLocally;
     }
+
+    getPK = id => {
+        console.log('in', id in this.collection, this.storeLocally);
+        if (this.storeLocally && id in this.collection) {
+            return this.collection[id];
+        }
+        return null;
+    };
 
     findPK = id => {
         return this.transporter.select(`select * from ${this.table} where id = ?;`, [id])
-            .then(this.preProcessResults)
             .then(this.processResults)
-            .then(this.postProcessResults)
-            .then(res => res[0]);
+            .then(res => res.length > 0 ? res[0] : null);
     };
 
     findPKs = ids => {
         return this.transporter.select(`select * from ${this.table} where id IN ?;`, [ids])
-            .then(this.preProcessResults)
-            .then(this.processResults)
-            .then(this.postProcessResults);
+            .then(this.processResults);
     };
 
-    findAll = () => {
+    getOrFindAll = () => {
+        if (this.allFound && this.storeLocally) {
+            return new BluebirdPromise((resolve, reject) => {
+                resolve(Object.values(this.collection));
+            })
+        }
+
         return this.transporter.select(`select * from ${this.table};`, [])
-            .then(this.preProcessResults)
             .then(this.processResults)
-            .then(this.postProcessResults);
+            .then(objects => {
+                this.allFound = true;
+                return objects;
+            });
     };
 
     convertFieldNames = (row) => {
@@ -49,18 +63,22 @@ export default class AbstractStore {
         return mappedObj;
     };
 
-    preProcessResults = (_array) => _array;
-
     processResults = (_array) => {
+        if (_array.length == 0) {
+            return [];
+        }
+
         return _array.map(row => {
 
             let obj = new this.model(this);
             obj.fromObj(this.convertFieldNames(row));
 
+            if (this.storeLocally) {
+                this.collection[obj.Id] = obj;
+            }
+
             return obj;
         });
     };
-
-    postProcessResults = (objects) => objects;
 
 }

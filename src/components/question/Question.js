@@ -1,23 +1,14 @@
 import React from 'react';
-import {View, Text, StyleSheet, Picker} from 'react-native';
-import CheckBox from './CheckBox';
+import {Text, StyleSheet, View} from 'react-native';
 import Colors from '../../constants/Colors';
 import Grid from "react-native-easy-grid/Components/Grid";
 import Col from "react-native-easy-grid/Components/Col";
 import Row from "react-native-easy-grid/Components/Row";
-import Textfield from "../TextField";
 import QuestionInput from "./QuestionInput";
+import {observer} from "mobx-react/native";
 
+@observer
 export default class Question extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            init          : true,
-            length        : 0,
-            completedCount: 0,
-        };
-    }
 
     render() {
         let {question, number} = this.props;
@@ -44,7 +35,7 @@ export default class Question extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    icon     : {    //Used for the recommendation side of createImage()
+    icon: {    //Used for the recommendation side of createImage()
         backgroundColor  : Colors.questionNumberBorder,
         paddingTop       : 5,
         paddingBottom    : 5,

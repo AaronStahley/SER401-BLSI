@@ -14,7 +14,7 @@ export default class HomeScreen extends React.Component {
     };
 
     componentDidMount() {
-        this.props.rootStore.algorithmStore.findAll()
+        this.props.rootStore.algorithmStore.getOrFindAll()
             .then(res => {
                 this.setState({
                     algorithms: res

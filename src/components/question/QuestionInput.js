@@ -1,26 +1,43 @@
-import React, {Fragment} from 'react';
-import {View, Text, StyleSheet, Dimensions, Picker, SectionList, YellowBox} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, Picker} from 'react-native';
 import CheckBox from './CheckBox';
-import Textfield from '../TextField';
 import Colors from '../../constants/Colors';
 import {Col, Grid} from "react-native-easy-grid";
 import {observer} from "mobx-react/native";
+import NumberField from "../ui/NumberField";
 
 @observer
 export default class QuestionInput extends React.Component {
 
     handleSelection = (selectedOptionId) => {
+        this.props.question.Answer.QuestionOptionId = selectedOptionId;
+    };
+
+    handleNumberChange = (number) => {
         let {question} = this.props;
-        question.Options.forEach(option => {
-            option.Selected = (selectedOptionId * 1) === option.Id ? !option.Selected : false;
-        });
+
+        //TODO:: NOT WORKING!!!!! (need to test rang limiting)
+        if (number === '-') {
+            question.Answer.TextAnswer = number;
+        } else if (number) {
+            let selected = question.Options.filter(option => (option.MinValue >= number && number <= option.MaxValue));
+            if (selected.length > 0) {
+                question.Answer.QuestionOptionId = selected[0].Id;
+                question.Answer.TextAnswer       = number;
+            } else {
+                question.Answer.TextAnswer = null;
+                //TODO:: show alert of outside range???
+            }
+        } else {
+            question.Answer.TextAnswer = null;
+        }
     };
 
 
     render() {
         let {question} = this.props;
 
-        switch (question.Type) {
+        switch (question.TypeKey) {
             case  "binary":
                 return (
                     <Grid>
@@ -30,6 +47,7 @@ export default class QuestionInput extends React.Component {
                                     <CheckBox
                                         option={option}
                                         onClick={this.handleSelection}
+                                        selected={question.Answer.QuestionOptionId === option.Id}
                                     />
                                 </Col>
                             ))
@@ -42,7 +60,7 @@ export default class QuestionInput extends React.Component {
                         <Picker
                             mode={"dropdown"}
                             style={styles.picker}
-                            selectedValue={question.Selected ? question.Selected.Id : null}
+                            selectedValue={question.Answer.QuestionOptionId}
                             onValueChange={this.handleSelection}>
                             <Picker.Item
                                 label={"Select A Value..."}
@@ -62,10 +80,11 @@ export default class QuestionInput extends React.Component {
                 );
             default:
                 return (
-                    <Textfield
+                    <NumberField
                         keyboardType={'numeric'}
-                        label={question.Prompt}
-                        value={question.Answer}
+                        propmt={question.Prompt}
+                        value={question.Answer.TextAnswer}
+                        onChange={this.handleNumberChange}
                     />
                 );
         }

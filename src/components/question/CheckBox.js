@@ -14,7 +14,7 @@ export default class CheckBox extends React.Component {
 
     render() {
 
-        let {option} = this.props;
+        let {option, selected} = this.props;
 
         return (
             <CB
@@ -23,7 +23,7 @@ export default class CheckBox extends React.Component {
                 uncheckedColor={Colors.questionCheckBoxUnchecked}
                 title={option.Value}
                 onPress={this.handleClick}
-                checked={option.Selected}
+                checked={selected}
             />
         );
     }

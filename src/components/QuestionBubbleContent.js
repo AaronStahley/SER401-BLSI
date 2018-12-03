@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Picker, SectionList, YellowBox} from 'react-native';
 import CheckBox from './question/CheckBox';
-import Textfield from './TextField';
+import Textfield from './ui/TextField';
 import Colors from '../constants/Colors';
 
 const { width, height} = Dimensions.get('window');
