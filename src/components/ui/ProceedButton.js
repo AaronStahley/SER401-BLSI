@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, StyleSheet} from 'react-native';
-import Colors from '../../constants/Colors';
+import Colors from '../../common/Colors';
 
 export default class ProceedButton extends React.Component {
 

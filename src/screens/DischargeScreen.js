@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text, View, Button, SectionList, FlatList, Image} from 'react-native';
 import {Card, Divider} from 'react-native-elements'
-import Colors from "../constants/Colors";
+import Colors from "../common/Colors";
 
 
 export default class DischargeScreen extends React.Component {

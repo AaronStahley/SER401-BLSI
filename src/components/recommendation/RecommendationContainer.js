@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
-import Colors from '../../constants/Colors';
-import Images from "../../constants/Images";
+import Colors from '../../common/Colors';
+import Images from "../../common/Images";
 import {Col, Grid} from "react-native-easy-grid";
 import {inject, observer} from "mobx-react/native";
 import Recommendation from "./Recommendation";
@@ -13,6 +13,10 @@ export default class RecommendationContainer extends React.Component {
 
     render() {
         let {recommendations} = this.props;
+
+        if (recommendations.length === 0) {
+            return <View/>;
+        }
 
         return (
             <Grid>

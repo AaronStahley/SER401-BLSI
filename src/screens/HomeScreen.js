@@ -39,30 +39,18 @@ export default class HomeScreen extends React.Component {
                                     {algorithm.ShortDescription}
                                 </Text>
                                 <Button
-                                    onPress={() => this.props.navigation.navigate('AlgDescription', {algorithm: algorithm})}
+                                    onPress={() => navigate('AlgDescription', {algorithm: algorithm})}
                                     color='#b3b3b3'
                                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                                     title='Learn More'/>
                                 <Button
-                                    onPress={() => this.props.navigation.navigate('Conversation', {algorithm: algorithm})}
+                                    onPress={() => navigate('Conversation', {algorithm: algorithm})}
                                     color='#ee3e41'
                                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                                     title='Start'/>
                             </Card>
                         )
                     }
-                     <Card
-                         title='Recommendations'>
-                         <Text style={{marginBottom: 10}}>
-                            TEST - Click to go to the recommendations page
-                       </Text>
-                         <Button
-                             onPress={() => this.props.navigation.navigate('Recommendation')}
-                            color='#b3b3b3'
-                             buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                             title='Detailed Recommendations'/>
-                     </Card>
-
                 </View>
             </ScrollView>
         );

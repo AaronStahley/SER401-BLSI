@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Picker} from 'react-native';
 import CheckBox from './CheckBox';
-import Colors from '../../constants/Colors';
+import Colors from '../../common/Colors';
 import {Col, Grid} from "react-native-easy-grid";
 import {observer} from "mobx-react/native";
 import NumberField from "../ui/NumberField";

@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {AppLoading, Asset, Font, Icon, FileSystem} from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+import AppNavigator from './components/navigation/AppNavigator';
 import {Provider} from "mobx-react/native";
-import RootStore from "./data/store/RootStore";
+import RootStore from "./store/RootStore";
 
 
 export default class App extends React.Component {

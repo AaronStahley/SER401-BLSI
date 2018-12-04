@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
-import Colors from '../../constants/Colors';
+import Colors from '../../common/Colors';
 
 export default class NumberField extends React.Component {
 

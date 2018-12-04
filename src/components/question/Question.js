@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-import Colors from '../../constants/Colors';
+import Colors from '../../common/Colors';
 import Grid from "react-native-easy-grid/Components/Grid";
 import Col from "react-native-easy-grid/Components/Col";
 import Row from "react-native-easy-grid/Components/Row";

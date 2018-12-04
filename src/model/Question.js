@@ -1,6 +1,6 @@
 import AbstractModel from "./AbstractModel";
 import {observable, action, computed} from "mobx";
-import BluebirdPromise from "../../common/BluebirdPromise";
+import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class Question extends AbstractModel {
     Id                  = null;

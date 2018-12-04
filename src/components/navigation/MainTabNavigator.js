@@ -2,12 +2,12 @@ import React from 'react';
 import {Image, View,Platform} from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 
-import ConversationScreen from '../screens/ConversationScreen';
-import HomeScreen from '../screens/HomeScreen';
-import AlgDescriptionScreen from '../screens/AlgDescriptionScreen';
-import RecommendationScreen from '../screens/RecommendationScreen';
-import DischargeScreen from '../screens/DischargeScreen';
-import Colors from "../constants/Colors";
+import ConversationScreen from '../../screens/ConversationScreen';
+import HomeScreen from '../../screens/HomeScreen';
+import AlgDescriptionScreen from '../../screens/AlgDescriptionScreen';
+import RecommendationScreen from '../../screens/RecommendationScreen';
+import DischargeScreen from '../../screens/DischargeScreen';
+import Colors from "../../common/Colors";
 
 
 /**
@@ -34,7 +34,7 @@ const navigationConfig = {
                 resizeMode: 'contain',
                 alignSelf: 'center',
             }}
-            source={require('../../assets/images/WHITE_HAND_LOGO.png')}/>
+            source={require('../../../assets/images/WHITE_HAND_LOGO.png')}/>
 
         ),
         headerStyle: {

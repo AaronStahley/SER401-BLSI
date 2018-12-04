@@ -1,6 +1,6 @@
 import {observable, action, computed} from 'mobx'
 import AbstractModel from "./AbstractModel";
-import BluebirdPromise from "../../common/BluebirdPromise";
+import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class State extends AbstractModel {
     Id                          = null;

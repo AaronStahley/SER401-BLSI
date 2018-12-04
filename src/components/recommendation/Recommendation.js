@@ -1,13 +1,18 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
-import Colors from '../../constants/Colors';
+import Colors from '../../common/Colors';
 import Grid from "react-native-easy-grid/Components/Grid";
 import Col from "react-native-easy-grid/Components/Col";
 import Row from "react-native-easy-grid/Components/Row";
 import {observer} from "mobx-react/native";
+import {Icon} from "react-native-elements";
 
 @observer
 export default class Recommendation extends React.Component {
+
+    handelMoreInfoClick = () => {
+        this.props.navigation.navigate('AlgDescription', {recommendation: this.props.recommendation});
+    };
 
     render() {
         let {recommendation, number} = this.props;
@@ -18,8 +23,15 @@ export default class Recommendation extends React.Component {
                     <Col size={1}>
                         <Text style={styles.icon}> </Text>
                     </Col>
-                    <Col size={9}>
+                    <Col size={18}>
                         <Text>{recommendation.Title}</Text>
+                    </Col>
+                    <Col size={2}>
+                        {
+                            recommendation.Description &&
+                            <Icon name='info' color={Colors.moreInfoIcon} containerStyle={styles.moreInfo}
+                                  onPress={this.handelMoreInfoClick}/>
+                        }
                     </Col>
                 </Row>
             </Grid>
@@ -28,7 +40,7 @@ export default class Recommendation extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    icon: {    //Used for the recommendation side of createImage()
+    icon    : {    //Used for the recommendation side of createImage()
         backgroundColor  : Colors.recommendationNumberBorder,
         marginTop        : 5,
         paddingTop       : 5,
@@ -40,5 +52,8 @@ const styles = StyleSheet.create({
         maxHeight        : 10,
         maxWidth         : 10,
         color            : 'white'
+    },
+    moreInfo: {    //Used for the recommendation side of createImage()
+        marginTop: 5
     },
 });

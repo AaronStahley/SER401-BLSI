@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
-import Colors from '../../constants/Colors';
+import Colors from '../../common/Colors';
 import Question from "./Question";
-import Images from "../../constants/Images";
+import Images from "../../common/Images";
 import {Col, Grid} from "react-native-easy-grid";
 import {inject, observer} from "mobx-react/native";
 
@@ -13,6 +13,10 @@ export default class QuestionContainer extends React.Component {
 
     render() {
         let {questions} = this.props;
+
+        if (questions.length === 0) {
+            return <View/>;
+        }
 
         return (
             <Grid>

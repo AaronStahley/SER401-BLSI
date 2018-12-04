@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, SectionList, Button} from 'react-native';
 import { Icon } from 'react-native-vector-icons';
-import Colors from '../constants/Colors';
+import Colors from '../common/Colors';
 
 const { width, height} = Dimensions.get('window');
 

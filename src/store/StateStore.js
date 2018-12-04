@@ -1,6 +1,6 @@
 import AbstractStore from "./AbstractStore";
 import State from "../model/State";
-import BluebirdPromise from "../../common/BluebirdPromise";
+import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class StateStore extends AbstractStore {
     constructor(rootStore, transporter) {

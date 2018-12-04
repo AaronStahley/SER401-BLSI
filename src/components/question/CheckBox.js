@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {CheckBox as CB} from "react-native-elements";
-import Colors from '../../constants/Colors';
+import Colors from '../../common/Colors';
 import {observer} from "mobx-react/native";
 
 @observer

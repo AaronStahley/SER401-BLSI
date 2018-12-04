@@ -1,4 +1,4 @@
-import BluebirdPromise from "../../common/BluebirdPromise";
+import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class AbstractStore {
     collection = {};

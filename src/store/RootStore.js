@@ -2,7 +2,7 @@ import AlgorithmStore from './AlgorithmStore';
 import QuestionStore from './QuestionStore';
 import RecommendationStore from './RecommendationStore';
 import StateStore from './StateStore';
-import Transporter from "../../common/Transporter";
+import Transporter from "../common/Transporter";
 import QuestionAnswerStore from "./QuestionAnswerStore";
 import QuestionOptionStore from "./QuestionOptionStore";
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, SectionList} from 'react-native';
-import Colors from '../constants/Colors';
+import Colors from '../common/Colors';
 
 export default class MessageBubble extends React.Component {
 
