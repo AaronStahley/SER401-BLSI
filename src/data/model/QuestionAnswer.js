@@ -24,7 +24,6 @@ export default class QuestionAnswer extends AbstractModel {
 
     get IsGood() {
         if (this.QuestionOption) {
-            console.log(this.QuestionOptionId, this.QuestionOption.IsGood);
             return this.QuestionOption.IsGood;
         }
 

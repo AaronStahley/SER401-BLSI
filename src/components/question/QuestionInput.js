@@ -16,17 +16,13 @@ export default class QuestionInput extends React.Component {
     handleNumberChange = (number) => {
         let {question} = this.props;
 
-        //TODO:: NOT WORKING!!!!! (need to test rang limiting)
-        if (number === '-') {
-            question.Answer.TextAnswer = number;
-        } else if (number) {
-            let selected = question.Options.filter(option => (option.MinValue >= number && number <= option.MaxValue));
-            if (selected.length > 0) {
-                question.Answer.QuestionOptionId = selected[0].Id;
+        if (number) {
+            let option = question.convertNumberToOption(number === '-' ? -1 : number);
+            if (option) {
+                question.Answer.QuestionOptionId = option.Id;
                 question.Answer.TextAnswer       = number;
             } else {
                 question.Answer.TextAnswer = null;
-                //TODO:: show alert of outside range???
             }
         } else {
             question.Answer.TextAnswer = null;
@@ -70,7 +66,7 @@ export default class QuestionInput extends React.Component {
                                 question.Options.map(option => (
                                     <Picker.Item
                                         key={option.Id}
-                                        label={option.Value}
+                                        label={option.Label}
                                         value={option.Id}
                                     />
                                 ))

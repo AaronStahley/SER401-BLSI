@@ -5,7 +5,6 @@ import Colors from '../../constants/Colors';
 export default class NumberField extends React.Component {
 
     handleChangeText = (value) => {
-        //TODO:: add code preventing anything other then numbers
         if (!isNaN(value)) {
             this.props.onChange((value * 1));
         }

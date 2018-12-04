@@ -6,13 +6,8 @@ export default class State extends AbstractModel {
     Id                          = null;
     StateIdNextGood             = null;
     StateIdNextBad              = null;
-    @observable _Questions      = null;
-    @observable Recommendations = [];
-
-    @computed
-    get loaded() {
-        return !!this._Questions;
-    }
+    @observable Questions       = null;
+    @observable Recommendations = null;
 
     @computed
     get completed() {
@@ -27,7 +22,6 @@ export default class State extends AbstractModel {
 
     @computed
     get NextStateId() {
-        console.log('completed', this.completed);
         if (this.completed) {
             return this.Questions.filter(question => {
                 return !question.Answer.IsGood
@@ -36,10 +30,9 @@ export default class State extends AbstractModel {
         return null;
     }
 
-
-    @computed
-    get Questions() {
-        if (!this._Questions) {
+    @action
+    init() {
+        return BluebirdPromise.all([
             this.store.rootStore.questionStore.findStateQuestions(this)
                 .then(res => {
                     return BluebirdPromise.all(
@@ -47,12 +40,13 @@ export default class State extends AbstractModel {
                             return question.init(this);
                         })
                     );
-                })
-                .then(questions => this._Questions = questions);
-
-            return [];
-        }
-
-        return this._Questions;
+                }),
+            this.store.rootStore.recommendationStore.findStateRecommendations(this)
+        ])
+            .then(([questions, recommendations]) => {
+                this.Questions       = questions;
+                this.Recommendations = recommendations;
+                return this;
+            })
     }
 }

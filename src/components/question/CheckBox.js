@@ -21,7 +21,7 @@ export default class CheckBox extends React.Component {
                 containerStyle={styles.checkBoxButton}
                 checkedColor={Colors.questionCheckBoxChecked}
                 uncheckedColor={Colors.questionCheckBoxUnchecked}
-                title={option.Value}
+                title={option.Label}
                 onPress={this.handleClick}
                 checked={selected}
             />

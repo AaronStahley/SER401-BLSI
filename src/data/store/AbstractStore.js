@@ -17,7 +17,6 @@ export default class AbstractStore {
     }
 
     getPK = id => {
-        console.log('in', id in this.collection, this.storeLocally);
         if (this.storeLocally && id in this.collection) {
             return this.collection[id];
         }

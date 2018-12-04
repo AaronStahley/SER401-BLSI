@@ -34,4 +34,24 @@ export default class Question extends AbstractModel {
                 })
         ]).then((res) => this);
     }
+
+
+    convertNumberToOption(number) {
+        let selected = this.Options.filter(option => {
+            let valid = true;
+            if (valid && option.MinValue !== null) {
+                valid = option.MinValue <= number;
+            }
+            if (valid && option.MaxValue !== null) {
+                valid = option.MaxValue >= number;
+            }
+            return valid;
+        });
+
+        if (selected.length > 0) {
+            return selected[0];
+        }
+
+        return null;
+    }
 }
