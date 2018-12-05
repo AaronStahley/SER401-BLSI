@@ -5,7 +5,10 @@
     "slug": "SER401_BLSI",
     "privacy": "public",
     "sdkVersion": "30.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/images/PCH_APP_LOGO.png",
@@ -18,10 +21,21 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "./assets/**"
     ],
+    "packagerOpts": {
+      "assetExts": [
+        "ttf",
+        "db",
+        "png"
+      ]
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourcompany.yourappname"
+    },
+    "android": {
+      "package": "com.yourcompany.yourappname"
     }
   }
 }
