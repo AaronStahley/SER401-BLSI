@@ -1,7 +1,6 @@
 import React from 'react';
 import HTMLView from "react-native-htmlview";
-import {ScrollView, StyleSheet, View} from "react-native";
-import Text from "react-native-svg/elements/Text";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
 
 
 export default class RecommendationScreen extends React.Component {
@@ -14,9 +13,9 @@ export default class RecommendationScreen extends React.Component {
     });
 
     render() {
-        const {navigation} = this.props;
-        const recommendation    = navigation.getParam('recommendation', null);
-
+        const {navigation}   = this.props;
+        const recommendation = navigation.getParam('recommendation', null);
+        console.log(recommendation);
         return (
             <ScrollView style={styles.container}>
                 <View>

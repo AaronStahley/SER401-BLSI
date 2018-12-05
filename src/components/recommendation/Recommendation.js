@@ -6,12 +6,14 @@ import Col from "react-native-easy-grid/Components/Col";
 import Row from "react-native-easy-grid/Components/Row";
 import {observer} from "mobx-react/native";
 import {Icon} from "react-native-elements";
+import { withNavigation } from 'react-navigation';
 
 @observer
-export default class Recommendation extends React.Component {
+class Recommendation extends React.Component {
 
     handelMoreInfoClick = () => {
-        this.props.navigation.navigate('AlgDescription', {recommendation: this.props.recommendation});
+        const {navigate}   = this.props.navigation;
+        navigate('Recommendation', {recommendation: this.props.recommendation});
     };
 
     render() {
@@ -38,6 +40,8 @@ export default class Recommendation extends React.Component {
         )
     }
 }
+
+export default withNavigation(Recommendation);
 
 const styles = StyleSheet.create({
     icon    : {    //Used for the recommendation side of createImage()

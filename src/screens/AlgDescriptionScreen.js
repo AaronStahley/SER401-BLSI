@@ -11,15 +11,16 @@ export default class AlgDescriptionScreen extends React.Component {
         )
 
     });
+
     render() {
         const {navigation} = this.props;
         const algorithm    = navigation.getParam('algorithm', null);
-        
+
         return (
             <ScrollView style={styles.container}>
                 <View>
                     <Text style={styles.titleText}>{algorithm.Name}</Text>
-                    <HTMLView style={styles.descriptionText} value={algorithm.Description} />
+                    <HTMLView style={styles.descriptionText} value={algorithm.Description}/>
                 </View>
             </ScrollView>
         );
@@ -39,6 +40,6 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         paddingHorizontal: 20,
-        flex: 1
+        flex             : 1
     }
 });
