@@ -53,6 +53,12 @@ const styles = StyleSheet.create({
     container: {
         paddingTop   : 10,
         paddingBottom: 50
+    },
+    startOverButton: {
+        color: '#fff',
+        paddingRight: 8,
+        paddingTop: 5,
+        fontSize: 18
     }
 });
 

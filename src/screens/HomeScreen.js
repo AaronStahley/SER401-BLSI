@@ -32,22 +32,21 @@ export default class HomeScreen extends React.Component {
                 <View>
                     {
                         algorithms.map(algorithm =>
+
                             <Card
                                 key={algorithm.Id}
                                 title={algorithm.Name}>
                                 <Text style={{marginBottom: 10}}>
                                     {algorithm.ShortDescription}
                                 </Text>
-                                <Button
-                                    onPress={() => navigate('AlgDescription', {algorithm: algorithm})}
-                                    color='#b3b3b3'
-                                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                                    title='Learn More'/>
-                                <Button
-                                    onPress={() => navigate('Conversation', {algorithm: algorithm})}
-                                    color='#ee3e41'
-                                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                                    title='Start'/>
+                                <View style={styles.buttonContiner}>
+                                    <TouchableOpacity style={styles.button} onPress={() => navigate('AlgDescription', {algorithm: algorithm})}>
+                                        <Text style={styles.buttonText}>Info</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.button} onPress={() => navigate('Conversation', {algorithm: algorithm})}>
+                                        <Text style={styles.buttonText}>Start</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </Card>
                         )
                     }
@@ -58,31 +57,47 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container         : {
+    container: {
         flex           : 1,
         backgroundColor: '#fff',
     },
-    titleText         : {
+    titleText: {
         fontSize    : 20,
         marginBottom: 30,
     },
-    button            : {
+    descriptionText: {
+        marginBottom: 10
+    },
+    button: {
+        flex: 1,
         backgroundColor: '#ee3e41',
-        width          : 300,
-        height         : 45,
-        borderWidth    : 0,
-        borderRadius   : 5
+        borderWidth: 0,
+        borderRadius: 5,
+        alignItems: 'center',
+        margin: 5
+    },
+    buttonText:{
+        color: '#fff',
+        fontSize: 16,
+        margin: 5
+    },
+    buttonContiner:{
+        flexDirection: 'row',
+
+    },bodyText:{
+        fontSize: 16,
+        marginBottom: 15,
+        borderRadius: 5
     },
     algorithmContainer: {
-        flexDirection  : 'row',
-        justifyContent : 'space-between',
-        width          : 300,
-        padding        : 15,
-        marginBottom   : 10,
-        borderWidth    : 1,
-        borderRadius   : 5,
-        borderColor    : '#ccc',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: 300,
+        padding: 15,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: '#ccc',
         backgroundColor: '#f2f2f2'
     }
 });
-

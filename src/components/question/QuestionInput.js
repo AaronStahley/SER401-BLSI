@@ -119,11 +119,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 2,
         paddingVertical  : 2,
         borderRadius     : 4,
-        backgroundColor  : Colors.questionPickerBorder,
+        backgroundColor  : '#fff',
     },
     picker       : {
         flex           : 1,
-        backgroundColor: Colors.questionPickerFill,
-        color          : "#000000"
+        //backgroundColor: "#fff",
+        //color          : "black"
     },
 });
