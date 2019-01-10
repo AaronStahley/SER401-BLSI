@@ -1,5 +1,5 @@
 //Example of a unit test using Jest.
 
-it('works', () => {
+test('works', () => {
     expect(1).toBe(1);
 });
