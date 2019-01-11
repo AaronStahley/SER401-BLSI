@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
@@ -31,7 +31,10 @@
     "react-navigation": "^2.18.3"
   },
   "devDependencies": {
+    "babel-jest": "^23.6.0",
+    "enzyme": "^3.8.0",
     "jest": "^23.6.0",
-    "jest-expo": "^30.0.0"
+    "jest-expo": "^30.0.0",
+    "prettier": "^1.15.3"
   }
 }
