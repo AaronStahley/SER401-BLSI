@@ -5,6 +5,8 @@ import Colors from '../../common/Colors';
 import {Col, Grid} from "react-native-easy-grid";
 import {observer} from "mobx-react/native";
 import NumberField from "../ui/NumberField";
+import { Dropdown } from 'react-native-material-dropdown';
+
 
 @observer
 export default class QuestionInput extends React.Component {
@@ -53,8 +55,19 @@ export default class QuestionInput extends React.Component {
             case  "select":
                 return (
                     <View style={styles.pickerWrapper}>
+                        {/*
+                            Been reseaching  some ways to get the picker wheel to appear
+                            in the keyboard tray and am not sure why it is not working.
+                            seems to work okat on andriod but on iOS the wheel is appearing
+                            in the input box itself. May switch to material UI dropdown library instead.
+
+                        */}
+                        <Dropdown
+                            label='Select A Value...'
+                            data={question.Options}
+                        />
                         <Picker
-                            mode={"dropdown"}
+                            mode={"dialog"}
                             style={styles.picker}
                             selectedValue={question.Answer.QuestionOptionId}
                             onValueChange={this.handleSelection}>
@@ -122,7 +135,7 @@ const styles = StyleSheet.create({
         backgroundColor  : '#fff',
     },
     picker       : {
-        flex           : 1,
+        flex           : 1
         //backgroundColor: "#fff",
         //color          : "black"
     },
