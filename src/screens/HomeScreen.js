@@ -1,9 +1,17 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 
 import HTMLView from 'react-native-htmlview';
+
+var winWidth = Dimensions.get('window').width;
+console.log('Window width: ' + winWidth);
+var cardWidth = winWidth * 0.9;
+if (winWidth > 500) {
+    cardWidth = winWidth * 0.4;
+}
+console.log('Card width: ' + cardWidth);
 
 @inject("rootStore")
 @observer
@@ -29,13 +37,14 @@ export default class HomeScreen extends React.Component {
         return (
 
             <ScrollView style={styles.container}>
-                <View>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                     {
                         algorithms.map(algorithm =>
 
                             <Card
                                 key={algorithm.Id}
-                                title={algorithm.Name}>
+                                title={algorithm.Name}
+                                containerStyle={styles.algorithmContainer}>
                                 <Text style={{marginBottom: 10}}>
                                     {algorithm.ShortDescription}
                                 </Text>
@@ -59,7 +68,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex           : 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#fff'
     },
     titleText: {
         fontSize    : 20,
@@ -90,14 +99,6 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     algorithmContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: 300,
-        padding: 15,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#ccc',
-        backgroundColor: '#f2f2f2'
+        width: cardWidth,
     }
 });
