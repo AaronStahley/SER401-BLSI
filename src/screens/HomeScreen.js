@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 
@@ -32,7 +32,6 @@ export default class HomeScreen extends React.Component {
                 <View>
                     {
                         algorithms.map(algorithm =>
-
                             <Card
                                 key={algorithm.Id}
                                 title={algorithm.Name}>
