@@ -35,6 +35,11 @@ export default class QuestionInput extends React.Component {
     render() {
         let {question} = this.props;
 
+        //Created temp data so that i can make sure the
+        // material UI drop down is working and now need to
+        // figure out how to integrate the DB data into it. fot some reason that is not working.
+        let tempData = [{value: 'question1'}, {value: 'question2'}, {value: 'question3'}];
+
         switch (question.TypeKey) {
             case  "binary":
                 return (
@@ -55,36 +60,32 @@ export default class QuestionInput extends React.Component {
             case  "select":
                 return (
                     <View style={styles.pickerWrapper}>
-                        {/*
-                            Been reseaching  some ways to get the picker wheel to appear
-                            in the keyboard tray and am not sure why it is not working.
-                            seems to work okat on andriod but on iOS the wheel is appearing
-                            in the input box itself. May switch to material UI dropdown library instead.
 
-                        */}
                         <Dropdown
                             label='Select A Value...'
-                            data={question.Options}
+                            data={tempData}
                         />
-                        <Picker
-                            mode={"dialog"}
-                            style={styles.picker}
-                            selectedValue={question.Answer.QuestionOptionId}
-                            onValueChange={this.handleSelection}>
-                            <Picker.Item
-                                label={"Select A Value..."}
-                                value={null}
-                            />
-                            {
-                                question.Options.map(option => (
-                                    <Picker.Item
-                                        key={option.Id}
-                                        label={option.Label}
-                                        value={option.Id}
-                                    />
-                                ))
-                            }
-                        </Picker>
+
+                        {/*Temp discard of the picker probably wont use. */}
+                        {/*<Picker*/}
+                            {/*mode={"dialog"}*/}
+                            {/*style={styles.picker}*/}
+                            {/*selectedValue={question.Answer.QuestionOptionId}*/}
+                            {/*onValueChange={this.handleSelection}>*/}
+                            {/*<Picker.Item*/}
+                                {/*label={"Select A Value..."}*/}
+                                {/*value={null}*/}
+                            {/*/>*/}
+                            {/*{*/}
+                                {/*question.Options.map(option => (*/}
+                                    {/*<Picker.Item*/}
+                                        {/*key={option.Id}*/}
+                                        {/*label={option.Label}*/}
+                                        {/*value={option.Id}*/}
+                                    {/*/>*/}
+                                {/*))*/}
+                            {/*}*/}
+                        {/*</Picker>*/}
                     </View>
                 );
             default:
@@ -135,8 +136,6 @@ const styles = StyleSheet.create({
         backgroundColor  : '#fff',
     },
     picker       : {
-        flex           : 1
-        //backgroundColor: "#fff",
-        //color          : "black"
+        flex           : 1,
     },
 });
