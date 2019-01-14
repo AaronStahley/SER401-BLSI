@@ -63,8 +63,9 @@ export default class QuestionInput extends React.Component {
 
                         <Dropdown
                             label='Select A Value...'
-                            data={tempData}
+                            data={question.Options.map(option => ({value: option.Label}))}
                         />
+
 
                         {/*Temp discard of the picker probably wont use. */}
                         {/*<Picker*/}
