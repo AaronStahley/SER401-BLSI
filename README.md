@@ -35,7 +35,7 @@ Those using the Expo app that was downloaded, will be able to scan a QR code to 
 * Enzyme - Provides way to unit test components for React
 * Prettier - Code stylizer
 
-Download the developer testing utilities with: ```npm install --only=dev```. The tests can then be run using: ```npm test```.
+Download the developer testing utilities with: ```npm install --only=dev```. The tests can then be ran using: ```npm test```.
 
 ## Authors
 * Michael Kasper
