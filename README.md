@@ -1,4 +1,4 @@
-# SER401-BLSI
+# BLSI Mobile App
 The Blunt Liver and Spleen (BLSI) application for Phoenix Children's Hospital (PCH) is an application that prevents unnecessary surgeries when there may or may not be internal bleeding. The BLSI algorithm helps determine whether or not a surgeon needs to perform an operation on the patient. The BLSI algorithm's main purpose is to prevent unnecessary surgeries for patients.
 
 ## Getting Started
@@ -44,3 +44,6 @@ Download the developer testing utilities with: ```npm install --only=dev```. The
 * Cristina Gloria
 * Taylor Greeff
 
+## Support Application
+This application has a support application that is being developed to create the data of the application.  
+* https://github.com/michaelkasper/SER401-BLSI-SupportApp
