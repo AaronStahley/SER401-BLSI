@@ -7,9 +7,9 @@ The Blunt Liver and Spleen (BLSI) application for Phoenix Children's Hospital (P
 * [Node.js](https://nodejs.org/en/download/)
 * [Android Studio](https://developer.android.com/studio/install)
 
-This application was built with React Native, which will require a few things to get up an running. The first and main item to download is [Node.js](https://nodejs.org/en/download/). This will allow you to run and install all the modules that go along with this application. 
+This application was built with React Native, which will require a few things to get up and running. The first and main item to download is [Node.js](https://nodejs.org/en/download/). This will allow you to run and install all the modules that go along with this application. 
 
-There are a variety of methods to have the app run. You may want to run it on an emulator or on your own phone. You should be able to get it running quickly with the Expo app, which is available on your respective app store. If you would perfer to use an emulator, one option is to use [Android Studio](https://developer.android.com/studio/install). If you are using a Mac, there is the option to use Xcode.
+There are a variety of methods to have the app run. You may want to run it on an emulator or on your own phone. You should be able to get it running quickly with the Expo app, which is available on your respective app store. If you would prefer to use an emulator, one option is to use [Android Studio](https://developer.android.com/studio/install). If you are using a Mac, there is the option to use Xcode.
 
 ### App Setup and Running
 Create or go to the folder that you want to place the project. Download the zip of the project or run this command in your CLI: 
