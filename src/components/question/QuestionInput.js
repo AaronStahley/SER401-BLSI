@@ -61,6 +61,7 @@ export default class QuestionInput extends React.Component {
                 return (
                     <View style={styles.pickerWrapper}>
 
+                        {/*This displays the content but is not hooked up to record the option that was selected. */}
                         <Dropdown
                             label='Select A Value...'
                             data={question.Options.map(option => ({value: option.Label}))}
