@@ -5,14 +5,6 @@ import {inject, observer} from 'mobx-react/native'
 
 import HTMLView from 'react-native-htmlview';
 
-var winWidth = Dimensions.get('window').width;
-console.log('Window width: ' + winWidth);
-var cardWidth = winWidth * 0.9;
-if (winWidth > 500) {
-    cardWidth = winWidth * 0.4;
-}
-console.log('Card width: ' + cardWidth);
-
 @inject("rootStore")
 @observer
 export default class HomeScreen extends React.Component {
@@ -37,14 +29,14 @@ export default class HomeScreen extends React.Component {
         return (
 
             <ScrollView style={styles.container}>
-                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                <View style={setViewStyle()}>
                     {
                         algorithms.map(algorithm =>
 
                             <Card
-                                key={algorithm.Id}
-                                title={algorithm.Name}
-                                containerStyle={styles.algorithmContainer}>
+                                key={algorithm.Id} 
+                                title={algorithm.Name} 
+                                containerStyle={setAlgContainerStyle()}>
                                 <Text style={{marginBottom: 10}}>
                                     {algorithm.ShortDescription}
                                 </Text>
@@ -62,6 +54,33 @@ export default class HomeScreen extends React.Component {
                 </View>
             </ScrollView>
         );
+    }
+}
+
+setViewStyle = function() {
+    if (Dimensions.get('window').width > 500) {
+        return {
+            flexWrap: 'wrap',
+            flexDirection: 'row'
+        }
+    }
+    else {
+        return {
+            flexWrap: 'wrap'
+        }
+    }
+}
+
+setAlgContainerStyle = function() {
+    if (Dimensions.get('window').width > 500) {
+        return {
+            flex: 0.5
+        }
+    }
+    else {
+        return {
+            flex: 1
+        }
     }
 }
 
@@ -97,8 +116,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 15,
         borderRadius: 5
-    },
-    algorithmContainer: {
-        width: cardWidth,
     }
 });
