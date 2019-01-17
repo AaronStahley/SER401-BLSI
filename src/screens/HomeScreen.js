@@ -61,7 +61,8 @@ setViewStyle = function() {
     if (Dimensions.get('window').width > 500) {
         return {
             flexWrap: 'wrap',
-            flexDirection: 'row'
+            flexDirection: 'row',
+            justifyContent: 'center'
         }
     }
     else {
@@ -74,7 +75,8 @@ setViewStyle = function() {
 setAlgContainerStyle = function() {
     if (Dimensions.get('window').width > 500) {
         return {
-            flex: 0.5
+            width: Dimensions.get('window').width * 0.45,
+            flexGrow: 1
         }
     }
     else {
