@@ -61,33 +61,35 @@ export default class QuestionInput extends React.Component {
                 return (
                     <View style={styles.pickerWrapper}>
 
+                        {/*Not sure how to get this to work. I have been messing around with it for a while
+                            and it will display the content but cant find the properties to make it work
+                            when you click on the option. Going to put the original picker in for now. - Aaron */}
+
                         {/*This displays the content but is not hooked up to record the option that was selected. */}
-                        <Dropdown
-                            label='Select A Value...'
-                            data={question.Options.map(option => ({value: option.Label}))}
-                        />
+                        {/*<Dropdown*/}
+                            {/*label='Select A Value...'*/}
+                            {/*data={question.Options.map(option => ({value: option.Label}))}*/}
+                        {/*/>*/}
 
-
-                        {/*Temp discard of the picker probably wont use. */}
-                        {/*<Picker*/}
-                            {/*mode={"dialog"}*/}
-                            {/*style={styles.picker}*/}
-                            {/*selectedValue={question.Answer.QuestionOptionId}*/}
-                            {/*onValueChange={this.handleSelection}>*/}
-                            {/*<Picker.Item*/}
-                                {/*label={"Select A Value..."}*/}
-                                {/*value={null}*/}
-                            {/*/>*/}
-                            {/*{*/}
-                                {/*question.Options.map(option => (*/}
-                                    {/*<Picker.Item*/}
-                                        {/*key={option.Id}*/}
-                                        {/*label={option.Label}*/}
-                                        {/*value={option.Id}*/}
-                                    {/*/>*/}
-                                {/*))*/}
-                            {/*}*/}
-                        {/*</Picker>*/}
+                        <Picker
+                            mode={"dialog"}
+                            style={styles.picker}
+                            selectedValue={question.Answer.QuestionOptionId}
+                            onValueChange={this.handleSelection}>
+                            <Picker.Item
+                                label={"Select A Value..."}
+                                value={null}
+                            />
+                            {
+                                question.Options.map(option => (
+                                    <Picker.Item
+                                        key={option.Id}
+                                        label={option.Label}
+                                        value={option.Id}
+                                    />
+                                ))
+                            }
+                        </Picker>
                     </View>
                 );
             default:
