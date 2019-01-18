@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
+import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
 
 import HTMLView from 'react-native-htmlview';
 
@@ -14,6 +15,7 @@ export default class HomeScreen extends React.Component {
     };
 
     componentDidMount() {
+        listenOrientationChange(this);
         this.props.rootStore.algorithmStore.getOrFindAll()
             .then(res => {
                 this.setState({
@@ -22,6 +24,10 @@ export default class HomeScreen extends React.Component {
             })
     }
 
+    componentWillUnmount() {
+        removeOrientationListener();
+    }
+    
     render() {
         const {algorithms} = this.state;
         const {navigate}   = this.props.navigation;
@@ -75,7 +81,7 @@ setViewStyle = function() {
 setAlgContainerStyle = function() {
     if (Dimensions.get('window').width > 500) {
         return {
-            width: Dimensions.get('window').width * 0.45,
+            width: widthDP('45%'),
             flexGrow: 1
         }
     }
