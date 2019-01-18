@@ -68,7 +68,7 @@ setViewStyle = function() {
         return {
             flexWrap: 'wrap',
             flexDirection: 'row',
-            justifyContent: 'center'
+            justifyContent: 'flex-start'
         }
     }
     else {
@@ -79,10 +79,14 @@ setViewStyle = function() {
 }
 
 setAlgContainerStyle = function() {
-    if (Dimensions.get('window').width > 500) {
+    if (Dimensions.get('window').width > 1000) {
         return {
-            width: widthDP('45%'),
-            flexGrow: 1
+            width: widthDP('30%')
+        }
+    }
+    else if (Dimensions.get('window').width > 500) {
+        return {
+            width: widthDP('45%')
         }
     }
     else {
