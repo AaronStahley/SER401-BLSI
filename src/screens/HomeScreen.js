@@ -66,9 +66,9 @@ export default class HomeScreen extends React.Component {
 setViewStyle = function() {
     if (Dimensions.get('window').width > 500) {
         return {
-            flexWrap: 'wrap',
-            flexDirection: 'row',
-            justifyContent: 'flex-start'
+            flexWrap      : 'wrap',
+            flexDirection : 'row',
+            justifyContent: 'center'
         }
     }
     else {
@@ -81,12 +81,16 @@ setViewStyle = function() {
 setAlgContainerStyle = function() {
     if (Dimensions.get('window').width > 1000) {
         return {
-            width: widthDP('30%')
+            width   : widthDP('30%'),
+            flexGrow: 1,
+            maxWidth: widthDP('30%')
         }
     }
     else if (Dimensions.get('window').width > 500) {
         return {
-            width: widthDP('45%')
+            width   : widthDP('43%'),
+            flexGrow: 1,
+            maxWidth: widthDP('43%')
         }
     }
     else {
@@ -111,21 +115,21 @@ const styles = StyleSheet.create({
     button: {
         flex: 1,
         backgroundColor: '#ee3e41',
-        borderWidth: 0,
-        borderRadius: 5,
-        alignItems: 'center',
-        margin: 5
+        borderWidth    : 0,
+        borderRadius   : 5,
+        alignItems     : 'center',
+        margin         : 5
     },
     buttonText:{
-        color: '#fff',
+        color   : '#fff',
         fontSize: 16,
-        margin: 5
+        margin  : 5
     },
     buttonContiner:{
         flexDirection: 'row',
 
     },bodyText:{
-        fontSize: 16,
+        fontSize    : 16,
         marginBottom: 15,
         borderRadius: 5
     }
