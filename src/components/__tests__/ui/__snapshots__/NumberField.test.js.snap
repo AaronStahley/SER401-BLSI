@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`handles values correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#efefef",
+      "borderColor": "#f33338aa",
+      "borderRadius": 2,
+      "borderWidth": 2,
+      "flex": 1,
+      "flexDirection": "row",
+      "marginHorizontal": 10,
+      "paddingBottom": 5,
+      "paddingHorizontal": 5,
+      "paddingTop": 5,
+    }
+  }
+>
+  <TextInput
+    allowFontScaling={true}
+    baseColor="#efefef"
+    onChangeText={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#efefef",
+          "flex": 1,
+          "flexDirection": "row",
+          "paddingHorizontal": 5,
+        },
+      ]
+    }
+    textColor="#000"
+    underlineColorAndroid="#0000"
+    value=""
+  />
+</View>
+`;
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#efefef",
+      "borderColor": "#f33338aa",
+      "borderRadius": 2,
+      "borderWidth": 2,
+      "flex": 1,
+      "flexDirection": "row",
+      "marginHorizontal": 10,
+      "paddingBottom": 5,
+      "paddingHorizontal": 5,
+      "paddingTop": 5,
+    }
+  }
+>
+  <TextInput
+    allowFontScaling={true}
+    baseColor="#efefef"
+    onChangeText={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#efefef",
+          "flex": 1,
+          "flexDirection": "row",
+          "paddingHorizontal": 5,
+        },
+      ]
+    }
+    textColor="#000"
+    underlineColorAndroid="#0000"
+    value=""
+  />
+</View>
+`;

@@ -1,8 +1,7 @@
 import React from 'react';
 import HTMLView from 'react-native-htmlview';
 import { Icon } from 'expo';
-import {Alert, Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Card} from "react-native-elements";
+import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 
 export default class AlgDescriptionScreen extends React.Component {
@@ -19,9 +18,8 @@ export default class AlgDescriptionScreen extends React.Component {
                             {text: 'Yes', onPress: () => navigation.navigate('Home')}
 
                         ])}>
-                >
                 <Icon.Ionicons
-                    style={{marginLeft: -30, marginTop: 5}}
+                    style={{marginRight: 8, marginTop: 5}}
                     color={'#fff'}
                     size={28}
                     name='ios-settings'/>
