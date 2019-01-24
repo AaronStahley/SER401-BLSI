@@ -125,7 +125,18 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         marginRight: 10
     },
-    bubble: { //Used for the default messages. May be usefull for notification of patient stability
+    //New style to attempt to fix left PCH icon overlaying on top of bubble
+    recommendationBubbleFix: { //Used for the recommendation side of createBubble()
+        backgroundColor: Colors.recommendationBubble,
+        borderRadius: 10,
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingHorizontal: 15,
+        width: (4 * width / 5) - 5,
+        marginLeft: 35, //Move right
+        marginRight: 20
+    },
+    bubble: { //Used for the default messages. May be useful for notification of patient stability
         backgroundColor: Colors.bubble,
         borderRadius: 10,
         paddingTop: 5,
