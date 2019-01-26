@@ -1,7 +1,8 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
+import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
 
 import HTMLView from 'react-native-htmlview';
 
@@ -14,6 +15,7 @@ export default class HomeScreen extends React.Component {
     };
 
     componentDidMount() {
+        listenOrientationChange(this);
         this.props.rootStore.algorithmStore.getOrFindAll()
             .then(res => {
                 this.setState({
@@ -22,6 +24,10 @@ export default class HomeScreen extends React.Component {
             })
     }
 
+    componentWillUnmount() {
+        removeOrientationListener();
+    }
+    
     render() {
         const {algorithms} = this.state;
         const {navigate}   = this.props.navigation;
@@ -29,12 +35,13 @@ export default class HomeScreen extends React.Component {
         return (
 
             <ScrollView style={styles.container}>
-                <View>
+                <View style={setViewStyle()}>
                     {
                         algorithms.map(algorithm =>
                             <Card
-                                key={algorithm.Id}
-                                title={algorithm.Name}>
+                                key={algorithm.Id} 
+                                title={algorithm.Name} 
+                                containerStyle={setAlgContainerStyle()}>
                                 <Text style={{marginBottom: 10}}>
                                     {algorithm.ShortDescription}
                                 </Text>
@@ -55,10 +62,47 @@ export default class HomeScreen extends React.Component {
     }
 }
 
+const setViewStyle = function() {
+    if (Dimensions.get('window').width > 500) {
+        return {
+            flexWrap      : 'wrap',
+            flexDirection : 'row',
+            justifyContent: 'center'
+        }
+    }
+    else {
+        return {
+            flexWrap: 'wrap'
+        }
+    }
+}
+
+const setAlgContainerStyle = function() {
+    if (Dimensions.get('window').width > 1000) {
+        return {
+            width   : widthDP('30%'),
+            flexGrow: 1,
+            maxWidth: widthDP('30%')
+        }
+    }
+    else if (Dimensions.get('window').width > 500) {
+        return {
+            width   : widthDP('43%'),
+            flexGrow: 1,
+            maxWidth: widthDP('43%')
+        }
+    }
+    else {
+        return {
+            flex: 1
+        }
+    }
+}
+
 const styles = StyleSheet.create({
     container: {
         flex           : 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#fff'
     },
     titleText: {
         fontSize    : 20,
@@ -70,33 +114,22 @@ const styles = StyleSheet.create({
     button: {
         flex: 1,
         backgroundColor: '#ee3e41',
-        borderWidth: 0,
-        borderRadius: 5,
-        alignItems: 'center',
-        margin: 5
+        borderWidth    : 0,
+        borderRadius   : 5,
+        alignItems     : 'center',
+        margin         : 5
     },
     buttonText:{
-        color: '#fff',
+        color   : '#fff',
         fontSize: 16,
-        margin: 5
+        margin  : 5
     },
     buttonContiner:{
         flexDirection: 'row',
 
     },bodyText:{
-        fontSize: 16,
+        fontSize    : 16,
         marginBottom: 15,
         borderRadius: 5
-    },
-    algorithmContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: 300,
-        padding: 15,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: '#ccc',
-        backgroundColor: '#f2f2f2'
     }
 });
