@@ -11,7 +11,14 @@
     ],
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/images/PCH_APP_LOGO.png",
+    "icon": "./assets/images/icon_1024.png", //Should scale down to 512 based on ussage.
+    "notification": {
+      "icon": "./assets/images/icon_144.png",
+      "color": "#000000"
+    },
+    "loading": {
+      "icon": "./assets/images/icon_500.png"
+    },
     "splash": {
       "image": "./assets/images/pch-splash.png",
       "resizeMode": "contain",
@@ -32,10 +39,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourcompany.yourappname"
+      "bundleIdentifier": "com.PCH.BLSI"
     },
     "android": {
-      "package": "com.yourcompany.yourappname"
+      "package": "com.PCH.BLSI",
+      "versionCode": "1"
     }
   }
 }
