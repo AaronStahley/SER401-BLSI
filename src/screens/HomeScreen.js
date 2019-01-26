@@ -38,7 +38,6 @@ export default class HomeScreen extends React.Component {
                 <View style={setViewStyle()}>
                     {
                         algorithms.map(algorithm =>
-
                             <Card
                                 key={algorithm.Id} 
                                 title={algorithm.Name} 
@@ -63,7 +62,7 @@ export default class HomeScreen extends React.Component {
     }
 }
 
-setViewStyle = function() {
+const setViewStyle = function() {
     if (Dimensions.get('window').width > 500) {
         return {
             flexWrap      : 'wrap',
@@ -78,7 +77,7 @@ setViewStyle = function() {
     }
 }
 
-setAlgContainerStyle = function() {
+const setAlgContainerStyle = function() {
     if (Dimensions.get('window').width > 1000) {
         return {
             width   : widthDP('30%'),
