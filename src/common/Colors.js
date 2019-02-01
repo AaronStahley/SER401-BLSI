@@ -33,7 +33,7 @@ export default {
     recommendationLink        : '#ee3e41',
     recommendationNumberBorder: '#ffffff',
     recommendationBubble      : '#f6666455',
-    recommendationIcon        : '#777',
+    recommendationDoctorIconGray        : '#ffffff',
 
     //Header Style Colors
     navBarBackground      : '#ee3e41',

@@ -24,7 +24,7 @@ export default class RecommendationContainer extends React.Component {
                     <View style={styles.icon}>
                         <Image
                             style={styles.image}
-                            source={Images.recommendationIcon}
+                            source={Images.recommendationDoctorIconGray}
                         />
                     </View>
                 </Col>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         width            : '100%',
     },
     icon     : { //Used for question side of createImage()
-        backgroundColor: Colors.recommendationIcon,
+        backgroundColor: Colors.recommendationDoctorIconGray,
         paddingTop     : 5,
         paddingBottom  : 5,
         paddingLeft    : 5,

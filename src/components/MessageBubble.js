@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         maxWidth: width,
     },
     recommendationImage: { //Used for the recommendation side of createImage()
-        backgroundColor: Colors.recommendationIcon,
+        backgroundColor: Colors.recommendationDoctorIconGray,
         paddingTop: 5,
         paddingBottom: 5,
         paddingLeft: 5,
