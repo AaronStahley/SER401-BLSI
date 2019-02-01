@@ -1,17 +1,47 @@
 import React from 'react';
-import {View, StyleSheet, Picker} from 'react-native';
+import {View, StyleSheet,ActionSheetIOS,} from 'react-native';
 import CheckBox from './CheckBox';
 import Colors from '../../common/Colors';
 import {Col, Grid} from "react-native-easy-grid";
 import {observer} from "mobx-react/native";
 import NumberField from "../ui/NumberField";
+import { Dropdown } from 'react-native-material-dropdown';
+
+
+
 
 @observer
 export default class QuestionInput extends React.Component {
 
-    handleSelection = (selectedOptionId) => {
-        this.props.question.Answer.QuestionOptionId = selectedOptionId;
+    /**
+     * Finds the option label from the one selected and then finds its
+     * Id and outputs sets the answer to that id
+     * Had to change this to change the dropdown from react picker.
+     * @param selectedOptionLabel The label from the question prop.
+     * @author Aaron Stahley.
+     **/
+    handleSelectionDropdown = (selectedOptionLabel) => {
+
+        let {question} = this.props;
+
+        for(let i = 0; i < question.Options.length; i++) {
+
+            if(question.Options[i].Label === selectedOptionLabel){
+                this.props.question.Answer.QuestionOptionId = question.Options[i].Id;
+            }
+        }
     };
+
+    /**
+     * Since the handleSelection drop down is handled different for a check box
+     * and a dropdown, needed to make a second method to handle the check box.
+     * @param selectedOptionID
+     * @author Aaron Stahley
+     */
+    handleSelctionBox = (selectedOptionID) => {
+        this.props.question.Answer.QuestionOptionId = selectedOptionID;
+
+    }
 
     handleNumberChange = (number) => {
         let {question} = this.props;
@@ -29,6 +59,18 @@ export default class QuestionInput extends React.Component {
         }
     };
 
+    showActionSheet = () => {
+        let {question} = this.props;
+
+        ActionSheetIOS.showActionSheetWithOptions({
+                options: question.Options.label,
+                cancelButtonIndex: CANCEL_INDEX,
+                destructiveButtonIndex: DESTRUCTIVE_INDEX,
+            },
+            (buttonIndex) => {
+                this.setState({ clicked: BUTTONS[buttonIndex] });
+            });
+    };
 
     render() {
         let {question} = this.props;
@@ -42,7 +84,7 @@ export default class QuestionInput extends React.Component {
                                 <Col key={option.Id}>
                                     <CheckBox
                                         option={option}
-                                        onClick={this.handleSelection}
+                                        onClick={this.handleSelctionBox}
                                         selected={question.Answer.QuestionOptionId === option.Id}
                                     />
                                 </Col>
@@ -53,25 +95,13 @@ export default class QuestionInput extends React.Component {
             case  "select":
                 return (
                     <View style={styles.pickerWrapper}>
-                        <Picker
-                            mode={"dropdown"}
-                            style={styles.picker}
-                            selectedValue={question.Answer.QuestionOptionId}
-                            onValueChange={this.handleSelection}>
-                            <Picker.Item
-                                label={"Select A Value..."}
-                                value={null}
-                            />
-                            {
-                                question.Options.map(option => (
-                                    <Picker.Item
-                                        key={option.Id}
-                                        label={option.Label}
-                                        value={option.Id}
-                                    />
-                                ))
-                            }
-                        </Picker>
+
+                        <Dropdown
+                            label='Select A Value'
+                            data={question.Options.map(option => ({value: option.Label}))}
+                            onChangeText={this.handleSelectionDropdown}
+                        />
+
                     </View>
                 );
             default:
@@ -84,6 +114,8 @@ export default class QuestionInput extends React.Component {
                     />
                 );
         }
+
+
     }
 }
 
