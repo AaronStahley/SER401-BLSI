@@ -20,7 +20,7 @@ export default class QuestionContainer extends React.Component {
 
         return (
             <Grid>
-                <Col size={9}>
+                <Col size={6}>
                     <View style={styles.bubble}>
                         {
                             questions.map((question, index) => (
@@ -57,13 +57,16 @@ const styles = StyleSheet.create({
     bubble   : { //Used for question side of createBubble()
         backgroundColor  : Colors.questionBubble,
         borderRadius     : 10,
+        borderColor    : Colors.recommendationIconBorder,
+        borderStyle    : "solid",
+        borderWidth    : 1,
         paddingTop       : 5,
         paddingBottom    : 5,
         paddingHorizontal: 15,
         marginLeft       : 10,
-        marginRight      : 5,
+        // marginRight      : 0,
         marginBottom     : 10,
-        width            : '100%',
+        width            : '98%',
     },
     icon     : { //Used for question side of createImage()
         backgroundColor: Colors.questionIcon,
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
         paddingRight   : 5,
         borderRadius   : 50,
         marginLeft     : 5,
-        marginRight    : 10,
+        marginRight    : 5,
         width          : 40,
         height         : 40,
         maxHeight      : 40,

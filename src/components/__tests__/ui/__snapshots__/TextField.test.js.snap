@@ -4,8 +4,8 @@ exports[`renders correctly 1`] = `
 <View
   style={
     Object {
-      "backgroundColor": "#efefef",
-      "borderColor": "#f33338aa",
+      "backgroundColor": "#eef8ff",
+      "borderColor": "#777",
       "borderRadius": 2,
       "borderWidth": 2,
       "flex": 1,
@@ -19,11 +19,11 @@ exports[`renders correctly 1`] = `
 >
   <TextInput
     allowFontScaling={true}
-    baseColor="#efefef"
+    baseColor="#eef8ff"
     style={
       Array [
         Object {
-          "backgroundColor": "#efefef",
+          "backgroundColor": "#eef8ff",
           "flex": 1,
           "flexDirection": "row",
           "paddingHorizontal": 5,
@@ -40,8 +40,8 @@ exports[`renders correctly 2`] = `
 <View
   style={
     Object {
-      "backgroundColor": "#efefef",
-      "borderColor": "#f33338aa",
+      "backgroundColor": "#eef8ff",
+      "borderColor": "#777",
       "borderRadius": 2,
       "borderWidth": 2,
       "flex": 1,
@@ -55,11 +55,11 @@ exports[`renders correctly 2`] = `
 >
   <TextInput
     allowFontScaling={true}
-    baseColor="#efefef"
+    baseColor="#eef8ff"
     style={
       Array [
         Object {
-          "backgroundColor": "#efefef",
+          "backgroundColor": "#eef8ff",
           "flex": 1,
           "flexDirection": "row",
           "paddingHorizontal": 5,

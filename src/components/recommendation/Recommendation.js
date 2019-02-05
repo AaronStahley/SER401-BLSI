@@ -23,7 +23,8 @@ class Recommendation extends React.Component {
             <Grid>
                 <Row>
                     <Col size={1}>
-                        <Text style={styles.icon}> </Text>
+                        {/*Creates a bulletPoint*/}
+                        <Text>{`\u2022`}</Text>
                     </Col>
                     <Col size={18}>
                         <Text>{recommendation.Title}</Text>
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
         height           : "100%",
         maxHeight        : 10,
         maxWidth         : 10,
-        color            : 'white'
     },
     moreInfo: {    //Used for the recommendation side of createImage()
         marginTop: 5

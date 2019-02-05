@@ -28,7 +28,7 @@ export default class RecommendationContainer extends React.Component {
                         />
                     </View>
                 </Col>
-                <Col size={9}>
+                <Col size={6}>
                     <View style={styles.bubble}>
                         {
                             recommendations.map((recommendation, index) => (
@@ -57,13 +57,17 @@ const styles = StyleSheet.create({
     bubble   : { //Used for question side of createBubble()
         backgroundColor  : Colors.recommendationBubble,
         borderRadius     : 10,
-        paddingTop       : 5,
-        paddingBottom    : 5,
-        paddingHorizontal: 15,
-        marginLeft       : 0,
-        marginRight      : 10,
+        borderColor    : Colors.recommendationIconBorder,
+        borderStyle    : "solid",
+        borderWidth    : 1,
+         paddingTop       : 5,
+         paddingBottom    : 5,
+         paddingHorizontal: 15,
+        // marginLeft       : 10,
+        // marginRight      : 0,
         marginBottom     : 10,
-        width            : '100%',
+        width            : '98%',
+
     },
     icon     : { //Used for question side of createImage()
         backgroundColor: Colors.recommendationIcon,
@@ -73,13 +77,16 @@ const styles = StyleSheet.create({
         paddingRight   : 5,
         borderRadius   : 50,
         marginLeft     : 5,
-        marginRight    : 10,
+        marginRight    : 5,
         width          : 40,
         height         : 40,
         maxHeight      : 40,
         maxWidth       : 40,
         position       : "absolute",
-        left           : 0
+        left           : 0,
+        borderColor    : Colors.recommendationIconBorder,
+        borderStyle    : "solid",
+        borderWidth    : 1.5,
     },
     image    : { //Used to format the image
         width     : "100%",

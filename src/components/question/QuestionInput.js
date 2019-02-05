@@ -94,14 +94,13 @@ export default class QuestionInput extends React.Component {
                 );
             case  "select":
                 return (
-                    <View style={styles.pickerWrapper}>
-
+                    <View style={styles.dropDownWrap}>
                         <Dropdown
+                            style={styles.dropDown}
                             label='Select A Value'
                             data={question.Options.map(option => ({value: option.Label}))}
                             onChangeText={this.handleSelectionDropdown}
                         />
-
                     </View>
                 );
             default:
@@ -145,17 +144,14 @@ const styles = StyleSheet.create({
         color            : 'white'
     },
 
-    pickerWrapper: {
-        paddingBottom    : 2,
-        paddingTop       : 2,
-        paddingHorizontal: 2,
-        paddingVertical  : 2,
-        borderRadius     : 4,
-        backgroundColor  : '#fff',
+    dropDownWrap: {
+        borderWidth: 1,
+        paddingLeft: 10,
+        paddingRight:10,
+        borderColor: "black",
+        borderStyle: "solid",
     },
-    picker       : {
+    dropDown       : {
         flex           : 1,
-        //backgroundColor: "#fff",
-        //color          : "black"
     },
 });

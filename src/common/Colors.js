@@ -17,23 +17,24 @@ export default {
     bubble: '#ddd',
 
     //Question Bubble Color
-    questionBubble           : '#efefef',
+    questionBubble           : '#eef8ff',
     questionIcon             : '#f33338',
     questionPickerBorder     : '#f33338aa',
     questionPickerFill       : '#f5f3f3',
-    questionCheckBoxBorder   : '#f33338aa',
+    questionCheckBoxBorder   : '#777',
     questionCheckBoxFill     : '#f5f3f3',
     questionContainer        : '#f55555',
-    questionNumberBorder     : '#f55555a3',
+    questionNumberBorder     : '#ff000000',
     questionCheckBoxChecked  : '#f55555',
     questionCheckBoxUnchecked: '#777',
 
     //Recommendation Bubble Color
     recommendationHeaderBorder: '#f55555a3',
     recommendationLink        : '#ee3e41',
-    recommendationNumberBorder: '#ffffff',
-    recommendationBubble      : '#f6666455',
-    recommendationIcon        : '#777',
+    recommendationNumberBorder: '#000',
+    recommendationBubble      : '#fff',
+    recommendationIcon        : '#fff',
+    recommendationIconBorder   : '#919191',
 
     //Header Style Colors
     navBarBackground      : '#ee3e41',

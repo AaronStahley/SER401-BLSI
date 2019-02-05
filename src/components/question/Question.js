@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {Text, StyleSheet, View, Image} from 'react-native';
 import Colors from '../../common/Colors';
 import Grid from "react-native-easy-grid/Components/Grid";
 import Col from "react-native-easy-grid/Components/Col";
@@ -17,7 +17,7 @@ export default class Question extends React.Component {
             <Grid>
                 <Row>
                     <Col size={1}>
-                        <Text style={styles.icon}>{number}</Text>
+                        <View style={styles.icon}><Text>{number}</Text></View>
                     </Col>
                     <Col size={9}>
                         <Text>{question.Question}</Text>
@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
         height           : "100%",
         maxHeight        : 30,
         maxWidth         : 30,
-        color            : 'white'
+        color            : 'white',
+        borderStyle    : "solid",
+        borderWidth    : 1,
     },
 });
