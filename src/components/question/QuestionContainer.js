@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
         borderColor    : Colors.recommendationIconBorder,
         borderStyle    : "solid",
         borderWidth    : 1,
-        paddingTop       : 5,
-        paddingBottom    : 5,
+        paddingTop       : 10,
+        paddingBottom    : 10,
         paddingHorizontal: 15,
         marginLeft       : 10,
         // marginRight      : 0,
@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
     separator: {
         paddingTop     : 1,
         borderRadius   : 50,
-        marginBottom   : 5,
-        marginTop      : 5,
+        marginBottom   : 15,
+        marginTop      : 15,
         flex           : 1,
-        backgroundColor: "#000"
+        backgroundColor: Colors.separator
     }
 });

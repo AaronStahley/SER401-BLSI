@@ -5,9 +5,9 @@ exports[`handles values correctly 1`] = `
   style={
     Object {
       "backgroundColor": "#eef8ff",
-      "borderColor": "#777",
+      "borderColor": "#919191",
       "borderRadius": 2,
-      "borderWidth": 2,
+      "borderWidth": 1,
       "flex": 1,
       "flexDirection": "row",
       "marginHorizontal": 10,
@@ -43,9 +43,9 @@ exports[`renders correctly 1`] = `
   style={
     Object {
       "backgroundColor": "#eef8ff",
-      "borderColor": "#777",
+      "borderColor": "#919191",
       "borderRadius": 2,
-      "borderWidth": 2,
+      "borderWidth": 1,
       "flex": 1,
       "flexDirection": "row",
       "marginHorizontal": 10,

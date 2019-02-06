@@ -16,17 +16,18 @@ export default class Question extends React.Component {
         return (
             <Grid>
                 <Row>
-                    <Col size={1}>
+                    <Col size={2}>
                         <View style={styles.icon}><Text>{number}</Text></View>
                     </Col>
-                    <Col size={9}>
+                    <Col size={12}>
                         <Text>{question.Question}</Text>
                     </Col>
                 </Row>
                 <Row>
                     <Col size={2}/>
                     <Col size={8}>
-                        <QuestionInput question={question}/>
+                        <QuestionInput
+                            question={question}/>
                     </Col>
                 </Row>
             </Grid>
@@ -45,8 +46,8 @@ const styles = StyleSheet.create({
         height           : "100%",
         maxHeight        : 30,
         maxWidth         : 30,
-        color            : 'white',
         borderStyle    : "solid",
         borderWidth    : 1,
-    },
+        borderColor : Colors.numberBubleBorder
+    }
 });

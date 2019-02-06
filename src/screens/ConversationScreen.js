@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         paddingBottom: 50
     },
     startOverButton: {
-        color: '#fff',
+        color: Colors.startOverButton,
         paddingRight: 8,
         paddingTop: 5,
         fontSize: 18

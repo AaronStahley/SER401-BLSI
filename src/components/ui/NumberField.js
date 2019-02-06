@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         paddingTop       : 5,
         paddingBottom    : 5,
         borderColor      : Colors.questionCheckBoxBorder,
-        borderWidth      : 2,
+        borderWidth      : 1,
         borderRadius     : 2,
         marginHorizontal : 10,
     },

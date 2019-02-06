@@ -84,6 +84,7 @@ export default class QuestionInput extends React.Component {
                                 <Col key={option.Id}>
                                     <CheckBox
                                         option={option}
+                                        inputContainerStyle={{ borderBottomColor: 'transparent' }}
                                         onClick={this.handleSelctionBox}
                                         selected={question.Answer.QuestionOptionId === option.Id}
                                     />
@@ -94,14 +95,12 @@ export default class QuestionInput extends React.Component {
                 );
             case  "select":
                 return (
-                    <View style={styles.dropDownWrap}>
                         <Dropdown
-                            style={styles.dropDown}
                             label='Select A Value'
                             data={question.Options.map(option => ({value: option.Label}))}
                             onChangeText={this.handleSelectionDropdown}
+                            inputContainerStyle={styles.dropDown}
                         />
-                    </View>
                 );
             default:
                 return (
@@ -147,11 +146,22 @@ const styles = StyleSheet.create({
     dropDownWrap: {
         borderWidth: 1,
         paddingLeft: 10,
+        marginLeft: 10,
         paddingRight:10,
-        borderColor: "black",
+        borderRadius: 1,
+        borderColor: Colors.dropDownBorder,
         borderStyle: "solid",
+        width: '91%'
     },
     dropDown       : {
-        flex           : 1,
+        borderWidth: 1,
+        marginLeft: 10,
+        borderRadius: 1,
+        borderColor: Colors.dropDownBorder,
+        borderBottomColor: Colors.dropDownBorder,
+        borderBottomWidth: 1,
+        borderStyle: "solid",
+        width: '91%',
+
     },
 });
