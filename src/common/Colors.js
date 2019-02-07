@@ -18,14 +18,14 @@ export default {
 
     //Question Bubble Color
     questionBubble           : '#eef8ff',
-    questionIcon             : '#f33338',
+    questionIcon             : '#ee3e41',
     questionPickerBorder     : '#f33338aa',
     questionPickerFill       : '#f5f3f3',
     questionCheckBoxBorder   : '#919191',
     questionCheckBoxFill     : '#f5f3f3',
-    questionContainer        : '#f55555',
+    questionContainer        : '#ee3e41',
     questionNumberBorder     : '#ff000000',
-    questionCheckBoxChecked  : '#f55555',
+    questionCheckBoxChecked  : '#ee3e41',
     questionCheckBoxUnchecked: '#919191',
 
     //Recommendation Bubble Color
@@ -49,5 +49,5 @@ export default {
     //separator between questions.
     separator : '#919191',
 
-    numberBubleBorder: '#f33338'
+    numberBubleBorder: '#ee3e41'
 };

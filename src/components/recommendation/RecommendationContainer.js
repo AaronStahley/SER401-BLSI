@@ -54,27 +54,23 @@ export default class RecommendationContainer extends React.Component {
 
 
 const styles = StyleSheet.create({
-    bubble   : { //Used for question side of createBubble()
-        backgroundColor  : Colors.recommendationBubble,
-        borderRadius     : 10,
-        borderColor    : Colors.recommendationIconBorder,
-        borderStyle    : "solid",
-        borderWidth    : 1,
+    bubble                : { //Used for question side of createBubble()
+        backgroundColor   : Colors.recommendationBubble,
+        borderRadius      : 10,
+        borderColor       : Colors.recommendationIconBorder,
+        borderStyle       : "solid",
+        borderWidth       : 1,
          paddingTop       : 5,
          paddingBottom    : 5,
          paddingHorizontal: 15,
-        // marginLeft       : 10,
-        // marginRight      : 0,
-        marginBottom     : 10,
-        width            : '98%',
+        marginBottom      : 10,
+        width             : '98%',
 
     },
-    icon     : { //Used for question side of createImage()
+    icon               : { //Used for question side of createImage()
         backgroundColor: Colors.recommendationIcon,
         paddingTop     : 5,
         paddingBottom  : 5,
-        paddingLeft    : 5,
-        paddingRight   : 5,
         borderRadius   : 50,
         marginLeft     : 5,
         marginRight    : 5,
@@ -83,17 +79,18 @@ const styles = StyleSheet.create({
         maxHeight      : 40,
         maxWidth       : 40,
         position       : "absolute",
-        left           : 0,
         borderColor    : Colors.recommendationIconBorder,
         borderStyle    : "solid",
         borderWidth    : 1.5,
     },
-    image    : { //Used to format the image
-        width     : "100%",
-        height    : "100%",
-        resizeMode: "contain"
+    image              : { //Used to format the image
+        width          : "100%",
+        height         : "120%",
+        resizeMode     : "contain",
+        borderRadius   : 17,
+
     },
-    separator: {
+    separator          : {
         paddingTop     : 1,
         borderRadius   : 50,
         marginBottom   : 5,

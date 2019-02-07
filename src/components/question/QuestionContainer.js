@@ -54,12 +54,12 @@ export default class QuestionContainer extends React.Component {
 
 
 const styles = StyleSheet.create({
-    bubble   : { //Used for question side of createBubble()
+    bubble               : { //Used for question side of createBubble()
         backgroundColor  : Colors.questionBubble,
         borderRadius     : 10,
-        borderColor    : Colors.recommendationIconBorder,
-        borderStyle    : "solid",
-        borderWidth    : 1,
+        borderColor      : Colors.recommendationIconBorder,
+        borderStyle      : "solid",
+        borderWidth      : 1,
         paddingTop       : 10,
         paddingBottom    : 10,
         paddingHorizontal: 15,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         marginBottom     : 10,
         width            : '98%',
     },
-    icon     : { //Used for question side of createImage()
+    icon               : { //Used for question side of createImage()
         backgroundColor: Colors.questionIcon,
         paddingTop     : 5,
         paddingBottom  : 5,
@@ -84,12 +84,12 @@ const styles = StyleSheet.create({
         position       : "absolute",
         right          : 0
     },
-    image    : { //Used to format the image
+    image         : { //Used to format the image
         width     : "100%",
         height    : "100%",
         resizeMode: "contain"
     },
-    separator: {
+    separator          : {
         paddingTop     : 1,
         borderRadius   : 50,
         marginBottom   : 15,

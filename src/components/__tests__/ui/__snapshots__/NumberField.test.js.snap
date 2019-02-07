@@ -21,6 +21,7 @@ exports[`handles values correctly 1`] = `
     allowFontScaling={true}
     baseColor="#eef8ff"
     onChangeText={[Function]}
+    placeholder="please enter a number"
     style={
       Array [
         Object {
@@ -59,6 +60,7 @@ exports[`renders correctly 1`] = `
     allowFontScaling={true}
     baseColor="#eef8ff"
     onChangeText={[Function]}
+    placeholder="please enter a number"
     style={
       Array [
         Object {

@@ -36,7 +36,7 @@ export default class Question extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    icon: {    //Used for the recommendation side of createImage()
+    icon                 : {    //Used for the recommendation side of createImage()
         backgroundColor  : Colors.questionNumberBorder,
         paddingTop       : 5,
         paddingBottom    : 5,
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
         height           : "100%",
         maxHeight        : 30,
         maxWidth         : 30,
-        borderStyle    : "solid",
-        borderWidth    : 1,
-        borderColor : Colors.numberBubleBorder
+        borderStyle      : "solid",
+        borderWidth      : 1,
+        borderColor      : Colors.numberBubleBorder
     }
 });

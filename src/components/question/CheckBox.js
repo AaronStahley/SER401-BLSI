@@ -24,19 +24,20 @@ export default class CheckBox extends React.Component {
                 title={option.Label}
                 onPress={this.handleClick}
                 checked={selected}
+                textStyle={{fontSize: 12}}
             />
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container     : { //Used at the top layer of the component aka SectionList
+    container        : { //Used at the top layer of the component aka SectionList
         flex         : 1,
         flexDirection: "row",
         paddingTop   : 5,
         paddingBottom: 5,
     },
-    checkBoxButton: {
+    checkBoxButton       : {
         flex             : 1,
         backgroundColor  : Colors.questionBubble,
         paddingBottom    : 5,
