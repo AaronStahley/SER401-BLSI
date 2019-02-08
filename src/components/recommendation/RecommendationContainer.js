@@ -1,10 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Dimensions} from 'react-native';
 import Colors from '../../common/Colors';
 import Images from "../../common/Images";
 import {Col, Grid} from "react-native-easy-grid";
 import {inject, observer} from "mobx-react/native";
 import Recommendation from "./Recommendation";
+import {widthPercentageToDP as widthDP} from "react-native-responsive-screen";
 
 @inject("rootStore")
 @observer
@@ -25,6 +26,7 @@ export default class RecommendationContainer extends React.Component {
                         <Image
                             style={styles.image}
                             source={Images.recommendationIcon}
+
                         />
                     </View>
                 </Col>
@@ -52,7 +54,6 @@ export default class RecommendationContainer extends React.Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     bubble                : { //Used for question side of createBubble()
         backgroundColor   : Colors.recommendationBubble,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.recommendationIcon,
         paddingTop     : 5,
         paddingBottom  : 5,
-        borderRadius   : 50,
+        borderRadius   : 100/2,
         marginLeft     : 5,
         marginRight    : 5,
         width          : 40,
@@ -88,7 +89,6 @@ const styles = StyleSheet.create({
         height         : "120%",
         resizeMode     : "contain",
         borderRadius   : 17,
-
     },
     separator          : {
         paddingTop     : 1,
