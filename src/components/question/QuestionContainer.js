@@ -19,82 +19,68 @@ export default class QuestionContainer extends React.Component {
         }
 
         return (
-            <Grid>
-                <Col size={6}>
-                    <View style={styles.bubble}>
-                        {
-                            questions.map((question, index) => (
-                                    <View key={question.Id}>
-                                        <Question
-                                            question={question}
-                                            number={index + 1}
-                                        />
-                                        {
-                                            ((index + 1) !== questions.length) &&
-                                            <View style={styles.separator}/>
-                                        }
-                                    </View>
-                                )
-                            )
-                        }
-                    </View>
-                </Col>
-                <Col size={1}>
-                    <View style={styles.icon}>
-                        <Image
-                            style={styles.image}
-                            source={Images.questionIcon}
-                        />
-                    </View>
-                </Col>
-            </Grid>
+          <View style={styles.mainContainer}>
+            <View style={styles.bubble}>
+              {questions.map((question, index) => (
+                <View key={question.Id}>
+                  <Question question={question} number={index + 1} />
+                  {index + 1 !== questions.length && (
+                    <View style={styles.separator} />
+                  )}
+                </View>
+              ))}
+            </View>
+                <View style={styles.imageContainer}>
+                    <Image style={styles.image} source={Images.questionIcon} />
+                </View>
+          </View>
         );
     }
 }
 
 
 const styles = StyleSheet.create({
-    bubble               : { //Used for question side of createBubble()
-        backgroundColor  : Colors.questionBubble,
-        borderRadius     : 10,
-        borderColor      : Colors.recommendationIconBorder,
-        borderStyle      : "solid",
-        borderWidth      : 1,
-        paddingTop       : 10,
-        paddingBottom    : 10,
-        paddingHorizontal: 15,
-        marginLeft       : 10,
-        // marginRight      : 0,
-        marginBottom     : 10,
-        width            : '98%',
-    },
-    icon               : { //Used for question side of createImage()
-        backgroundColor: Colors.questionIcon,
-        paddingTop     : 5,
-        paddingBottom  : 5,
-        paddingLeft    : 5,
-        paddingRight   : 5,
-        borderRadius   : 50,
-        marginLeft     : 5,
-        marginRight    : 5,
-        width          : 40,
-        height         : 40,
-        maxHeight      : 40,
-        maxWidth       : 40,
-        position       : "absolute",
-        right          : 0
-    },
-    image         : { //Used to format the image
-        width     : "100%",
-        height    : "100%",
-        resizeMode: "contain"
-    },
-    separator          : {
-        paddingTop     : 1,
-        borderRadius   : 50,
-        marginBottom   : 15,
-        marginTop      : 15,
-        flex           : 1,
-        backgroundColor: Colors.separator
-    }
+  mainContainer: {
+    //Main container that holds the userIcon and the textbubble.
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "flex-end"
+  },
+  bubble: {
+      backgroundColor: Colors.questionBubble,
+      borderColor: Colors.recommendationIconBorder,
+      borderStyle: "solid",
+      borderRadius: 10,
+      borderWidth: 1,
+      paddingTop: 5,
+      paddingBottom: 5,
+      paddingHorizontal: 10,
+      marginBottom: 10,
+      width: '80%', 
+  },
+  imageContainer: {
+      backgroundColor: Colors.questionIcon,
+      paddingTop: 5,
+      paddingBottom: 5,
+      borderRadius: 100 / 2,
+      marginLeft: 5,
+      width: 40,
+      height: 40,
+      maxHeight: 40,
+      maxWidth: 40,
+    
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain"
+  },
+  separator: {
+    paddingTop: 1,
+    borderRadius: 50,
+    marginBottom: 15,
+    marginTop: 15,
+    flex: 1,
+    backgroundColor: Colors.separator
+  }
 });

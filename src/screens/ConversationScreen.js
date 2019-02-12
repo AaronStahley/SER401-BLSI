@@ -5,9 +5,29 @@ import {observer} from 'mobx-react/native';
 import NextStateContainer from "../components/state/NextStateContainer";
 import {widthPercentageToDP as widthDP} from "react-native-responsive-screen";
 
+var { height, width } = Dimensions.get("window");
+
 @observer
 export default class ConversationScreen extends React.Component {
     scrollView;
+    constructor() {
+        super();
+        this.state = {
+            layout: {
+                height: height,
+                width: width
+            }
+        };
+    }
+    _onLayout = event => {
+    
+        this.setState({
+            layout: {
+                height: event.nativeEvent.layout.height,
+                width: event.nativeEvent.layout.width
+            }
+        });
+    };
 
     static navigationOptions = ({navigation}) => ({
         headerRight: (
@@ -34,6 +54,7 @@ export default class ConversationScreen extends React.Component {
 
         return (
             <ScrollView
+                onLayout={this._onLayout}
                 style={styles.root}
                 ref={ref => this.scrollView = ref}
                 contentContainerStyle={setConvoStyle()}
@@ -52,28 +73,25 @@ const setConvoStyle = function() {
         return {
             paddingTop   : 10,
             paddingBottom: 50,
-            flexGrow     : 1,
-            width        : widthDP('60%'),
-            maxWidth     : widthDP('60%')
+            width        : widthDP('95%'),
+            maxWidth     : widthDP('95%')
         }
     }
     else if (Dimensions.get('window').width > 500) {
         return {
             paddingTop   : 10,
             paddingBottom: 50,
-            flexGrow     : 1,
-            width        : widthDP('60%'),
-            maxWidth     : widthDP('60%'),
-
+            width: widthDP('95%'),
+            maxWidth: widthDP('95%'),
+            
         }
     }
     else {
         return {
-            flexGrow     : 1,
             paddingTop   : 10,
             paddingBottom: 50,
-            width        : widthDP('100%'),
-            maxWidth     : widthDP('100%'),
+            width: widthDP('95%'),
+            maxWidth: widthDP('95%'),
         }
     }
 }

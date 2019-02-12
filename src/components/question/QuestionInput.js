@@ -99,7 +99,7 @@ export default class QuestionInput extends React.Component {
                             label='Select A Value'
                             data={question.Options.map(option => ({value: option.Label}))}
                             onChangeText={this.handleSelectionDropdown}
-                            inputContainerStyle={styles.dropDownContainer}
+                            inputContainerStyle={styles.dropDown}
                         />
                 );
             default:
@@ -112,46 +112,15 @@ export default class QuestionInput extends React.Component {
                     />
                 );
         }
-
-
     }
 }
 
 const styles = StyleSheet.create({
-    root             : { //Used at the top layer of the component aka SectionList
-        flex         : 1,
-        flexDirection: "column",
-        paddingTop   : 5,
-        paddingBottom: 5,
-    },
-    container        : { //Used at the top layer of the component aka SectionList
-        flex         : 1,
-        flexDirection: "column",
-        paddingTop   : 5,
-        paddingBottom: 5,
-    },
-    icon                 : {    //Used for the recommendation side of createImage()
-        backgroundColor  : Colors.questionNumberBorder,
-        paddingTop       : 5,
-        paddingBottom    : 5,
-        paddingHorizontal: 10,
-        borderRadius     : 25,
-        width            : "100%",
-        height           : "100%",
-        maxHeight        : 30,
-        maxWidth         : 30,
-        color            : 'white'
-    },
-    dropDownContainer       : {
+    dropDown      : {
+        borderColor: Colors.dropDownBorder,
         borderWidth         : 1,
-        marginLeft          : 10,
-        borderRadius        : 1,
-        borderColor         : Colors.dropDownBorder,
-        borderBottomColor   : Colors.dropDownBorder,
         borderBottomWidth   : 1,
-        borderStyle         : "solid",
-        width               : '91%',
-        resizeMode          : "contain",
+        width               : '100%',
 
 
     }

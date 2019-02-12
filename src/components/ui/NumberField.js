@@ -19,8 +19,8 @@ export default class NumberField extends React.Component {
     render() {
         let {prompt, keyboardType, value, onChange} = this.props;
         return (
-            <View style={styles.textfieldContainer}>
-                <TextInput style={[styles.textfield]}
+            <View style={styles.textInputContainer}>
+                <TextInput style={styles.input}
                            underlineColorAndroid='#0000'
                            placeholder={'please enter a number'}
                            keyboardType={keyboardType}
@@ -35,7 +35,7 @@ export default class NumberField extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    textfieldContainer   : {
+    textInputContainer   : {
         flex             : 1,
         flexDirection    : "row",
         backgroundColor  : Colors.questionBubble,
@@ -45,9 +45,8 @@ const styles = StyleSheet.create({
         borderColor      : Colors.questionCheckBoxBorder,
         borderWidth      : 1,
         borderRadius     : 2,
-        marginHorizontal : 10,
     },
-    textfield            : {
+    textInput            : {
         flex             : 1,
         flexDirection    : 'row',
         backgroundColor  : Colors.questionBubble,

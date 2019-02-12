@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
 import Colors from '../../common/Colors';
 import Grid from "react-native-easy-grid/Components/Grid";
 import Col from "react-native-easy-grid/Components/Col";
@@ -20,44 +20,39 @@ class Recommendation extends React.Component {
         let {recommendation, number} = this.props;
 
         return (
-            <Grid>
-                <Row>
-                    <Col size={1}>
-                        {/*Creates a bulletPoint*/}
-                        <Text>{`\u2022`}</Text>
-                    </Col>
-                    <Col size={18}>
-                        <Text>{recommendation.Title}</Text>
-                    </Col>
-                    <Col size={2}>
-                        {
-                            recommendation.Description &&
-                            <Icon name='info' color={Colors.moreInfoIcon} containerStyle={styles.moreInfo}
-                                  onPress={this.handelMoreInfoClick}/>
-                        }
-                    </Col>
-                </Row>
-            </Grid>
-        )
+        <View style={styles.mainContainer}>
+            <View style={styles.recTextContainer}>
+              <Text>
+                {`\u2022  `}
+                {recommendation.Title}
+              </Text>
+            </View>
+            <View style={styles.infoIconContainer}>
+                {recommendation.Description && (
+                    <Icon
+                        name="info"
+                        color={Colors.moreInfoIcon}
+                        onPress={this.handelMoreInfoClick}
+                     />
+                )}
+            </View>
+        </View>
+        );
     }
 }
 
 export default withNavigation(Recommendation);
 
 const styles = StyleSheet.create({
-    icon    : {    //Used for the recommendation side of createImage()
-        backgroundColor  : Colors.recommendationNumberBorder,
-        marginTop        : 5,
-        paddingTop       : 5,
-        paddingBottom    : 5,
-        paddingHorizontal: 5,
-        borderRadius     : 5,
-        width            : "100%",
-        height           : "100%",
-        maxHeight        : 10,
-        maxWidth         : 10,
+    mainContainer: {  //Main container that holds text and icon. 
+        flexDirection: "row",
+        flex: 1,
+        justifyContent: "space-between"
     },
-    moreInfo: {    //Used for the recommendation side of createImage()
-        marginTop: 5
+    infoIconContainer: {  //Container that holds the info icon
+        marginLeft: 5
     },
+    recTextContainer : { //Container that holds recomendation text. 
+        flex: 1
+    }
 });
