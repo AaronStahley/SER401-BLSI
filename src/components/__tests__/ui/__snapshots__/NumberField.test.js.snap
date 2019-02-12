@@ -10,7 +10,6 @@ exports[`handles values correctly 1`] = `
       "borderWidth": 1,
       "flex": 1,
       "flexDirection": "row",
-      "marginHorizontal": 10,
       "paddingBottom": 5,
       "paddingHorizontal": 5,
       "paddingTop": 5,
@@ -22,16 +21,6 @@ exports[`handles values correctly 1`] = `
     baseColor="#eef8ff"
     onChangeText={[Function]}
     placeholder="please enter a number"
-    style={
-      Array [
-        Object {
-          "backgroundColor": "#eef8ff",
-          "flex": 1,
-          "flexDirection": "row",
-          "paddingHorizontal": 5,
-        },
-      ]
-    }
     textColor="#000"
     underlineColorAndroid="#0000"
     value=""
@@ -49,7 +38,6 @@ exports[`renders correctly 1`] = `
       "borderWidth": 1,
       "flex": 1,
       "flexDirection": "row",
-      "marginHorizontal": 10,
       "paddingBottom": 5,
       "paddingHorizontal": 5,
       "paddingTop": 5,
@@ -61,16 +49,6 @@ exports[`renders correctly 1`] = `
     baseColor="#eef8ff"
     onChangeText={[Function]}
     placeholder="please enter a number"
-    style={
-      Array [
-        Object {
-          "backgroundColor": "#eef8ff",
-          "flex": 1,
-          "flexDirection": "row",
-          "paddingHorizontal": 5,
-        },
-      ]
-    }
     textColor="#000"
     underlineColorAndroid="#0000"
     value=""
