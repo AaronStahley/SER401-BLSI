@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 15,
     marginTop: 15,
-    flex: 1,
     backgroundColor: Colors.separator
   }
 });

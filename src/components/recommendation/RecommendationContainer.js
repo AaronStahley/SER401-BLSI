@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
         borderRadius   : 50,
         marginBottom   : 5,
         marginTop      : 5,
-        flex           : 1,
         backgroundColor: "#000"
     }
 });
