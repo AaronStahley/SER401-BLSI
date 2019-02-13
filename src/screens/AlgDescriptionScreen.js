@@ -18,11 +18,12 @@ export default class AlgDescriptionScreen extends React.Component {
                             {text: 'Yes', onPress: () => navigation.navigate('Home')}
 
                         ])}>
-                <Icon.Ionicons
-                    style={{marginRight: 8, marginTop: 5}}
-                    color={'#fff'}
-                    size={28}
-                    name='ios-settings'/>
+                    <Icon.Ionicons
+                        style={{ marginRight: 10, marginTop: 5 }}
+                        color={"#fff"}
+                        size={30}
+                        name="ios-refresh"
+                    />
                 </TouchableOpacity>
             </View>
         )
