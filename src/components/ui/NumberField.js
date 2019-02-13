@@ -37,7 +37,6 @@ export default class NumberField extends React.Component {
 const styles = StyleSheet.create({
     textInputContainer   : {
         flex             : 1,
-        flexDirection    : "row",
         backgroundColor  : Colors.questionBubble,
         paddingHorizontal: 5,
         paddingTop       : 5,
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
     },
     textInput            : {
         flex             : 1,
-        flexDirection    : 'row',
         backgroundColor  : Colors.questionBubble,
         paddingHorizontal: 5,
     }
