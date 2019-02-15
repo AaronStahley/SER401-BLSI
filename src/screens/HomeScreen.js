@@ -4,12 +4,14 @@ import {Card} from 'react-native-elements'
 import { Icon } from "expo";
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
+import { retriveAlgorithms } from "../services/fetchAlgorithms";
 
 import HTMLView from 'react-native-htmlview';
 
 @inject("rootStore")
 @observer
 export default class HomeScreen extends React.Component {
+
   static navigationOptions = ({ navigation }) => ({
     //Fixes Error where PCH Icon shifts to the right
     headerRight: (
@@ -25,7 +27,7 @@ export default class HomeScreen extends React.Component {
                   onPress: () => console.log("Cancel Pressed"),
                   style: "cancel"
                 },
-                { text: "Yes", onPress: () => console.log("Yes Pressed") }
+                { text: "Yes", onPress: () => retriveAlgorithms() }
               ]
             )
           }

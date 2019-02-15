@@ -57,7 +57,8 @@ export default class App extends React.Component {
             this.initDatabase()
                 .then(() => {
                     return this.rootStore.init()
-                })
+                }),
+            
         ]);
     };
 
@@ -70,7 +71,7 @@ export default class App extends React.Component {
     _handleFinishLoading = () => {
         this.setState({isLoadingComplete: true});
     };
-
+ 
     initDatabase = async () => {
         const sqliteDirectory = `${FileSystem.documentDirectory}SQLite`;
 
