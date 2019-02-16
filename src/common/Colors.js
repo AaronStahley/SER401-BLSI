@@ -17,25 +17,37 @@ export default {
     bubble: '#ddd',
 
     //Question Bubble Color
-    questionBubble           : '#efefef',
-    questionIcon             : '#f33338',
+    questionBubble           : '#eef8ff',
+    questionIcon             : '#ee3e41',
     questionPickerBorder     : '#f33338aa',
     questionPickerFill       : '#f5f3f3',
-    questionCheckBoxBorder   : '#f33338aa',
+    questionCheckBoxBorder   : '#919191',
     questionCheckBoxFill     : '#f5f3f3',
-    questionContainer        : '#f55555',
-    questionNumberBorder     : '#f55555a3',
-    questionCheckBoxChecked  : '#f55555',
-    questionCheckBoxUnchecked: '#777',
+    questionContainer        : '#ee3e41',
+    questionNumberBorder     : '#ff000000',
+    questionCheckBoxChecked  : '#ee3e41',
+    questionCheckBoxUnchecked: '#919191',
 
     //Recommendation Bubble Color
     recommendationHeaderBorder: '#f55555a3',
     recommendationLink        : '#ee3e41',
-    recommendationNumberBorder: '#ffffff',
-    recommendationBubble      : '#f6666455',
-    recommendationIcon        : '#777',
+    recommendationNumberBorder: '#000',
+    recommendationBubble      : '#fff',
+    recommendationIcon        : '#fff',
+    recommendationIconBorder   : '#919191',
 
     //Header Style Colors
     navBarBackground      : '#ee3e41',
     headerStyleRightButton: '#fff',
+
+    //Drop down on conversation
+    dropDownBorder        : '#919191',
+
+    //Start over button on the conversation
+    startOverButton : '#fff',
+
+    //separator between questions.
+    separator : '#919191',
+
+    numberBubleBorder: '#ee3e41'
 };

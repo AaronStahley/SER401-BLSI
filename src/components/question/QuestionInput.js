@@ -84,6 +84,7 @@ export default class QuestionInput extends React.Component {
                                 <Col key={option.Id}>
                                     <CheckBox
                                         option={option}
+                                        inputContainerStyle={{ borderBottomColor: 'transparent' }}
                                         onClick={this.handleSelctionBox}
                                         selected={question.Answer.QuestionOptionId === option.Id}
                                     />
@@ -94,15 +95,12 @@ export default class QuestionInput extends React.Component {
                 );
             case  "select":
                 return (
-                    <View style={styles.pickerWrapper}>
-
                         <Dropdown
                             label='Select A Value'
                             data={question.Options.map(option => ({value: option.Label}))}
                             onChangeText={this.handleSelectionDropdown}
+                            inputContainerStyle={styles.dropDown}
                         />
-
-                    </View>
                 );
             default:
                 return (
@@ -114,48 +112,16 @@ export default class QuestionInput extends React.Component {
                     />
                 );
         }
-
-
     }
 }
 
 const styles = StyleSheet.create({
-    root     : { //Used at the top layer of the component aka SectionList
-        flex         : 1,
-        flexDirection: "column",
-        paddingTop   : 5,
-        paddingBottom: 5,
-    },
-    container: { //Used at the top layer of the component aka SectionList
-        flex         : 1,
-        flexDirection: "column",
-        paddingTop   : 5,
-        paddingBottom: 5,
-    },
-    icon     : {    //Used for the recommendation side of createImage()
-        backgroundColor  : Colors.questionNumberBorder,
-        paddingTop       : 5,
-        paddingBottom    : 5,
-        paddingHorizontal: 10,
-        borderRadius     : 25,
-        width            : "100%",
-        height           : "100%",
-        maxHeight        : 30,
-        maxWidth         : 30,
-        color            : 'white'
-    },
+    dropDown      : {
+        borderColor: Colors.dropDownBorder,
+        borderWidth         : 1,
+        borderBottomWidth   : 1,
+        width               : '100%',
 
-    pickerWrapper: {
-        paddingBottom    : 2,
-        paddingTop       : 2,
-        paddingHorizontal: 2,
-        paddingVertical  : 2,
-        borderRadius     : 4,
-        backgroundColor  : '#fff',
-    },
-    picker       : {
-        flex           : 1,
-        //backgroundColor: "#fff",
-        //color          : "black"
-    },
+
+    }
 });

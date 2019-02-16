@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {Text, StyleSheet, View, Image} from 'react-native';
 import Colors from '../../common/Colors';
 import Grid from "react-native-easy-grid/Components/Grid";
 import Col from "react-native-easy-grid/Components/Col";
@@ -14,37 +14,46 @@ export default class Question extends React.Component {
         let {question, number} = this.props;
 
         return (
-            <Grid>
-                <Row>
-                    <Col size={1}>
-                        <Text style={styles.icon}>{number}</Text>
-                    </Col>
-                    <Col size={9}>
-                        <Text>{question.Question}</Text>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col size={2}/>
-                    <Col size={8}>
-                        <QuestionInput question={question}/>
-                    </Col>
-                </Row>
-            </Grid>
-        )
+          <View style={styles.mainContainer}>
+                <View style={styles.icon}>
+                <Text>{number}</Text>
+            </View>
+                <View style={styles.questionInputTexContainer}>
+                <Text style={{paddingBottom: 5}}>{question.Question}</Text>
+                <QuestionInput
+                     question={question}
+                />
+            </View>
+          </View>
+        );
     }
 }
 
 const styles = StyleSheet.create({
-    icon: {    //Used for the recommendation side of createImage()
-        backgroundColor  : Colors.questionNumberBorder,
-        paddingTop       : 5,
-        paddingBottom    : 5,
-        paddingHorizontal: 10,
-        borderRadius     : 25,
-        width            : "100%",
-        height           : "100%",
-        maxHeight        : 30,
-        maxWidth         : 30,
-        color            : 'white'
-    },
+  mainContainer: { //Main container that holds the Icon and the textbubble.
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "space-between",
+    alignItems: "stretch"
+  },
+  questionInputTexContainer: {
+    flexDirection: "column",
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+  },
+  icon: { //Icon on the right hand side of the screen. PCH logo. 
+    backgroundColor: Colors.questionNumberBorder,
+    borderRadius: 100 / 2,
+    width: "100%",
+    height: "100%",
+    maxHeight: 30,
+    maxWidth: 30,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: Colors.numberBubleBorder,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 20
+  }
 });
