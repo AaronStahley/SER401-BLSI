@@ -1,8 +1,10 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions, Alert} from 'react-native';
 import {Card} from 'react-native-elements'
+import { Icon } from "expo";
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
+import { retriveAlgorithms } from "../services/fetchAlgorithms";
 
 import HTMLView from 'react-native-htmlview';
 
@@ -10,56 +12,94 @@ import HTMLView from 'react-native-htmlview';
 @observer
 export default class HomeScreen extends React.Component {
 
-    state = {
-        algorithms: []
-    };
+  static navigationOptions = ({ navigation }) => ({
+    //Fixes Error where PCH Icon shifts to the right
+    headerRight: (
+      <View>
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert(
+              "Get New Algorithms?  ",
+              "Do you want to add new alogorithms to your list?",
+              [
+                {
+                  text: "No",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "Yes", onPress: () => retriveAlgorithms() }
+              ]
+            )
+          }
+        >
+          <Icon.Ionicons
+            style={{ marginRight: 10, marginTop: 5 }}
+            color={"#fff"}
+            size={30}
+            name="ios-refresh"
+          />
+        </TouchableOpacity>
+      </View>
+    )
+  });
 
-    componentDidMount() {
-        listenOrientationChange(this);
-        this.props.rootStore.algorithmStore.getOrFindAll()
-            .then(res => {
-                this.setState({
-                    algorithms: res
-                });
-            })
-    }
+  state = {
+    algorithms: []
+  };
 
-    componentWillUnmount() {
-        removeOrientationListener();
-    }
-    
-    render() {
-        const {algorithms} = this.state;
-        const {navigate}   = this.props.navigation;
+  componentDidMount() {
+    listenOrientationChange(this);
+    this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
+      this.setState({
+        algorithms: res
+      });
+    });
+  }
 
-        return (
+  componentWillUnmount() {
+    removeOrientationListener();
+  }
 
-            <ScrollView style={styles.container}>
-                <View style={setViewStyle()}>
-                    {
-                        algorithms.map(algorithm =>
-                            <Card
-                                key={algorithm.Id} 
-                                title={algorithm.Name} 
-                                containerStyle={setAlgContainerStyle()}>
-                                <Text style={{marginBottom: 10}}>
-                                    {algorithm.ShortDescription}
-                                </Text>
-                                <View style={styles.buttonContiner}>
-                                    <TouchableOpacity style={styles.button} onPress={() => navigate('AlgDescription', {algorithm: algorithm})}>
-                                        <Text style={styles.buttonText}>Info</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => navigate('Conversation', {algorithm: algorithm})}>
-                                        <Text style={styles.buttonText}>Start</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </Card>
-                        )
-                    }
-                </View>
-            </ScrollView>
-        );
-    }
+  render() {
+    const { algorithms } = this.state;
+    const { navigate } = this.props.navigation;
+
+    return (
+      <ScrollView style={styles.container}>
+        <View style={setViewStyle()}>
+          {algorithms.map(algorithm => (
+            <Card
+              key={algorithm.Id}
+              title={algorithm.Name}
+              containerStyle={setAlgContainerStyle()}
+            >
+              <Text style={{ marginBottom: 10 }}>
+                {algorithm.ShortDescription}
+              </Text>
+              <View style={styles.buttonContiner}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() =>
+                    navigate("AlgDescription", { algorithm: algorithm })
+                  }
+                >
+                  <Text style={styles.buttonText}>Info</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() =>
+                    navigate("Conversation", { algorithm: algorithm })
+                  }
+                >
+                  <Text style={styles.buttonText}>Start</Text>
+                </TouchableOpacity>
+              </View>
+            </Card>
+          ))}
+        </View>
+      </ScrollView>
+    );
+  }
 }
 
 const setViewStyle = function() {

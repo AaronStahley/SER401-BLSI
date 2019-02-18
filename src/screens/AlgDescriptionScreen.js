@@ -2,9 +2,11 @@ import React from 'react';
 import HTMLView from 'react-native-htmlview';
 import { Icon } from 'expo';
 import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { retriveAlgorithm } from "../services/fetchAlgorithm";
 
 
 export default class AlgDescriptionScreen extends React.Component {
+    
     static navigationOptions = ({navigation}) => ({
         //Fixes Error where PCH Icon shifts to the right.
         headerRight: (
@@ -15,14 +17,18 @@ export default class AlgDescriptionScreen extends React.Component {
                         'Do you want to upgrade to the newest version ?',
                         [
                             {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                            {text: 'Yes', onPress: () => navigation.navigate('Home')}
+
+                            // Need to use navigation.getParam('algoritm', null).id) to get algo ID.
+                            // Instead of hardcoding. 1 is just used for testing. - Aaron.
+                            {text: 'Yes', onPress: () => retriveAlgorithm(1)}
 
                         ])}>
-                <Icon.Ionicons
-                    style={{marginRight: 8, marginTop: 5}}
-                    color={'#fff'}
-                    size={28}
-                    name='ios-settings'/>
+                    <Icon.Ionicons
+                        style={{ marginRight: 10, marginTop: 5 }}
+                        color={"#fff"}
+                        size={30}
+                        name="ios-refresh"
+                    />
                 </TouchableOpacity>
             </View>
         )
