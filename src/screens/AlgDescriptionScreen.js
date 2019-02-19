@@ -2,9 +2,10 @@ import React from 'react';
 import HTMLView from 'react-native-htmlview';
 import { Icon } from 'expo';
 import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { retriveAlgorithm } from "../services/fetchAlgorithm";
+import {retrieveAlgorithm} from "../services/fetchAlgorithms";
+import { inject } from 'mobx-react/native';
 
-
+@inject("rootStore")
 export default class AlgDescriptionScreen extends React.Component {
     
     static navigationOptions = ({navigation}) => ({
@@ -20,8 +21,11 @@ export default class AlgDescriptionScreen extends React.Component {
 
                             // Need to use navigation.getParam('algoritm', null).id) to get algo ID.
                             // Instead of hardcoding. 1 is just used for testing. - Aaron.
-                            {text: 'Yes', onPress: () => retriveAlgorithm(1)}
-
+                            {text: 'Yes', onPress: () =>  {
+                                const {navigation} = this.props;
+                                const algorithm    = navigation.getParam('algorithm', null);
+                                retrieveAlgorithm(algorithm.id, this.props.rootStore);
+                            }}
                         ])}>
                     <Icon.Ionicons
                         style={{ marginRight: 10, marginTop: 5 }}

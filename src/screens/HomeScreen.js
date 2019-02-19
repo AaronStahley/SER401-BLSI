@@ -4,7 +4,7 @@ import {Card} from 'react-native-elements'
 import { Icon } from "expo";
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
-import { retriveAlgorithms } from "../services/fetchAlgorithms";
+import {retrieveAlgorithms} from "../services/fetchAlgorithms";
 
 import HTMLView from 'react-native-htmlview';
 
@@ -27,7 +27,9 @@ export default class HomeScreen extends React.Component {
                   onPress: () => console.log("Cancel Pressed"),
                   style: "cancel"
                 },
-                { text: "Yes", onPress: () => retriveAlgorithms() }
+                { text: "Yes", onPress: () => {
+                  retrieveAlgorithms(this.props.rootStore);
+                }}
               ]
             )
           }
