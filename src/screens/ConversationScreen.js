@@ -99,11 +99,13 @@ const setConvoStyle = function() {
 const styles = StyleSheet.create({
     root               : {
         backgroundColor: Colors.conversationBackground,
-        alignItems     : 'center'
+        alignSelf     : 'stretch',
+        paddingLeft  : 10
     },
     container        : {
         paddingTop   : 10,
-        paddingBottom: 50
+        paddingBottom: 50,
+        
     },
     startOverButton : {
         color       : Colors.startOverButton,
