@@ -1,10 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions, Alert, TouchableHighlight} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight} from 'react-native';
 import {Card,ButtonGroup} from 'react-native-elements'
 import { Icon } from "expo";
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
 import { retriveAlgorithms } from "../services/fetchAlgorithms";
+import {Button} from '../components/ui/Button'
 
 import HTMLView from 'react-native-htmlview';
 
@@ -70,44 +71,43 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-          <ButtonGroup
-            buttons={['All','Favorites']}
-            containerStyle={styles.buttonGroupContainer}
-         />
-        
-      <ScrollView>
-        <View style={setViewStyle()}>
-          {algorithms.map(algorithm => (
-            <Card
-              key={algorithm.Id}
-              title={algorithm.Name}
-              containerStyle={setAlgContainerStyle()}>
-              <Text style={{ marginBottom: 10 }}>
-                {algorithm.ShortDescription}
-              </Text>
-              <View style={styles.buttonContiner}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() =>
-                    navigate("AlgDescription", { algorithm: algorithm })
-                  }
-                >
-                  <Text style={styles.buttonText}>Info</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() =>
-                    navigate("Conversation", { algorithm: algorithm })
-                  }
-                >
-                  <Text style={styles.buttonText}>Start</Text>
-                </TouchableOpacity>
-              </View>
-            </Card>
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+        <ButtonGroup
+          buttons={["All", "Favorites"]}
+          containerStyle={styles.buttonGroupContainer}
+        />
+
+        <ScrollView>
+          <View style={setViewStyle()}>
+            {algorithms.map(algorithm => (
+              <Card
+                key={algorithm.Id}
+                title={algorithm.Name}
+                containerStyle={setAlgContainerStyle()}
+              >
+                <Text style={{ marginBottom: 10 }}>
+                  {algorithm.ShortDescription}
+                </Text>
+                <View style={styles.buttonContiner}>
+                  <Button
+                    onPress={() =>
+                      navigate("AlgDescription", { algorithm: algorithm })
+                    }
+                  >
+                    Info
+                  </Button>
+                  <Button
+                    onPress={() =>
+                      navigate("Conversation", { algorithm: algorithm })
+                    }
+                  >
+                    Start
+                  </Button>
+                </View>
+              </Card>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -168,21 +168,8 @@ const styles = StyleSheet.create({
   descriptionText: {
     marginBottom: 10
   },
-  button: {
-    flex: 1,
-    backgroundColor: "#ee3e41",
-    borderWidth: 0,
-    borderRadius: 5,
-    alignItems: "center",
-    margin: 5
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    margin: 5
-  },
   buttonContiner: {
-    flexDirection: "row"
+    flexDirection: "row" //Aligns buttons next to one another. 
   },
   bodyText: {
     fontSize: 16,
