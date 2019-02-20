@@ -1,13 +1,21 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
-import { inject, observer } from 'mobx-react/native';
+import {View, TouchableOpacity, Alert} from 'react-native';
 import { Icon } from "expo";
 import {inject, observer} from 'mobx-react/native'
-import {retrieveAlgorithms, retrieveAlgorithm} from "../services/fetchAlgorithms";
+import {retrieveAlgorithms, retrieveAlgorithm} from "../../services/fetchAlgorithms";
 
 @inject("rootStore")
 @observer
 export default class RefreshButton extends React.Component {
+    homeOnPress = () => {
+        retrieveAlgorithms(this.props.rootStore);
+    }
+
+    algDescriptOnPress = () => {
+        const algorithm = this.props.algorithm;
+        retrieveAlgorithm(algorithm.id, this.props.rootStore);
+    }
+
     render() {
         return (
         <View>
@@ -23,7 +31,7 @@ export default class RefreshButton extends React.Component {
                     },
                     { 
                         text: "Yes", 
-                        onPress: !this.props.algorithm ? homeOnPress() : algDescriptOnPress()
+                        onPress: !this.props.algorithm ? this.homeOnPress : this.algDescriptOnPress
                     }
                 ])
             }
@@ -37,15 +45,6 @@ export default class RefreshButton extends React.Component {
         </TouchableOpacity>
       </View>
     );
-    }
-
-    homeOnPress() {
-        retrieveAlgorithms(this.props.rootStore);
-    }
-
-    algDescriptOnPress() {
-        const algorithm = this.props.algorithm;
-        retrieveAlgorithm(algorithm.id, this.props.rootStore);
     }
 }
 

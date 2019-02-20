@@ -1,9 +1,9 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions, Alert} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
-
+import RefreshButton from "../components/ui/RefreshButton.js"
 
 import HTMLView from 'react-native-htmlview';
 
