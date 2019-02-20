@@ -3,7 +3,7 @@
    * @param {*} id id for the algorithm you want to update
    * @author Aaron S
    */
-  export const retrieveAlgorithm = async (id) => {
+  export const retrieveAlgorithm = async (id, rootStore) => {
     const URL = `http://localhost:3001/release/${id}?key=key`;
     fetch(URL)
       .then(response => {
@@ -23,7 +23,7 @@
    * Fecth call to update all algorithms listed on the home screen.
    * @author Aaron S
    */
-  export const retrieveAlgorithms = async () => {
+  export const retrieveAlgorithms = async (rootStore) => {
     const URL = "http://localhost:3001/release?key=key";
     fetch(URL)
       .then(response => {

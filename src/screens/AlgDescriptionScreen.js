@@ -2,41 +2,13 @@ import React from 'react';
 import HTMLView from 'react-native-htmlview';
 import { Icon } from 'expo';
 import {Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {retrieveAlgorithm} from "../services/fetchAlgorithms";
-import { inject } from 'mobx-react/native';
+import RefreshButton from "../components/ui/RefreshButton.js"
 
-@inject("rootStore")
 export default class AlgDescriptionScreen extends React.Component {
     
     static navigationOptions = ({navigation}) => ({
         //Fixes Error where PCH Icon shifts to the right.
-        headerRight: (
-            <View>
-                <TouchableOpacity
-                    onPress={() => Alert.alert(
-                        'Update Algorithm?  ',
-                        'Do you want to upgrade to the newest version ?',
-                        [
-                            {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-
-                            // Need to use navigation.getParam('algoritm', null).id) to get algo ID.
-                            // Instead of hardcoding. 1 is just used for testing. - Aaron.
-                            {text: 'Yes', onPress: () =>  {
-                                const {navigation} = this.props;
-                                const algorithm    = navigation.getParam('algorithm', null);
-                                retrieveAlgorithm(algorithm.id, this.props.rootStore);
-                            }}
-                        ])}>
-                    <Icon.Ionicons
-                        style={{ marginRight: 10, marginTop: 5 }}
-                        color={"#fff"}
-                        size={30}
-                        name="ios-refresh"
-                    />
-                </TouchableOpacity>
-            </View>
-        )
-
+        headerRight: <RefreshButton algorithm={this.props.algorithm}></RefreshButton>
     });
 
     render() {

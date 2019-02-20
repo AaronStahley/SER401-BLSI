@@ -1,10 +1,9 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Button, Dimensions, Alert} from 'react-native';
 import {Card} from 'react-native-elements'
-import { Icon } from "expo";
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
-import {retrieveAlgorithms} from "../services/fetchAlgorithms";
+
 
 import HTMLView from 'react-native-htmlview';
 
@@ -14,35 +13,7 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
     //Fixes Error where PCH Icon shifts to the right
-    headerRight: (
-      <View>
-        <TouchableOpacity
-          onPress={() =>
-            Alert.alert(
-              "Get New Algorithms?  ",
-              "Do you want to add new alogorithms to your list?",
-              [
-                {
-                  text: "No",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                { text: "Yes", onPress: () => {
-                  retrieveAlgorithms(this.props.rootStore);
-                }}
-              ]
-            )
-          }
-        >
-          <Icon.Ionicons
-            style={{ marginRight: 10, marginTop: 5 }}
-            color={"#fff"}
-            size={30}
-            name="ios-refresh"
-          />
-        </TouchableOpacity>
-      </View>
-    )
+    headerRight: <RefreshButton></RefreshButton>
   });
 
   state = {
