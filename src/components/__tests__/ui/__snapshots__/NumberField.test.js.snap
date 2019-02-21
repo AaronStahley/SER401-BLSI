@@ -4,13 +4,11 @@ exports[`handles values correctly 1`] = `
 <View
   style={
     Object {
-      "backgroundColor": "#efefef",
-      "borderColor": "#f33338aa",
+      "backgroundColor": "#eef8ff",
+      "borderColor": "#919191",
       "borderRadius": 2,
-      "borderWidth": 2,
+      "borderWidth": 1,
       "flex": 1,
-      "flexDirection": "row",
-      "marginHorizontal": 10,
       "paddingBottom": 5,
       "paddingHorizontal": 5,
       "paddingTop": 5,
@@ -19,18 +17,9 @@ exports[`handles values correctly 1`] = `
 >
   <TextInput
     allowFontScaling={true}
-    baseColor="#efefef"
+    baseColor="#eef8ff"
     onChangeText={[Function]}
-    style={
-      Array [
-        Object {
-          "backgroundColor": "#efefef",
-          "flex": 1,
-          "flexDirection": "row",
-          "paddingHorizontal": 5,
-        },
-      ]
-    }
+    placeholder="please enter a number"
     textColor="#000"
     underlineColorAndroid="#0000"
     value=""
@@ -42,13 +31,11 @@ exports[`renders correctly 1`] = `
 <View
   style={
     Object {
-      "backgroundColor": "#efefef",
-      "borderColor": "#f33338aa",
+      "backgroundColor": "#eef8ff",
+      "borderColor": "#919191",
       "borderRadius": 2,
-      "borderWidth": 2,
+      "borderWidth": 1,
       "flex": 1,
-      "flexDirection": "row",
-      "marginHorizontal": 10,
       "paddingBottom": 5,
       "paddingHorizontal": 5,
       "paddingTop": 5,
@@ -57,18 +44,9 @@ exports[`renders correctly 1`] = `
 >
   <TextInput
     allowFontScaling={true}
-    baseColor="#efefef"
+    baseColor="#eef8ff"
     onChangeText={[Function]}
-    style={
-      Array [
-        Object {
-          "backgroundColor": "#efefef",
-          "flex": 1,
-          "flexDirection": "row",
-          "paddingHorizontal": 5,
-        },
-      ]
-    }
+    placeholder="please enter a number"
     textColor="#000"
     underlineColorAndroid="#0000"
     value=""
