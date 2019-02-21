@@ -3,6 +3,7 @@ import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 /**
  * Simple Button to be used on the home screen. 
+ * @author Aaron S
  */
 const Button = (props) => {
     return (

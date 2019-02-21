@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight} from 'react-native';
-import {Card,ButtonGroup} from 'react-native-elements'
-import { Icon } from "expo";
+import {ButtonGroup} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
-import { retriveAlgorithms } from "../services/fetchAlgorithms";
 import {Button} from '../components/ui/Button'
 import RefreshButton from "../components/ui/RefreshButton.js"
+import {Card} from "../components/ui/Card.js";
+
 import HTMLView from 'react-native-htmlview';
 
 @inject("rootStore")
@@ -54,14 +54,11 @@ export default class HomeScreen extends React.Component {
         <ScrollView>
           <View style={setViewStyle()}>
             {algorithms.map(algorithm => (
+
               <Card
-                key={algorithm.Id}
                 title={algorithm.Name}
-                containerStyle={setAlgContainerStyle()}
+                bodyText={algorithm.ShortDescription}
               >
-                <Text style={{ marginBottom: 10 }}>
-                  {algorithm.ShortDescription}
-                </Text>
                 <View style={styles.buttonContiner}>
                   <Button
                     onPress={() =>
@@ -77,8 +74,9 @@ export default class HomeScreen extends React.Component {
                   >
                     Start
                   </Button>
-                </View>
-              </Card>
+
+                  </View>
+               </Card>
             ))}
           </View>
         </ScrollView>
