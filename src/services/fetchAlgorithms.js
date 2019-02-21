@@ -3,7 +3,7 @@
    * @param {*} id id for the algorithm you want to update
    * @author Aaron S
    */
-  export const retrieveAlgorithm = async (id, rootStore) => {
+  export const retrieveAlgorithm = async (id) => {
     const URL = `http://localhost:3001/release/${id}?key=key`;
     fetch(URL)
       .then(response => {
@@ -14,6 +14,7 @@
       })
       .then(json => {
         console.log("parsed json", json);
+        return json;
       }).catch(err => {
           console.log("No Connection", err);
       });
@@ -23,7 +24,7 @@
    * Fecth call to update all algorithms listed on the home screen.
    * @author Aaron S
    */
-  export const retrieveAlgorithms = async (rootStore) => {
+  export const retrieveAlgorithms = async () => {
     const URL = "http://localhost:3001/release?key=key";
     fetch(URL)
       .then(response => {
@@ -34,6 +35,7 @@
       })
       .then(json => {
         console.log("parsed json", json); // access json.body here
+        return json;
       }).catch(err => {
         console.log("No Connection", err);
     });

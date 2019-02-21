@@ -16,4 +16,16 @@ JOIN state_question ON question.id = state_question.question_id
 WHERE state_question.state_id = ?`, [state.Id])
             .then(this.processResults);
     };
+
+    update = (json) => {
+        let options = json.question_options;
+        return this.transporter.select(`update ${this.table} set ${json} where id IN ?;`, [id])
+            .then(this.processResults)
+            .then((res) => {
+                Promise.all(options.map((item) => {
+                    return this.rootStore.QuestionOptionStore.update(item);
+                }))
+                return res;
+            })
+    };
 }

@@ -5,6 +5,7 @@ import StateStore from './StateStore';
 import Transporter from "../common/Transporter";
 import QuestionAnswerStore from "./QuestionAnswerStore";
 import QuestionOptionStore from "./QuestionOptionStore";
+import UpdateStore from './UpdateStore';
 
 export default class RootStore {
     transporter;
@@ -12,6 +13,7 @@ export default class RootStore {
     questionStore;
     recommendationStore;
     stateStore;
+    updateStore;
 
     constructor(dbName) {
         this.transporter         = new Transporter(dbName);
@@ -21,6 +23,7 @@ export default class RootStore {
         this.questionOptionStore = new QuestionOptionStore(this, this.transporter);
         this.recommendationStore = new RecommendationStore(this, this.transporter);
         this.stateStore          = new StateStore(this, this.transporter);
+        this.updateStore         = new UpdateStore(this, this.transporter);
     }
 
     init() {
