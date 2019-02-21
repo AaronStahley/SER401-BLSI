@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   },
   title: { 
       fontSize: 18,
-      alignText: 'center'
   },
   titleLeftView: { 
       flex: 1,
@@ -71,7 +70,6 @@ const styles = StyleSheet.create({
       alignItems: 'center'
   },
   body: {
-    background: 'transparent',
     paddingTop: 10,
     marginBottom: 15
   }
