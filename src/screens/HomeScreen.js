@@ -13,7 +13,11 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
     //Fixes Error where PCH Icon shifts to the right
-    headerRight: <RefreshButton></RefreshButton>
+    headerRight: (<RefreshButton></RefreshButton>),
+    headerLeft: (
+      <View >
+      </View> 
+    )
   });
 
   state = {
