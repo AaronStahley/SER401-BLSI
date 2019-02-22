@@ -4,8 +4,8 @@
    * @author Aaron S
    */
   export const retrieveAlgorithm = async (id) => {
-    const URL = `http://localhost:3001/release/${id}?key=key`;
-    fetch(URL)
+    const URL = `http://192.168.1.2:3001/release/${id}?key=key`; //`http://localhost:3001/release/${id}?key=key`;
+    return fetch(URL)
       .then(response => {
         if (!response.ok) {
           throw resoponse;
@@ -25,8 +25,8 @@
    * @author Aaron S
    */
   export const retrieveAlgorithms = async () => {
-    const URL = "http://localhost:3001/release?key=key";
-    fetch(URL)
+    const URL = "http://192.168.1.2:3001/release?key=key"; //"http://localhost:3001/release?key=key"; 
+    return fetch(URL)
       .then(response => {
         if (!response.ok) {
           throw resoponse;

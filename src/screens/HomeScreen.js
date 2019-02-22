@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions} from 
 import {Card} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
-import RefreshButton from "../components/ui/RefreshButton.js"
+import RefreshAllButton from "../components/ui/RefreshAllButton.js"
 
 import HTMLView from 'react-native-htmlview';
 
@@ -13,11 +13,8 @@ export default class HomeScreen extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
     //Fixes Error where PCH Icon shifts to the right
-    headerRight: (<RefreshButton></RefreshButton>),
-    headerLeft: (
-      <View >
-      </View> 
-    )
+    headerRight: (<RefreshAllButton></RefreshAllButton>),
+    headerLeft: (<View></View>)
   });
 
   state = {

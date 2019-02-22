@@ -4,11 +4,10 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import RefreshButton from "../components/ui/RefreshButton.js"
 
 export default class AlgDescriptionScreen extends React.Component {
-    algorithm = this.props.algorithm
     
     static navigationOptions = ({navigation}) => ({
         //Fixes Error where PCH Icon shifts to the right.
-        headerRight: <RefreshButton algorithm={this.algorithm}></RefreshButton>
+        headerRight: < RefreshButton algorithm={navigation.getParam('algorithm', null)}></RefreshButton>
     });
 
     render() {

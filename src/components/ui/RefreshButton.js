@@ -10,49 +10,35 @@ import {
 @inject("rootStore")
 @observer
 export default class RefreshButton extends React.Component {
-  homeOnPress = async () => {
-    retrieveAlgorithms()
-      .then(json => {
-        if (!json) throw new Error("Data not available");
-
-        return Promise.all(
-          json.map(item => {
-            retrieveAlgorithm(item.id).then(json => {
-              this.props.rootStore.updateStore.update(json);
-            });
-          })
-        );
-      })
-      .catch(err => {
-        console.log("No data available", err);
-      });
-  };
-
   algDescriptOnPress = async () => {
     const algorithm = this.props.algorithm;
+    console.log("Algorithm: " + algorithm.id);
     Promise.resolve(retrieveAlgorithm(algorithm.id)
       .then(json => {
-        if (json === undefined) throw new Error("Data not available");
+        if (!json) throw new Error("Data not available");
         this.props.rootStore.updateStore.update(json);
       })
       .catch(err => {
-        console.log("No data available", err);
+        console.log(err);
+        Alert.alert(
+          "Data not available",
+          "Currently not able to connect to service.",
+          [{
+            text: "Close",
+            style: "cancel"
+          }]
+        )
       }));
   };
 
-  nullOrUndefined(obj){
-      return obj === null || obj === undefined;
-  }
-
   render() {
-    const algoExists = this.nullOrUndefined(this.props.algorithm);
     return (
       <View>
         <TouchableOpacity
           onPress={() =>
             Alert.alert(
-              algoExists ? homeAlertHeader : algDescriptAlertHeader,
-              algoExists ? homeAlert : algDescriptAlert,
+              "Update Algorithm?",
+              "Do you want to upgrade to the newest version ?",
               [
                 {
                   text: "No",
@@ -61,9 +47,7 @@ export default class RefreshButton extends React.Component {
                 },
                 {
                   text: "Yes",
-                  onPress: algoExists
-                    ? this.homeOnPress
-                    : this.algDescriptOnPress
+                  onPress: this.algDescriptOnPress
                 }
               ]
             )
@@ -80,9 +64,3 @@ export default class RefreshButton extends React.Component {
     );
   }
 }
-
-const homeAlertHeader = "Get New Algorithms?  ";
-const homeAlert = "Do you want to add new algorithms to your list?";
-
-const algDescriptAlertHeader = "Update Algorithm?  ";
-const algDescriptAlert = "Do you want to upgrade to the newest version ?";

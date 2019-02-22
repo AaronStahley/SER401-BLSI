@@ -11,8 +11,9 @@ export default class UpdateStore {
     }
 
     update(obj) {
-        let attributes = JSON.parser(obj.attribute_json);
-        let algorithm = JSON.parse(obj.algorithm_json);
+        console.log(obj);
+        let attributes = obj.attribute_json;
+        let algorithm = obj.algorithm_json;
         return this.rootStore.algorithmStore.update(algorithm)
             .then(() => {
                 let states = attributes.states;

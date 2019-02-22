@@ -50,7 +50,7 @@ export default class AbstractStore {
     };
 
     update = (json) => { 
-        return this.transporter.select(`update ${this.table} set ${json} where id IN ?;`, [id])
+        return this.transporter.select(`update ${this.table} set ${json} where id IN ?;`, [json.id])
             .then(this.processResults)
             .then(res => res.length > 0 ? res[0] : null);
     };
