@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
-import {Card} from 'react-native-elements'
+import {Card, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
 import RefreshButton from "../components/ui/RefreshButton.js"
@@ -25,7 +25,8 @@ export default class HomeScreen extends React.Component {
   });
 
   state = {
-    algorithms: []
+    algorithms: [],
+    searchText: ''
   };
 
   componentDidMount() {
@@ -41,12 +42,24 @@ export default class HomeScreen extends React.Component {
     removeOrientationListener();
   }
 
+  updateSearch = (text) => {
+    this.setState({searchText: text});
+  }
+
   render() {
     const { algorithms } = this.state;
     const { navigate } = this.props.navigation;
 
     return (
       <ScrollView style={styles.container}>
+        <SearchBar
+          placeholder='Search algorithm...'
+          onChangeText={this.updateSearch}
+          value={this.state.searchText}
+          containerStyle={styles.searchBarContainer}
+          inputStyle={styles.searchBarInput}
+          clearIcon
+        />
         <View style={setViewStyle()}>
           {algorithms.map(algorithm => (
             <Card
@@ -152,5 +165,13 @@ const styles = StyleSheet.create({
         fontSize    : 16,
         marginBottom: 15,
         borderRadius: 5
+    },
+    searchBarContainer: {
+        backgroundColor  : '#fff',
+        borderTopColor   : 'transparent',
+        borderBottomColor: 'transparent'
+    },
+    searchBarInput: {
+      backgroundColor: '#eaeaea'
     }
 });

@@ -5,21 +5,17 @@ import {observer} from 'mobx-react/native'
 
 @observer
 export default class SearchButton extends React.Component {
-    onPress = () => {
-        console.log('Pressed');
-    }
-
     render() {
         return (
-            <View>
-                <TouchableOpacity onPress={this.onPress}>
+            <TouchableOpacity onPress={this.props.openSearchBar}>
+                <View>
                     <Icon.Ionicons
                         style={{marginRight: 20, marginTop: 5}}
                         color={"#fff"}
                         size={30}
                         name="ios-search" />
-                </TouchableOpacity>
-            </View>
+                </View>
+            </TouchableOpacity>
         );
     }
 }
