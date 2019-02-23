@@ -56,6 +56,12 @@ export default class AbstractStore {
             .then(res => res.length > 0 ? res[0] : null);
     };
 
+    insert = (json) => {
+        return this.transporter.select(`insert into ${this.table} (${Object.keys(json)}) values (${Object.values(json)});`)
+            .then(this.processResults)
+            .then(res => res.length > 0 ? res[0] : null);
+    }
+
     jsonToSqlUpdateString = (json) => {
         let str = "";
         Object.keys(json).forEach((key) => {
