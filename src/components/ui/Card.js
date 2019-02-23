@@ -2,6 +2,7 @@ import React from 'react';
 import { Divider } from 'react-native-elements'
 import { Icon } from "expo";
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import FavoritesIcon from './FavoritesIcon.js'
 
 /**
  * A card that holds a title and body text with a favorites star on the 
@@ -24,13 +25,7 @@ const Card = props => {
                     <Text style={styles.title}>{title}</Text>
                 </View>
                 <View style={styles.titleRightView}>
-                    <TouchableOpacity>
-                    <Icon.Ionicons
-                        color={"black"}
-                        size={20}
-                        name="ios-star-outline"
-                    />
-                    </TouchableOpacity>
+                    <FavoritesIcon/>
                 </View>
         </View>
         <Divider/>
