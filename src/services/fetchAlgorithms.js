@@ -4,11 +4,12 @@
    * @author Aaron S
    */
   export const retrieveAlgorithm = async (id) => {
+    if(!id) throw "Id undefined";
     const URL = `http://192.168.1.2:3001/release/${id}?key=key`; //`http://localhost:3001/release/${id}?key=key`;
     return fetch(URL)
       .then(response => {
         if (!response.ok) {
-          throw resoponse;
+          throw response;
         }
         return response.json();
       })
@@ -29,7 +30,7 @@
     return fetch(URL)
       .then(response => {
         if (!response.ok) {
-          throw resoponse;
+          throw response;
         }
         return response.json();
       })

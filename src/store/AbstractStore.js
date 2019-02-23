@@ -50,10 +50,30 @@ export default class AbstractStore {
     };
 
     update = (json) => { 
-        return this.transporter.select(`update ${this.table} set ${json} where id IN ?;`, [json.id])
+        let str = this.jsonToSqlUpdateString(json);
+        return this.transporter.select(`update ${this.table} set ${str} where ${json.id};`)
             .then(this.processResults)
             .then(res => res.length > 0 ? res[0] : null);
     };
+
+    jsonToSqlUpdateString = (json) => {
+        let str = "";
+        Object.keys(json).forEach((key) => {
+            str += key +
+                " = ";
+            if((typeof json[key]) === 'string'){
+                str += "'" + json[key] + "'";
+            }
+            else {
+                str += json[key];
+            }    
+            str += ", ";
+        });
+            
+        let len = str.length;
+        str = str.substring(0, len-2);
+        return str;
+    }
 
     convertFieldNames = (row) => {
         let mappedObj = {};
