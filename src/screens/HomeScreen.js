@@ -1,10 +1,15 @@
 import React, { Fragment } from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native';
-import {Card, SearchBar} from 'react-native-elements'
+
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight} from 'react-native';
+import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
+import {Button} from '../components/ui/Button'
 import RefreshButton from "../components/ui/RefreshButton.js"
+import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
+
+import HTMLView from 'react-native-htmlview';
 
 @inject("rootStore")
 @observer
@@ -51,47 +56,50 @@ export default class HomeScreen extends React.Component {
     const { navigate } = this.props.navigation;
 
     return (
-      <ScrollView style={styles.container}>
-        <SearchBar
-          placeholder='Search algorithm...'
-          onChangeText={this.updateSearch}
-          value={this.state.searchText}
-          containerStyle={styles.searchBarContainer}
-          inputStyle={styles.searchBarInput}
-          clearIcon
+      <View style={styles.container}>
+        <ButtonGroup
+          buttons={["All", "Favorites"]}
+          containerStyle={styles.buttonGroupContainer}
         />
-        <View style={setViewStyle()}>
-          {algorithms.map(algorithm => (
-            <Card
-              key={algorithm.Id}
-              title={algorithm.Name}
-              containerStyle={setAlgContainerStyle()}
-            >
-              <Text style={{ marginBottom: 10 }}>
-                {algorithm.ShortDescription}
-              </Text>
-              <View style={styles.buttonContiner}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() =>
-                    navigate("AlgDescription", { algorithm: algorithm })
-                  }
-                >
-                  <Text style={styles.buttonText}>Info</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() =>
-                    navigate("Conversation", { algorithm: algorithm })
-                  }
-                >
-                  <Text style={styles.buttonText}>Start</Text>
-                </TouchableOpacity>
-              </View>
-            </Card>
-          ))}
-        </View>
-      </ScrollView>
+
+        <ScrollView>
+          <SearchBar
+            placeholder='Search algorithm...'
+            onChangeText={this.updateSearch}
+            value={this.state.searchText}
+            containerStyle={styles.searchBarContainer}
+            inputStyle={styles.searchBarInput}
+            clearIcon
+          />
+          <View style={setViewStyle()}>
+            {algorithms.map(algorithm => (
+
+              <Card
+                title={algorithm.Name}
+                bodyText={algorithm.ShortDescription}
+              >
+                <View style={styles.buttonContiner}>
+                  <Button
+                    onPress={() =>
+                      navigate("AlgDescription", { algorithm: algorithm })
+                    }
+                  >
+                    Info
+                  </Button>
+                  <Button
+                    onPress={() =>
+                      navigate("Conversation", { algorithm: algorithm })
+                    }
+                  >
+                    Start
+                  </Button>
+
+                  </View>
+               </Card>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -134,44 +142,38 @@ const setAlgContainerStyle = function() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex           : 1,
-        backgroundColor: '#fff'
-    },
-    titleText: {
-        fontSize    : 20,
-        marginBottom: 30,
-    },
-    descriptionText: {
-        marginBottom: 10
-    },
-    button: {
-        flex: 1,
-        backgroundColor: '#ee3e41',
-        borderWidth    : 0,
-        borderRadius   : 5,
-        alignItems     : 'center',
-        margin         : 5
-    },
-    buttonText:{
-        color   : '#fff',
-        fontSize: 16,
-        margin  : 5
-    },
-    buttonContiner:{
-        flexDirection: 'row',
-
-    },bodyText:{
-        fontSize    : 16,
-        marginBottom: 15,
-        borderRadius: 5
-    },
-    searchBarContainer: {
-        backgroundColor  : '#fff',
-        borderTopColor   : 'transparent',
-        borderBottomColor: 'transparent'
-    },
-    searchBarInput: {
-      backgroundColor: '#eaeaea'
-    }
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
+  buttonGroupContainer: {
+    height: 25,
+    marginLeft: -10,
+    marginRight: null,
+    marginTop: -.1,
+    width: "105%",
+  },
+  titleText: {
+    fontSize: 20,
+    marginBottom: 30
+  },
+  descriptionText: {
+    marginBottom: 10
+  },
+  buttonContiner: {
+    flexDirection: "row" //Aligns buttons next to one another. 
+  },
+  bodyText: {
+    fontSize: 16,
+    marginBottom: 15,
+    borderRadius: 5
+  },
+  searchBarContainer: {
+    backgroundColor  : '#fff',
+    borderTopColor   : 'transparent',
+    borderBottomColor: 'transparent'
+  },
+  searchBarInput: {
+    backgroundColor: '#eaeaea'
+  }
 });
