@@ -3,16 +3,16 @@ import BluebirdPromise from "../common/BluebirdPromise";
 export default class AbstractStore {
     collection = {};
     storeLocally;
-    allFound   = false;
+    allFound = false;
     transporter;
     model;
     table;
 
     constructor(model, tableName, rootStore, transporter, storeLocally = false) {
-        this.model        = model;
-        this.transporter  = transporter;
-        this.rootStore    = rootStore;
-        this.table        = tableName;
+        this.model = model;
+        this.transporter = transporter;
+        this.rootStore = rootStore;
+        this.table = tableName;
         this.storeLocally = storeLocally;
     }
 
@@ -49,9 +49,9 @@ export default class AbstractStore {
             });
     };
 
-    update = (json) => { 
+    update = (json) => {
         let str = this.jsonToSqlUpdateString(json);
-        return this.transporter.select(`update ${this.table} set ${str} where ${json.id};`)
+        return this.transporter.select(`update ${this.table} set ${str} where id = ${json.id};`)
             .then(this.processResults)
             .then(res => res.length > 0 ? res[0] : null);
     };
@@ -62,22 +62,52 @@ export default class AbstractStore {
             .then(res => res.length > 0 ? res[0] : null);
     }
 
+    delete = (id) => {
+        return this.transporter.select(`delete from ${this.table} where id = ?;`, [id])
+            .then(this.processResults)
+            .then(res => res.length > 0 ? res[0] : null);
+    }
+
+    updateOrInsert = (json) => {
+        return this.update(json)
+            .then((res) => {
+                console.log(res);
+                if (res) {
+                    return this.insert(json);
+                }
+                return res;
+            })
+            .then(this.processResults)
+            .then(res => res.length > 0 ? res[0] : null);
+    };
+
+    deleteThenInsert = (json) => {
+        return this.findPK(json.id)
+            .then((res) => {
+                if(res !== null) {
+                    this.delete(json.id)
+                        .then(this.insert)
+                }   
+                return false;
+            })
+    }
+
     jsonToSqlUpdateString = (json) => {
         let str = "";
         Object.keys(json).forEach((key) => {
-            str += key +
-                " = ";
-            if((typeof json[key]) === 'string'){
-                str += "'" + json[key] + "'";
+            if (key !== "id") {
+                str += key + " = ";
+                if ((typeof json[key]) === 'string') {
+                    str += "'" + json[key] + "'";
+                } else {
+                    str += json[key];
+                }
+                str += ", ";
             }
-            else {
-                str += json[key];
-            }    
-            str += ", ";
         });
-            
+
         let len = str.length;
-        str = str.substring(0, len-2);
+        str = str.substring(0, len - 2);
         return str;
     }
 

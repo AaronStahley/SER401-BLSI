@@ -15,29 +15,21 @@ export default class UpdateStore {
         console.log(obj);
         let attributes = JSON.parse(obj.attribute_json);
         let algorithm = JSON.parse(obj.algorithm_json);
-        delete algorithm["date_modified"];
-        delete algorithm["date_created"];
         return this.rootStore.algorithmStore.update(algorithm)
             .then(() => {
                 let states = attributes.states;
                 return Promise.all(states.map((item) => {
-                    delete item["date_modified"];
-                    delete item["date_created"];
                     this.rootStore.stateStore.update(item);
                 }));
             }).then(() => {
                 let recommendations = attributes.recommendations;
                 return Promise.all(recommendations.map((item) => {
-                    delete item["date_modified"];
-                    delete item["date_created"];
                     this.rootStore.recommendationStore.update(item);
                 }));
             }).then(() => {
                 let questions = attributes.questions;
-                delete item["date_modified"];
-                delete item["date_created"];
                 return Promise.all(questions.map((item) => {
-                    this.rootStore.questionsStore.update(item);
+                    this.rootStore.questionStore.update(item);
                 }));
             }).catch(err => {
                 console.log(err);

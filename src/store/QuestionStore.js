@@ -19,7 +19,9 @@ WHERE state_question.state_id = ?`, [state.Id])
 
     update = (json) => {
         let options = json.question_options;
-        return this.transporter.select(`update ${this.table} set ${json} where id IN ?;`, [id])
+        delete json.question_options;
+        
+        return this.transporter.select(`update ${this.table} set ${json} where id = ${json.id}`)
             .then(this.processResults)
             .then((res) => {
                 Promise.all(options.map((item) => {
