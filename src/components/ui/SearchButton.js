@@ -10,7 +10,7 @@ export default class SearchButton extends React.Component {
             <TouchableOpacity onPress={this.props.openSearchBar}>
                 <View>
                     <Icon.Ionicons
-                        style={{marginRight: 20, marginTop: 5}}
+                        style={{marginRight: 10, marginTop: 5}}
                         color={"#fff"}
                         size={30}
                         name="ios-search" />

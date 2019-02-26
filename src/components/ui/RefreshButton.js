@@ -37,7 +37,7 @@ export default class RefreshButton extends React.Component {
             }
         >
           <Icon.Ionicons
-            style={{ marginRight: 10, marginTop: 5 }}
+            style={{ marginLeft: 10, marginTop: 5 }}
             color={"#fff"}
             size={30}
             name="ios-refresh"
