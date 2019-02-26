@@ -14,27 +14,33 @@ import HTMLView from 'react-native-htmlview';
 @inject("rootStore")
 @observer
 export default class HomeScreen extends React.Component {
-
-  static navigationOptions = ({ navigation }) => ({
-    //Fixes Error where PCH Icon shifts to the right
-    headerRight: (
-      <Fragment>
-        <SearchButton></SearchButton>
-        <RefreshButton></RefreshButton>
-      </Fragment>
-    ),
-    headerLeft: (
-      <View >
-      </View> 
-    )
-  });
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    
+    return {
+      headerRight: (
+          <SearchButton openSearchBar={params.handleSeach}/>
+      ),
+      headerLeft: (
+          <RefreshButton />
+        )
+    
+    };
+  }
 
   state = {
     algorithms: [],
-    searchText: ''
+    searchText: "",
+    popUpSearch: false
   };
 
   componentDidMount() {
+
+    //Sets the parametors that are passed to the navigationOpions. 
+    this.props.navigation.setParams({
+      handleSeach: this.setSearchState
+    });
+
     listenOrientationChange(this);
     this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
       this.setState({
@@ -47,9 +53,39 @@ export default class HomeScreen extends React.Component {
     removeOrientationListener();
   }
 
-  updateSearch = (text) => {
-    this.setState({searchText: text});
+  //Sets the state of if the serch bar should pop up based on the header icon press. 
+  setSearchState = () =>  { 
+    if (this.state.popUpSearch == false){
+      this.setState({ popUpSearch: true}, function() { 
+        this.renderSearch()
+      });
+    }else { 
+      this.setState({ popUpSearch: false})
+      this.renderSearch()
+    }
   }
+
+  //Renders the search bar bellow header. 
+  renderSearch = () => {
+
+    if(this.state.popUpSearch == true){
+    return(
+      <SearchBar
+        placeholder="Search algorithm..."
+        onChangeText={this.updateSearch}
+        value={this.state.searchText}
+        containerStyle={styles.searchBarContainer}
+        inputStyle={styles.searchBarInput}
+        clearIcon
+      />
+    );}else { 
+      return null
+    }
+  };
+
+  updateSearch = text => {
+    this.setState({ searchText: text });
+  };
 
   render() {
     const { algorithms } = this.state;
@@ -61,19 +97,10 @@ export default class HomeScreen extends React.Component {
           buttons={["All", "Favorites"]}
           containerStyle={styles.buttonGroupContainer}
         />
-
         <ScrollView>
-          <SearchBar
-            placeholder='Search algorithm...'
-            onChangeText={this.updateSearch}
-            value={this.state.searchText}
-            containerStyle={styles.searchBarContainer}
-            inputStyle={styles.searchBarInput}
-            clearIcon
-          />
+          {this.renderSearch()}
           <View style={setViewStyle()}>
             {algorithms.map(algorithm => (
-
               <Card
                 title={algorithm.Name}
                 bodyText={algorithm.ShortDescription}
@@ -93,9 +120,8 @@ export default class HomeScreen extends React.Component {
                   >
                     Start
                   </Button>
-
-                  </View>
-               </Card>
+                </View>
+              </Card>
             ))}
           </View>
         </ScrollView>
