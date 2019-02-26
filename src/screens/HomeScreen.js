@@ -77,6 +77,7 @@ export default class HomeScreen extends React.Component {
         containerStyle={styles.searchBarContainer}
         inputStyle={styles.searchBarInput}
         clearIcon
+        autoFocus={true}
       />
     );}else { 
       return null
@@ -85,6 +86,17 @@ export default class HomeScreen extends React.Component {
 
   updateSearch = text => {
     this.setState({ searchText: text });
+    let {algorithms} = this.state;
+    var names = algorithms.map(algorithm => (algorithm.Name));
+    for (var i = 0; i < names.length; i++) {
+      console.log(names[i] + ' ' + text + ' ' + this.includesText(names[i], text));
+    }
+  };
+
+  includesText = (baseText, toSearchFor) => {
+    baseText = baseText.toLowerCase();
+    toSearchFor = toSearchFor.toLowerCase();
+    return baseText.includes(toSearchFor) && baseText !== '' && toSearchFor !== '';
   };
 
   render() {
