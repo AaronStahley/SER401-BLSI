@@ -31,6 +31,7 @@ export default class HomeScreen extends React.Component {
   state = {
     algorithms: [],
     searchText: "",
+    selectedIndex: 0, 
     popUpSearch: false
   };
 
@@ -65,6 +66,10 @@ export default class HomeScreen extends React.Component {
     }
   }
 
+  updateIndex = (selectedIndex) => {
+    this.setState({ selectedIndex })
+  }
+
   //Renders the search bar bellow header. 
   renderSearch = () => {
 
@@ -89,34 +94,41 @@ export default class HomeScreen extends React.Component {
   };
 
   // Algorithm renders if search text is empty or search text matches algorithm name
-  renderAlgorithm = (algorithm, search) => {
+  renderAlgorithm = (navigate, algorithm, search) => {
     var name = algorithm.Name.toLowerCase();
     var search = search.toLowerCase();
     var match = name.includes(search) && name !== '' && search !== '';
 
-    if (this.state.searchText === '' || match) {
-      return (
-        <Card 
-          title={algorithm.Name} 
-          bodyText={algorithm.ShortDescription}
+    let content = (
+    <Card
+      title={algorithm.Name}
+      bodyText={algorithm.ShortDescription}
+       >
+      <View style={styles.buttonContiner}>
+        <Button
+          onPress={() =>
+            navigate("AlgDescription", { algorithm: algorithm })
+          }
         >
-          <View style={styles.buttonContiner}>
-            <Button 
-              onPress={() =>
-                navigate("AlgDescription", { algorithm: algorithm })
-              }
-            >
-              Info
+          Info
             </Button>
-            <Button
-              onPress={() =>
-                navigate("Conversation", { algorithm: algorithm })
-              }
-            >
-              Start
+        <Button
+          onPress={() =>
+            navigate("Conversation", { algorithm: algorithm })
+          }
+        >
+          Start
             </Button>
-          </View>
-        </Card>
+      </View>
+    </Card>)
+
+    if (this.state.selectedIndex == 1 && algorithm.IsFavorited == 1 && (this.state.searchText === '' || match)) {
+      return (
+        content
+      )
+    }else if (this.state.selectedIndex == 0 && (this.state.searchText === '' || match)) { 
+      return (
+        content
       )
     }
   };
@@ -125,16 +137,21 @@ export default class HomeScreen extends React.Component {
     const { algorithms } = this.state;
     const { navigate } = this.props.navigation;
 
+    const buttons = ['All', 'Favorites']
+    const { selectedIndex } = this.state
+
     return (
       <View style={styles.container}>
         <ButtonGroup
-          buttons={["All", "Favorites"]}
+          buttons={buttons}
+          onPress={this.updateIndex}
+          selectedIndex={selectedIndex}
           containerStyle={styles.buttonGroupContainer}
         />
         <ScrollView>
           {this.renderSearch()}
           <View style={setViewStyle()}>
-            {algorithms.map(algorithm => this.renderAlgorithm(algorithm, this.state.searchText))}
+            {algorithms.map(algorithm => this.renderAlgorithm(navigate, algorithm, this.state.searchText))}
           </View>
         </ScrollView>
       </View>
