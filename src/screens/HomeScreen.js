@@ -86,17 +86,39 @@ export default class HomeScreen extends React.Component {
 
   updateSearch = text => {
     this.setState({ searchText: text });
-    let {algorithms} = this.state;
-    var names = algorithms.map(algorithm => (algorithm.Name));
-    for (var i = 0; i < names.length; i++) {
-      console.log(names[i] + ' ' + text + ' ' + this.includesText(names[i], text));
-    }
   };
 
-  includesText = (baseText, toSearchFor) => {
-    baseText = baseText.toLowerCase();
-    toSearchFor = toSearchFor.toLowerCase();
-    return baseText.includes(toSearchFor) && baseText !== '' && toSearchFor !== '';
+  // Algorithm renders if search text is empty or search text matches algorithm name
+  renderAlgorithm = (algorithm, search) => {
+    var name = algorithm.Name.toLowerCase();
+    var search = search.toLowerCase();
+    var match = name.includes(search) && name !== '' && search !== '';
+
+    if (this.state.searchText === '' || match) {
+      return (
+        <Card 
+          title={algorithm.Name} 
+          bodyText={algorithm.ShortDescription}
+        >
+          <View style={styles.buttonContiner}>
+            <Button 
+              onPress={() =>
+                navigate("AlgDescription", { algorithm: algorithm })
+              }
+            >
+              Info
+            </Button>
+            <Button
+              onPress={() =>
+                navigate("Conversation", { algorithm: algorithm })
+              }
+            >
+              Start
+            </Button>
+          </View>
+        </Card>
+      )
+    }
   };
 
   render() {
@@ -112,29 +134,7 @@ export default class HomeScreen extends React.Component {
         <ScrollView>
           {this.renderSearch()}
           <View style={setViewStyle()}>
-            {algorithms.map(algorithm => (
-              <Card
-                title={algorithm.Name}
-                bodyText={algorithm.ShortDescription}
-              >
-                <View style={styles.buttonContiner}>
-                  <Button
-                    onPress={() =>
-                      navigate("AlgDescription", { algorithm: algorithm })
-                    }
-                  >
-                    Info
-                  </Button>
-                  <Button
-                    onPress={() =>
-                      navigate("Conversation", { algorithm: algorithm })
-                    }
-                  >
-                    Start
-                  </Button>
-                </View>
-              </Card>
-            ))}
+            {algorithms.map(algorithm => this.renderAlgorithm(algorithm, this.state.searchText))}
           </View>
         </ScrollView>
       </View>
