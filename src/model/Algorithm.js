@@ -8,4 +8,5 @@ export default class Algorithm extends AbstractModel {
     StateIdStart     = null;
     Description      = null;
     ShortDescription = null;
+    IsFavorited        = null; 
 }
