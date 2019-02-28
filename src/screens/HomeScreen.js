@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight} from 'react-native';
+import { ScrollView, StyleSheet,Platform,Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight} from 'react-native';
 import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
