@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight, LayoutAnimation, UIManager} from 'react-native';
+import { ScrollView, StyleSheet,Platform,Text, View, TouchableOpacity, Dimensions, Alert, LayoutAnimation, UIManager, TouchableHighlight} from 'react-native';
 import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
@@ -8,6 +8,9 @@ import {Button} from '../components/ui/Button'
 import RefreshButton from "../components/ui/RefreshButton.js"
 import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
+import FavoritesIcon from "../components/ui/FavoritesIcon.js";
+import Colors from "../common/Colors";
+
 
 import HTMLView from 'react-native-htmlview';
 
@@ -23,16 +26,25 @@ var searchBarTransition = {
 @observer
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
+
     const { params = {} } = navigation.state;
-    
+
     return {
+      
       headerRight: (
           <SearchButton openSearchBar={params.handleSeach}/>
       ),
       headerLeft: (
           <RefreshButton />
-        )
-    
+      ), headerStyle: {
+
+        backgroundColor: Colors.navBarBackground,
+        marginTop: 10,
+        paddingBottom: 10,
+        height: 50,
+        elevation: 0, //Removes the underline from nav
+        borderBottomWidth: 0,
+      }
     };
   }
 
@@ -112,7 +124,8 @@ export default class HomeScreen extends React.Component {
     <Card
       title={algorithm.Name}
       bodyText={algorithm.ShortDescription}
-       >
+      favIcon={<FavoritesIcon isSelected={algorithm.IsFavorited}/>}
+      >
       <View style={styles.buttonContiner}>
         <Button
           onPress={() =>
@@ -151,16 +164,28 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <View style={styles.outerButtonGroupContainer}>
         <ButtonGroup
           buttons={buttons}
           onPress={this.updateIndex}
           selectedIndex={selectedIndex}
           containerStyle={styles.buttonGroupContainer}
-        />
+          buttonStyle={styles.buttonGroup}
+          selectedButtonStyle={styles.buttonGroupEnabled}
+          selectedTextStyle={{ color: "white" }}
+          textStyle={{ color: "white", fontSize: 18}}
+          innerBorderStyle={{ width: 1.5, color: "#ee3e41" }}
+        /></View>
         <ScrollView>
           {this.renderSearch()}
           <View style={setViewStyle()}>
-            {algorithms.map(algorithm => this.renderAlgorithm(navigate, algorithm, this.state.searchText))}
+            {algorithms.map(algorithm =>
+              this.renderAlgorithm(
+                navigate,
+                algorithm,
+                this.state.searchText
+              )
+            )}
           </View>
         </ScrollView>
       </View>
@@ -208,14 +233,44 @@ const setAlgContainerStyle = function() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
     backgroundColor: "#fff"
   },
+  outerButtonGroupContainer: {
+    // backgroundColor: "#ee3e41",
+    position: "relative",
+    ...Platform.select({
+      ios: {
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2
+      }
+    })
+  },
   buttonGroupContainer: {
-    height: 25,
-    marginLeft: -10,
-    marginRight: null,
-    marginTop: -.1,
-    width: "105%",
+    height: 50,
+    marginTop: -3,
+    marginLeft: 0,
+    marginRight: 0,
+    borderRadius: 0,
+    borderWidth: 0,
+    ...Platform.select({
+      android: {
+        borderBottomColor: "rgba(0, 0, 0, 0.08)",
+        borderBottomWidth: 3
+      }
+    })
+  },
+  buttonGroup: {
+    backgroundColor: Colors.PCH_RED,
+    paddingTop: 10
+  },
+  buttonGroupEnabled: {
+    backgroundColor: Colors.PCH_RED,
+    borderTopColor: Colors.PCH_RED,
+    borderBottomColor: "white",
+    borderBottomWidth: 3
   },
   titleText: {
     fontSize: 20,
@@ -225,7 +280,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   buttonContiner: {
-    flexDirection: "row" //Aligns buttons next to one another. 
+    flexDirection: "row" //Aligns buttons next to one another.
   },
   bodyText: {
     fontSize: 16,
@@ -233,11 +288,11 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   searchBarContainer: {
-    backgroundColor  : '#fff',
-    borderTopColor   : 'transparent',
-    borderBottomColor: 'transparent'
+    backgroundColor: "#fff",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent"
   },
   searchBarInput: {
-    backgroundColor: '#eaeaea'
+    backgroundColor: "#eaeaea"
   }
 });

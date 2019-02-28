@@ -1,4 +1,6 @@
 export default {
+  PCH_RED: "#ee3e41",
+
   tabIconDefault: "#fff",
   tabIconSelected: "#dddddd",
   errorBackground: "red",

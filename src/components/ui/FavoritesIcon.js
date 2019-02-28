@@ -19,6 +19,26 @@ export default class FavoritesIcon extends React.Component {
         iconName: "ios-star-outline" 
     };
 
+    test() { 
+
+       if(this.props.isSelected === 1) {
+           this.setState({enabled: true})
+           this.setState({ enabled: true, color: Colors.favoritesEnabled, iconName: "ios-star" }) 
+       }else { 
+           this.setState({ enabled: false })
+           this.setState({ enabled: false, color: Colors.favoritesDisabled, iconName: "ios-star-outline" }) 
+       }
+    }
+
+    componentDidMount() { 
+        this.test();
+        this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
+            this.setState({
+                algorithms: res
+            });
+        });
+    }
+
     enableDisable = () => {
         if (this.state.enabled == false) {
             this.setState({ enabled: true, color: Colors.favoritesEnabled, iconName: "ios-star" }, function() { 

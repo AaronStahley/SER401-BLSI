@@ -11,11 +11,7 @@ import FavoritesIcon from './FavoritesIcon.js'
  */
 const Card = props => { 
 
-    const { 
-        children,
-        title,
-        bodyText,
-    } = props;
+    const { children, title, bodyText, favIcon } = props;
 
     return (
       <View style={styles.container}>
@@ -25,7 +21,7 @@ const Card = props => {
                     <Text style={styles.title}>{title}</Text>
                 </View>
                 <View style={styles.titleRightView}>
-                    <FavoritesIcon/>
+                    {favIcon}
                 </View>
         </View>
         <Divider/>
