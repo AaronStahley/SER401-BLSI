@@ -13,4 +13,22 @@ JOIN state_recommendation ON recommendation.id = state_recommendation.recommenda
 WHERE state_recommendation.state_id = ?`, [state.Id])
             .then(this.processResults);
     };
+
+    updateAll = (recommendations) => {
+        return Promise.all(recommendations.map((item) => {
+            this.update(item);
+        }));
+    }
+
+    insertAll = (recommendations) => {
+        return Promise.all(recommendations.map((item) => {
+            this.insert(item);
+        }));
+    }
+
+    updateOrInsertAll = (recommendations) => {
+        return Promise.all(recommendations.map((item) => {
+            this.updateOrInsert(item);
+        }));
+    }
 }
