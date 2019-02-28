@@ -39,7 +39,7 @@ export default class RefreshAllButton extends React.Component {
       }>
       <Icon.Ionicons style = {
         {
-          marginRight: 10,
+          marginLeft: 10,
           marginTop: 5
         }
       }

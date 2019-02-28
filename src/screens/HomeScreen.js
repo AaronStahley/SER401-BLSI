@@ -6,7 +6,6 @@ import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
 import RefreshAllButton from "../components/ui/RefreshAllButton.js"
 import {Button} from '../components/ui/Button'
-import RefreshButton from "../components/ui/RefreshButton.js"
 import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
 import FavoritesIcon from "../components/ui/FavoritesIcon.js";
@@ -35,7 +34,7 @@ export default class HomeScreen extends React.Component {
           <SearchButton openSearchBar={params.handleSeach}/>
       ),
       headerLeft: (
-          <RefreshButton />
+          <RefreshAllButton></RefreshAllButton>
       ), headerStyle: {
 
         backgroundColor: Colors.navBarBackground,
