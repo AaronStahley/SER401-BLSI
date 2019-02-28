@@ -7,14 +7,20 @@ export default class StateStore extends AbstractStore {
         super(State, 'state', rootStore, transporter);
     }
 
-    update = (json) => {
+    updateAll = (states) => {
+        return Promise.all(states.map((item) => {
+            //item has nested info
+            this.updateWithParts(item);
+        }));
+    }
+    
+    updateWithParts = (json) => {
         let question_ids = json.question_ids;
         delete json.question_ids;
-
         let recommendation_ids = json.recommendation_ids;
         delete json.recommendation_ids;
 
-        return this.transporter.select(`update ${this.table} set ${json} where id = ${json.id}`)
+        return this.update(json)
             .then(this.processResults)
             .then((res) => {
                 Promise.all(question_ids.map((item) => {
@@ -27,6 +33,73 @@ export default class StateStore extends AbstractStore {
             }).then((res) => {
                 Promise.all(recommendation_ids.map((item) => {
                     return this.rootStore.StateRecommendationStore.update({
+                        id: json.id,
+                        recommendation_id: item
+                    });
+                }))
+                return res;
+            })
+    };
+
+    insertAll = (states) => {
+        return Promise.all(states.map((item) => {
+            //item has nested info
+            this.insertWithParts(item);
+        }));
+    }
+
+    insertWithParts = (json) => {
+        let question_ids = json.question_ids;
+        delete json.question_ids;
+        let recommendation_ids = json.recommendation_ids;
+        delete json.recommendation_ids;
+
+        return this.insert(json)
+            .then((res) => {
+                Promise.all(question_ids.map((item) => {
+                    return this.rootStore.StateQuestionStore.insert({
+                        id: json.id,
+                        question_id: item
+                    });
+                }))
+                return res;
+            }).then((res) => {
+                Promise.all(recommendation_ids.map((item) => {
+                    return this.rootStore.StateRecommendationStore.insert({
+                        id: json.id,
+                        recommendation_id: item
+                    });
+                }))
+                return res;
+            })
+    };
+
+    updateOrInsertAll = (states) => {
+        return Promise.all(states.map((item) => {
+            //item has nested info
+            this.updateOrInsertWithParts(item);
+        }));
+    }
+
+    updateOrInsertWithParts = (json) => {
+        let question_ids = json.question_ids;
+        delete json.question_ids;
+        let recommendation_ids = json.recommendation_ids;
+        delete json.recommendation_ids;
+
+        return this.updateOrInsert(json)
+            .then(this.processResults)
+            .then((res) => {
+                Promise.all(question_ids.map((item) => {
+                    return this.rootStore.StateQuestionStore.updateOrInsert({
+                        id: json.id,
+                        question_id: item
+                    });
+                }))
+                return res;
+            }).then((res) => {
+                Promise.all(recommendation_ids.map((item) => {
+                    return this.rootStore.StateRecommendationStore.updateOrInsert({
                         id: json.id,
                         recommendation_id: item
                     });

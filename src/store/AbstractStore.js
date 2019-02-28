@@ -51,19 +51,22 @@ export default class AbstractStore {
 
     update = (json) => {
         let str = this.jsonToSqlUpdateString(json);
-        return this.transporter.select(`update ${this.table} set ${str} where id = ${json.id};`)
-            .then(this.processResults)
+        return this.transporter.select(`update ${this.table} set ${str} where id = ${json.id}`)
+            //.then(this.processResults)
             .then(res => res.length > 0 ? res[0] : null);
     };
 
     insert = (json) => {
-        return this.transporter.select(`insert into ${this.table} (${Object.keys(json)}) values (${Object.values(json)});`)
-            .then(this.processResults)
+        delete json.id;
+        return this.jsonToSqlInsertString(Object.values(json))
+            .then((str) => this.transporter.select(`insert into ${this.table} 
+                (${Object.keys(json)}) values (${str})`)
+            )//.then(this.processResults)
             .then(res => res.length > 0 ? res[0] : null);
     }
 
     delete = (id) => {
-        return this.transporter.select(`delete from ${this.table} where id = ?;`, [id])
+        return this.transporter.select(`delete from ${this.table} where id = ${id}`)
             .then(this.processResults)
             .then(res => res.length > 0 ? res[0] : null);
     }
@@ -72,24 +75,11 @@ export default class AbstractStore {
         return this.update(json)
             .then((res) => {
                 console.log(res);
-                if (res) {
-                    return this.insert(json);
-                }
-                return res;
-            })
-            .then(this.processResults)
-            .then(res => res.length > 0 ? res[0] : null);
-    };
+                if(res) {
 
-    deleteThenInsert = (json) => {
-        return this.findPK(json.id)
-            .then((res) => {
-                if(res !== null) {
-                    this.delete(json.id)
-                        .then(this.insert)
-                }   
-                return false;
-            })
+                }
+                //this.insert(json);
+            });
     }
 
     jsonToSqlUpdateString = (json) => {
@@ -97,18 +87,43 @@ export default class AbstractStore {
         Object.keys(json).forEach((key) => {
             if (key !== "id") {
                 str += key + " = ";
+
                 if ((typeof json[key]) === 'string') {
                     str += "'" + json[key] + "'";
+                } else if(json[key] === "null") {
+                    str += json[key].toUpperCase();
                 } else {
                     str += json[key];
                 }
+
                 str += ", ";
             }
         });
 
+        //Finish string
         let len = str.length;
         str = str.substring(0, len - 2);
         return str;
+    }
+
+    jsonToSqlInsertString = (values) => {
+        let str = "";
+        return Promise.all(values.map((item) => {
+            if ((typeof item) === 'string') {
+                str += "'" + item + "'";
+            } else if (item === "null") {
+                str += item.toUpperCase();
+            } else {
+                str += item;
+            }
+
+            str += ", ";
+        }))
+        .then(() => {
+            let len = str.length;
+            str = str.substring(0, len - 2);
+            return str;
+        });
     }
 
     convertFieldNames = (row) => {

@@ -18,7 +18,7 @@ export default class RefreshAllButton extends React.Component {
           json.collection.map(item => {
             retrieveAlgorithm(item.id)
               .then(json => {
-                this.props.rootStore.updateStore.findDeleteInsert(json);
+                this.props.rootStore.updateStore.updateOrInsert(json);
               })
           })
         );
