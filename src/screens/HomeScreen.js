@@ -8,6 +8,9 @@ import {Button} from '../components/ui/Button'
 import RefreshButton from "../components/ui/RefreshButton.js"
 import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
+import FavoritesIcon from "../components/ui/FavoritesIcon.js";
+import Colors from "../common/Colors";
+
 
 import HTMLView from 'react-native-htmlview';
 
@@ -15,16 +18,25 @@ import HTMLView from 'react-native-htmlview';
 @observer
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
+
     const { params = {} } = navigation.state;
-    
+
     return {
+      
       headerRight: (
           <SearchButton openSearchBar={params.handleSeach}/>
       ),
       headerLeft: (
           <RefreshButton />
-        )
-    
+      ), headerStyle: {
+
+        backgroundColor: Colors.navBarBackground,
+        marginTop: 10,
+        paddingBottom: 10,
+        height: 50,
+        elevation: 0, //Removes the underline from nav
+        borderBottomWidth: 0,
+      }
     };
   }
 
@@ -103,7 +115,8 @@ export default class HomeScreen extends React.Component {
     <Card
       title={algorithm.Name}
       bodyText={algorithm.ShortDescription}
-       >
+      favIcon={<FavoritesIcon isSelected={algorithm.IsFavorited}/>}
+      >
       <View style={styles.buttonContiner}>
         <Button
           onPress={() =>
@@ -142,16 +155,28 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
+        <View style={styles.outerButtonGroupContainer}>
         <ButtonGroup
           buttons={buttons}
           onPress={this.updateIndex}
           selectedIndex={selectedIndex}
           containerStyle={styles.buttonGroupContainer}
-        />
+          buttonStyle={styles.buttonGroup}
+          selectedButtonStyle={styles.buttonGroupEnabled}
+          selectedTextStyle={{ color: "white" }}
+          textStyle={{ color: "white" }}
+          innerBorderStyle={{ width: 0, color: "#ee3e41" }}
+        /></View>
         <ScrollView>
           {this.renderSearch()}
           <View style={setViewStyle()}>
-            {algorithms.map(algorithm => this.renderAlgorithm(navigate, algorithm, this.state.searchText))}
+            {algorithms.map(algorithm =>
+              this.renderAlgorithm(
+                navigate,
+                algorithm,
+                this.state.searchText
+              )
+            )}
           </View>
         </ScrollView>
       </View>
@@ -201,12 +226,30 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
+  outerButtonGroupContainer: { 
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 1
+  },
   buttonGroupContainer: {
-    height: 25,
+    height: 50,
+    marginTop: -3,
     marginLeft: -10,
-    marginRight: null,
-    marginTop: -.1,
-    width: "105%",
+    borderRadius: 0,
+    borderWidth: 0,
+    width: "105%",  
+  },
+  buttonGroup: {
+    backgroundColor: "#ee3e41",
+    paddingTop: 10
+  },
+  buttonGroupEnabled: {
+    backgroundColor: "#ee3e41",
+    borderTopColor: "#ee3e41",
+    borderBottomColor: "white",
+    borderBottomWidth: 3
   },
   titleText: {
     fontSize: 20,
@@ -216,7 +259,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   buttonContiner: {
-    flexDirection: "row" //Aligns buttons next to one another. 
+    flexDirection: "row" //Aligns buttons next to one another.
   },
   bodyText: {
     fontSize: 16,
@@ -224,11 +267,11 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   searchBarContainer: {
-    backgroundColor  : '#fff',
-    borderTopColor   : 'transparent',
-    borderBottomColor: 'transparent'
+    backgroundColor: "#fff",
+    borderTopColor: "transparent",
+    borderBottomColor: "transparent"
   },
   searchBarInput: {
-    backgroundColor: '#eaeaea'
+    backgroundColor: "#eaeaea"
   }
 });
