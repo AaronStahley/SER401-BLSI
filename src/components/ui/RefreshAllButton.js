@@ -3,6 +3,7 @@ import {View, TouchableOpacity, Alert} from "react-native";
 import {Icon} from "expo";
 import {inject, observer} from "mobx-react/native";
 import {retrieveAlgorithms, retrieveAlgorithm} from "../../services/fetchAlgorithms";
+import {queryAlert, errorAlert} from "./AlertBox"
 
 //import BluebirdPromise from "bluebird";
 
@@ -17,41 +18,25 @@ export default class RefreshAllButton extends React.Component {
           json.collection.map(item => {
             retrieveAlgorithm(item.id)
               .then(json => {
-                this.props.rootStore.updateStore.update(json);
+                this.props.rootStore.updateStore.findDeleteInsert(json);
               })
           })
         );
       }).catch(err => {
         console.log(err);
-        Alert.alert(
-          "Data not available",
-          "Currently not able to connect to service.",
-          [{
-              text: "Close",
-              style: "cancel"
-          }]
-        )
+        errorAlert("Data not available", 
+          "Currently not able to connect to service.");
       });
   };
 
   render() {
     return ( <View>
-      <TouchableOpacity onPress = {
-        () => Alert.alert(
-          "Get New Algorithms?",
-          "Do you want to add new algorithms to your list?",
-          [{
-              text: "No",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-            },
-            {
-              text: "Yes",
-              onPress: this.homeOnPress
-            }
-          ]
-        )
-      } >
+      <TouchableOpacity onPress={
+        () => queryAlert(
+          "Update Algorithms?",
+          "Do you want to update the algorithms on your list?",
+          this.homeOnPress)
+      }>
       <Icon.Ionicons style = {
         {
           marginRight: 10,

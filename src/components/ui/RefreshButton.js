@@ -2,10 +2,8 @@ import React from "react";
 import { View, TouchableOpacity, Alert } from "react-native";
 import { Icon } from "expo";
 import { inject, observer } from "mobx-react/native";
-import {
-  retrieveAlgorithms,
-  retrieveAlgorithm
-} from "../../services/fetchAlgorithms";
+import {retrieveAlgorithm} from "../../services/fetchAlgorithms";
+import {queryAlert, errorAlert} from "./AlertBox"
 
 @inject("rootStore")
 @observer
@@ -16,41 +14,23 @@ export default class RefreshButton extends React.Component {
     Promise.resolve(retrieveAlgorithm(algorithm.id)
       .then(json => {
         if (!json) throw new Error("Data not available");
-        this.props.rootStore.updateStore.update(json);
+        this.props.rootStore.updateStore.findDeleteInsert(json);
       })
       .catch(err => {
         console.log(err);
-        Alert.alert(
-          "Data not available",
-          "Currently not able to connect to service.",
-          [{
-            text: "Close",
-            style: "cancel"
-          }]
-        )
+        errorAlert("Data not available",
+          "Currently not able to connect to service.");
       }));
   };
 
   render() {
     return (
       <View>
-        <TouchableOpacity
-          onPress={() =>
-            Alert.alert(
-              "Update Algorithm?",
-              "Do you want to upgrade to the newest version ?",
-              [
-                {
-                  text: "No",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                {
-                  text: "Yes",
-                  onPress: this.algDescriptOnPress
-                }
-              ]
-            )
+        <TouchableOpacity onPress={
+          () => queryAlert(
+            "Update Algorithm?",
+            "Do you want to update to the latest algorithm version?",
+            this.algDescriptOnPress)
           }
         >
           <Icon.Ionicons
