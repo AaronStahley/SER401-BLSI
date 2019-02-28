@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity, Dimensions, Alert, TouchableHighlight, LayoutAnimation, UIManager} from 'react-native';
 import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
@@ -10,6 +10,14 @@ import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
 
 import HTMLView from 'react-native-htmlview';
+
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
+var searchBarTransition = {
+  duration: 125,
+  update: {
+    type: LayoutAnimation.Types.easeInEaseOut
+  }
+};
 
 @inject("rootStore")
 @observer
@@ -73,6 +81,7 @@ export default class HomeScreen extends React.Component {
   //Renders the search bar bellow header. 
   renderSearch = () => {
 
+    LayoutAnimation.configureNext(searchBarTransition);
     if(this.state.popUpSearch == true){
     return(
       <SearchBar
@@ -93,8 +102,8 @@ export default class HomeScreen extends React.Component {
     this.setState({ searchText: text });
   };
 
-  // Algorithm renders if search text is empty or search text matches algorithm name
   renderAlgorithm = (navigate, algorithm, search) => {
+    // Algorithm renders if search text is empty or search text matches algorithm name
     var name = algorithm.Name.toLowerCase();
     var search = search.toLowerCase();
     var match = name.includes(search) && name !== '' && search !== '';
