@@ -164,8 +164,8 @@ export default class HomeScreen extends React.Component {
           buttonStyle={styles.buttonGroup}
           selectedButtonStyle={styles.buttonGroupEnabled}
           selectedTextStyle={{ color: "white" }}
-          textStyle={{ color: "white" }}
-          innerBorderStyle={{ width: 0, color: "#ee3e41" }}
+          textStyle={{ color: "white", fontSize: 18}}
+          innerBorderStyle={{ width: 1.5, color: "#ee3e41" }}
         /></View>
         <ScrollView>
           {this.renderSearch()}
@@ -224,30 +224,42 @@ const setAlgContainerStyle = function() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch',
     backgroundColor: "#fff"
   },
-  outerButtonGroupContainer: { 
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 1
+  outerButtonGroupContainer: {
+    // backgroundColor: "#ee3e41",
+    position: "relative",
+    ...Platform.select({
+      ios: {
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2
+      }
+    })
   },
   buttonGroupContainer: {
     height: 50,
     marginTop: -3,
-    marginLeft: -10,
+    marginLeft: 0,
+    marginRight: 0,
     borderRadius: 0,
     borderWidth: 0,
-    width: "105%",  
+    ...Platform.select({
+      android: {
+        borderBottomColor: "rgba(0, 0, 0, 0.08)",
+        borderBottomWidth: 3
+      }
+    })
   },
   buttonGroup: {
-    backgroundColor: "#ee3e41",
+    backgroundColor: Colors.PCH_RED,
     paddingTop: 10
   },
   buttonGroupEnabled: {
-    backgroundColor: "#ee3e41",
-    borderTopColor: "#ee3e41",
+    backgroundColor: Colors.PCH_RED,
+    borderTopColor: Colors.PCH_RED,
     borderBottomColor: "white",
     borderBottomWidth: 3
   },
