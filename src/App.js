@@ -81,20 +81,41 @@ export default class App extends React.Component {
         const {exists, isDirectory} = await FileSystem.getInfoAsync(sqliteDirectory);
         if (!exists) {
             await FileSystem.makeDirectoryAsync(sqliteDirectory);
+
+            const pathToDownloadTo = `${sqliteDirectory}/database.db`;
+            const uriToDownload = Asset.fromModule(require('../assets/db/database.db')).uri;
+
+            let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
+            await filesArray.forEach((item) => {
+                FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {
+                    idempotent: true
+                });
+            });
+
+            await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
         } else if (!isDirectory) {
             throw new Error('SQLite dir is not a directory');
         }
 
+        /* //Reload the DB from the repo file
         const pathToDownloadTo = `${sqliteDirectory}/database.db`;
-        const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
-
+        const uriToDownload = Asset.fromModule(require('../assets/db/database.db')).uri;
 
         let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
-        await filesArray.forEach( (item) => {
-             FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {idempotent: true});
-        });
+        await filesArray.forEach((item) => {
+            FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {
+                idempotent: true
+            });
+        }); 
 
         await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
+        */
+
+        /* //uncomment to get db code
+        //let str = await FileSystem.readAsStringAsync(`${sqliteDirectory}/database.db`);
+        //console.log({str : str});  
+        */
+        
     };
 }
 
