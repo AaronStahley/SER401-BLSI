@@ -118,28 +118,30 @@ export default class HomeScreen extends React.Component {
     var match = name.includes(search) && name !== '' && search !== '';
 
     let content = (
-    <Card
-      title={algorithm.Name}
-      bodyText={algorithm.ShortDescription}
-      favIcon={<FavoritesIcon isSelected={algorithm.IsFavorited}/>}
-      >
-      <View style={styles.buttonContiner}>
-        <Button
-          onPress={() =>
-            navigate("AlgDescription", { algorithm: algorithm })
-          }
+    <View style={setCardStyle()}>
+        <Card
+        title={algorithm.Name}
+        bodyText={algorithm.ShortDescription}
+        favIcon={<FavoritesIcon isSelected={algorithm.IsFavorited}/>}
         >
-          Info
-            </Button>
-        <Button
-          onPress={() =>
-            navigate("Conversation", { algorithm: algorithm })
-          }
-        >
-          Start
-            </Button>
-      </View>
-    </Card>)
+        <View style={styles.buttonContiner}>
+            <Button
+            onPress={() =>
+                navigate("AlgDescription", { algorithm: algorithm })
+            }
+            >
+            Info
+                </Button>
+            <Button
+            onPress={() =>
+                navigate("Conversation", { algorithm: algorithm })
+            }
+            >
+            Start
+                </Button>
+        </View>
+        </Card>
+    </View>)
 
     if (this.state.selectedIndex == 1 && algorithm.IsFavorited == 1 && (this.state.searchText === '' || match)) {
       return (
@@ -205,24 +207,11 @@ const setViewStyle = function() {
     }
 }
 
-const setAlgContainerStyle = function() {
-    if (Dimensions.get('window').width > 1000) {
+const setCardStyle = function() {
+    if (Dimensions.get('window').width > 500) {
         return {
-            width   : widthDP('30%'),
-            flexGrow: 1,
-            maxWidth: widthDP('30%')
-        }
-    }
-    else if (Dimensions.get('window').width > 500) {
-        return {
-            width   : widthDP('43%'),
-            flexGrow: 1,
-            maxWidth: widthDP('43%')
-        }
-    }
-    else {
-        return {
-            flex: 1
+            width: '50%',
+            //flexGrow: 1
         }
     }
 }
