@@ -124,6 +124,7 @@ export default class HomeScreen extends React.Component {
       title={algorithm.Name}
       bodyText={algorithm.ShortDescription}
       favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
+      key={algorithm.Id}
       >
       <View style={styles.buttonContiner}>
         <Button
