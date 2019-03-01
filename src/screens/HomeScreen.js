@@ -11,9 +11,6 @@ import SearchButton from '../components/ui/SearchButton.js';
 import FavoritesIcon from "../components/ui/FavoritesIcon.js";
 import Colors from "../common/Colors";
 
-
-import HTMLView from 'react-native-htmlview';
-
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
 var searchBarTransition = {
   duration: 125,

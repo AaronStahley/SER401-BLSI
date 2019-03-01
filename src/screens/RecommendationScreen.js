@@ -20,7 +20,7 @@ export default class RecommendationScreen extends React.Component {
             <ScrollView style={styles.container}>
                 <View>
                     <Text style={styles.titleText}>{recommendation.Title}</Text>
-                    <HTMLView style={styles.descriptionText} value={recommendation.Description}/>
+                    <HTMLView style={styles.descriptionText} value={`<div>${recommendation.Description}</div>`}/>
                 </View>
             </ScrollView>
         );
