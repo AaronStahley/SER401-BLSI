@@ -123,7 +123,7 @@ export default class HomeScreen extends React.Component {
     <Card
       title={algorithm.Name}
       bodyText={algorithm.ShortDescription}
-      favIcon={<FavoritesIcon isSelected={algorithm.IsFavorited}/>}
+      favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
       >
       <View style={styles.buttonContiner}>
         <Button
