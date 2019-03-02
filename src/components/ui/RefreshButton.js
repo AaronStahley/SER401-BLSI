@@ -9,12 +9,11 @@ import {queryAlert, errorAlert} from "./AlertBox"
 @observer
 export default class RefreshButton extends React.Component {
   algDescriptOnPress = async () => {
-    const algorithm = this.props.algorithm;
-    console.log("Algorithm: " + algorithm.id);
-    Promise.resolve(retrieveAlgorithm(algorithm.id)
+    const {algorithmId} = this.props;
+    Promise.resolve(retrieveAlgorithm(algorithmId)
       .then(json => {
         if (!json) throw new Error("Data not available");
-        this.props.rootStore.updateStore.findDeleteInsert(json);
+        this.props.rootStore.updateStore.update(json);
       })
       .catch(err => {
         console.log(err);
@@ -22,6 +21,7 @@ export default class RefreshButton extends React.Component {
           "Currently not able to connect to service.");
       }));
   };
+
 
   render() {
     return (
