@@ -74,9 +74,10 @@ export default class QuestionInput extends React.Component {
 
     render() {
         let {question} = this.props;
-
+        let count = question.Options.length;
         switch (question.TypeKey) {
-            case  "binary":
+            case  "picklist":
+                if(count == 2) {
                 return (
                     <Grid>
                         {
@@ -93,15 +94,16 @@ export default class QuestionInput extends React.Component {
                         }
                     </Grid>
                 );
-            case  "select":
-                return (
+                } else {
+                    return (
                         <Dropdown
                             label='Select A Value'
                             data={question.Options.map(option => ({value: option.Label}))}
                             onChangeText={this.handleSelectionDropdown}
                             inputContainerStyle={styles.dropDown}
                         />
-                );
+                    );
+                }              
             default:
                 return (
                     <NumberField
