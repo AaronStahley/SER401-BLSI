@@ -10,6 +10,7 @@ export default class Question extends AbstractModel {
     @observable Options = [];
     @observable Answer  = null;
     State               = null;
+    AlgorithmId         = null;
 
     @computed
     get completed() {

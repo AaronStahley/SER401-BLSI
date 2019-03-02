@@ -8,6 +8,7 @@ export default class State extends AbstractModel {
     StateIdNextBad              = null;
     @observable Questions       = null;
     @observable Recommendations = null;
+    AlgorithmId                 = null;
 
     @computed
     get completed() {

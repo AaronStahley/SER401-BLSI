@@ -4,8 +4,11 @@ import AbstractModel from "./AbstractModel";
 export default class Algorithm extends AbstractModel {
     Id               = null;
     VersionId        = null;
-    Name             = null;
+    @observable Name = null;
     StateIdStart     = null;
-    Description      = null;
+    @observable Description = null;
     ShortDescription = null;
+    @observable IsFavorited = null;
+    DateModified     = null;
+    DateCreated      = null;
 }
