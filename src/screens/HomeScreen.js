@@ -4,8 +4,8 @@ import { ScrollView, StyleSheet,Platform,Text, View, TouchableOpacity, Dimension
 import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
+import RefreshAllButton from "../components/ui/RefreshAllButton.js"
 import {Button} from '../components/ui/Button'
-import RefreshButton from "../components/ui/RefreshButton.js"
 import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
 import FavoritesIcon from "../components/ui/FavoritesIcon.js";
@@ -23,7 +23,7 @@ var searchBarTransition = {
 @observer
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
-
+    
     const { params = {} } = navigation.state;
 
     return {
@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
           <SearchButton openSearchBar={params.handleSeach}/>
       ),
       headerLeft: (
-          <RefreshButton />
+          <RefreshAllButton></RefreshAllButton>
       ), headerStyle: {
 
         backgroundColor: Colors.navBarBackground,
@@ -44,7 +44,7 @@ export default class HomeScreen extends React.Component {
       }
     };
   }
-
+        
   state = {
     algorithms: [],
     searchText: "",
@@ -118,11 +118,18 @@ export default class HomeScreen extends React.Component {
     var match = name.includes(search) && name !== '' && search !== '';
 
     let content = (
-    <View style={setCardStyle()}>
+    <View style={setCardStyle()}>    
         <Card
         title={algorithm.Name}
         bodyText={algorithm.ShortDescription}
-        favIcon={<FavoritesIcon isSelected={algorithm.IsFavorited}/>}
+        favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
+        key={algorithm.Id}
+        >
+        <View style={styles.buttonContiner}>
+            <Button
+            onPress={() =>
+                navigate("AlgDescription", { algorithm: algorithm })
+            }
         >
         <View style={styles.buttonContiner}>
             <Button
