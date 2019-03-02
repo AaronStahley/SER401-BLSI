@@ -208,10 +208,14 @@ const setViewStyle = function() {
 }
 
 const setCardStyle = function() {
-    if (Dimensions.get('window').width > 500) {
+    if (Dimensions.get('window').width > 1000) {
+        return {
+            width: '33%',
+        }
+    }
+    else if (Dimensions.get('window').width > 500) {
         return {
             width: '50%',
-            //flexGrow: 1
         }
     }
 }
