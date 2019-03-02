@@ -89,7 +89,7 @@ export default class HomeScreen extends React.Component {
         this.setState({
           algorithms: res
         });
-        console.log(res[0].Id);
+        //console.log(res[0].Id);
       });
     }
   }
