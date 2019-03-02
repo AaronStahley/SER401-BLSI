@@ -5,7 +5,6 @@ import AppNavigator from './components/navigation/AppNavigator';
 import {Provider} from "mobx-react/native";
 import RootStore from "./store/RootStore";
 
-
 export default class App extends React.Component {
     _rootStore;
     state = {
@@ -97,7 +96,7 @@ export default class App extends React.Component {
             throw new Error('SQLite dir is not a directory');
         }
 
-        /* //Reload the DB from the repo file
+       /* //Reload the DB from the repo file
         const pathToDownloadTo = `${sqliteDirectory}/database.db`;
         const uriToDownload = Asset.fromModule(require('../assets/db/database.db')).uri;
 
@@ -109,12 +108,12 @@ export default class App extends React.Component {
         }); 
 
         await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
-        */
+        //*/
 
         /* //uncomment to get db code
         //let str = await FileSystem.readAsStringAsync(`${sqliteDirectory}/database.db`);
         //console.log({str : str});  
-        */
+        //*/
         
     };
 }
