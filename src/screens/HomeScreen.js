@@ -153,7 +153,6 @@ export default class HomeScreen extends React.Component {
 
     let content = (
     <Card
-      key={algorithm.Id}
       title={algorithm.Name}
       bodyText={algorithm.ShortDescription}
       favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
