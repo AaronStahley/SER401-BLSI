@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { ScrollView, StyleSheet,Platform,Text, View, TouchableOpacity, Dimensions, Alert, LayoutAnimation, UIManager, TouchableHighlight} from 'react-native';
 import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
+import {observable} from 'mobx'
 import {widthPercentageToDP as widthDP, listenOrientationChange, removeOrientationListener} from 'react-native-responsive-screen'
 import RefreshAllButton from "../components/ui/RefreshAllButton.js"
 import {Button} from '../components/ui/Button'
@@ -34,7 +35,7 @@ export default class HomeScreen extends React.Component {
           <SearchButton openSearchBar={params.handleSeach}/>
       ),
       headerLeft: (
-          <RefreshAllButton></RefreshAllButton>
+          <RefreshAllButton refresh={params.refreshPage} update={params.update}/>
       ), headerStyle: {
 
         backgroundColor: Colors.navBarBackground,
@@ -46,20 +47,32 @@ export default class HomeScreen extends React.Component {
       }
     };
   }
-        
+
   state = {
     algorithms: [],
     searchText: "",
     selectedIndex: 0, 
-    popUpSearch: false
+    popUpSearch: false,
+    refresh: false,
+    update: null
   };
 
   componentDidMount() {
-
     //Sets the parametors that are passed to the navigationOpions. 
     this.props.navigation.setParams({
       handleSeach: this.setSearchState
     });
+
+    this.props.navigation.setParams({
+      refreshPage: this.refreshPage
+    });
+
+    const {updateStore} = this.props.rootStore;
+    this.props.navigation.setParams({
+      update: new updateStore.model(updateStore, 0)
+    });
+
+    this.setState({update: new updateStore.model(updateStore, 0)})
 
     listenOrientationChange(this);
     this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
@@ -67,6 +80,18 @@ export default class HomeScreen extends React.Component {
         algorithms: res
       });
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.update !== this.state.update) {
+      this.refreshPage();
+      this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
+        this.setState({
+          algorithms: res
+        });
+        console.log(res[0].Id);
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -113,6 +138,13 @@ export default class HomeScreen extends React.Component {
     this.setState({ searchText: text });
   };
 
+  //Refreshes that page when called
+  refreshPage = () => {
+    this.setState(({update}) => {
+      update.Refresh++;
+    });
+  }
+
   renderAlgorithm = (navigate, algorithm, search) => {
     // Algorithm renders if search text is empty or search text matches algorithm name
     var name = algorithm.Name.toLowerCase();
@@ -121,6 +153,7 @@ export default class HomeScreen extends React.Component {
 
     let content = (
     <Card
+      key={algorithm.Id}
       title={algorithm.Name}
       bodyText={algorithm.ShortDescription}
       favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
