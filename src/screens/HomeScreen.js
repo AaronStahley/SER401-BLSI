@@ -130,12 +130,6 @@ export default class HomeScreen extends React.Component {
             onPress={() =>
                 navigate("AlgDescription", { algorithm: algorithm })
             }
-        >
-        <View style={styles.buttonContiner}>
-            <Button
-            onPress={() =>
-                navigate("AlgDescription", { algorithm: algorithm })
-            }
             >
             Info
                 </Button>
