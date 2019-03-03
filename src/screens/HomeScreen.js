@@ -11,8 +11,6 @@ import SearchButton from '../components/ui/SearchButton.js';
 import FavoritesIcon from "../components/ui/FavoritesIcon.js";
 import Colors from "../common/Colors";
 
-import HTMLView from 'react-native-htmlview';
-
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
 var searchBarTransition = {
   duration: 125,
@@ -121,27 +119,28 @@ export default class HomeScreen extends React.Component {
 
     let content = (
     <Card
-      title={algorithm.Name}
-      bodyText={algorithm.ShortDescription}
-      favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
-      key={algorithm.Id}
-      >
-      <View style={styles.buttonContiner}>
-        <Button
-          onPress={() =>
-            navigate("AlgDescription", { algorithm: algorithm })
-          }
+        title={algorithm.Name}
+        bodyText={algorithm.ShortDescription}
+        favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
+        key={algorithm.Id}
+        containerStyle={setCardStyle()}
         >
-          Info
-            </Button>
-        <Button
-          onPress={() =>
-            navigate("Conversation", { algorithm: algorithm })
-          }
-        >
-          Start
-            </Button>
-      </View>
+        <View style={styles.buttonContiner}>
+            <Button
+            onPress={() =>
+                navigate("AlgDescription", { algorithm: algorithm })
+            }
+            >
+            Info
+                </Button>
+            <Button
+            onPress={() =>
+                navigate("Conversation", { algorithm: algorithm })
+            }
+            >
+            Start
+                </Button>
+        </View>
     </Card>)
 
     if (this.state.selectedIndex == 1 && algorithm.IsFavorited == 1 && (this.state.searchText === '' || match)) {
@@ -208,24 +207,37 @@ const setViewStyle = function() {
     }
 }
 
-const setAlgContainerStyle = function() {
+const setCardStyle = function() {
     if (Dimensions.get('window').width > 1000) {
         return {
-            width   : widthDP('30%'),
-            flexGrow: 1,
-            maxWidth: widthDP('30%')
+            borderWidth: 1,
+            borderColor: "#e5ebf0",
+            padding: 15,
+            margin: 15,
+            flex: 1,
+            backgroundColor: '#fff',
+            width: '33%'
         }
     }
     else if (Dimensions.get('window').width > 500) {
         return {
-            width   : widthDP('43%'),
-            flexGrow: 1,
-            maxWidth: widthDP('43%')
+            borderWidth: 1,
+            borderColor: "#e5ebf0",
+            padding: 15,
+            margin: 15,
+            flex: 1,
+            backgroundColor: '#fff',
+            width: '50%'
         }
     }
     else {
         return {
-            flex: 1
+            borderWidth: 1,
+            borderColor: "#e5ebf0",
+            padding: 15,
+            margin: 15,
+            flex: 1,
+            backgroundColor: '#fff'
         }
     }
 }

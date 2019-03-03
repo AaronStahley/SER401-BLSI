@@ -18,7 +18,7 @@ export default class AlgDescriptionScreen extends React.Component {
             <ScrollView style={styles.container}>
                 <View>
                     <Text style={styles.titleText}>{algorithm.Name}</Text>
-                    <HTMLView style={styles.descriptionText} value={algorithm.Description}/>
+                    <HTMLView style={styles.descriptionText} value={`<div>${algorithm.Description}</div>`}/>
                 </View>
             </ScrollView>
         );
