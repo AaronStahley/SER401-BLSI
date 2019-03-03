@@ -11,10 +11,10 @@ import FavoritesIcon from './FavoritesIcon.js'
  */
 const Card = props => { 
 
-    const { children, title, bodyText, favIcon } = props;
+    const { children, title, bodyText, favIcon, containerStyle } = props;
 
     return (
-      <View style={styles.container}>
+      <View style={containerStyle}>
         <View style={styles.titleContainer}>
                 <View style={styles.titleLeftView}></View>
                 <View>
@@ -32,14 +32,7 @@ const Card = props => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderWidth: 1,
-    borderColor: "#e5ebf0",
-    padding: 15,
-    margin: 15,
-    flex: 1,
-    backgroundColor: '#fff'
-  },
+  // Set container style through props in HomeScreen
   titleContainer: { 
     flex: 1,
     flexDirection: "row",

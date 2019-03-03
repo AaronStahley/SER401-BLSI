@@ -118,12 +118,12 @@ export default class HomeScreen extends React.Component {
     var match = name.includes(search) && name !== '' && search !== '';
 
     let content = (
-    <View style={setCardStyle()}>    
-        <Card
+    <Card
         title={algorithm.Name}
         bodyText={algorithm.ShortDescription}
         favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
         key={algorithm.Id}
+        containerStyle={setCardStyle()}
         >
         <View style={styles.buttonContiner}>
             <Button
@@ -141,8 +141,7 @@ export default class HomeScreen extends React.Component {
             Start
                 </Button>
         </View>
-        </Card>
-    </View>)
+    </Card>)
 
     if (this.state.selectedIndex == 1 && algorithm.IsFavorited == 1 && (this.state.searchText === '' || match)) {
       return (
@@ -211,12 +210,34 @@ const setViewStyle = function() {
 const setCardStyle = function() {
     if (Dimensions.get('window').width > 1000) {
         return {
-            width: '33%',
+            borderWidth: 1,
+            borderColor: "#e5ebf0",
+            padding: 15,
+            margin: 15,
+            flex: 1,
+            backgroundColor: '#fff',
+            width: '33%'
         }
     }
     else if (Dimensions.get('window').width > 500) {
         return {
-            width: '50%',
+            borderWidth: 1,
+            borderColor: "#e5ebf0",
+            padding: 15,
+            margin: 15,
+            flex: 1,
+            backgroundColor: '#fff',
+            width: '50%'
+        }
+    }
+    else {
+        return {
+            borderWidth: 1,
+            borderColor: "#e5ebf0",
+            padding: 15,
+            margin: 15,
+            flex: 1,
+            backgroundColor: '#fff'
         }
     }
 }
