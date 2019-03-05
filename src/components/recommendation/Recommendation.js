@@ -28,13 +28,13 @@ class Recommendation extends React.Component {
               </Text>
             </View>
             <View style={styles.infoIconContainer}>
-                {recommendation.Description && (
+                {recommendation.Description !== null ?
                     <Icon
                         name="info"
                         color={Colors.moreInfoIcon}
                         onPress={this.handelMoreInfoClick}
-                     />
-                )}
+                     /> : null
+                }
             </View>
         </View>
         );
