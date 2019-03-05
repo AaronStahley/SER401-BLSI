@@ -2,13 +2,14 @@
  * @author Taylor Greeff
  */
 
-import BluebirdPromise from "../common/BluebirdPromise";
 import {errorAlert} from "../components/ui/AlertBox"
+import Update from "../model/Update";
 
 export default class UpdateStore {
     constructor(rootStore, transporter) {
         this.rootStore = rootStore;
         this.transporter = transporter;
+        this.model = Update;
     }
 
      /**
@@ -47,20 +48,20 @@ export default class UpdateStore {
             });
     }
 
-    insert(json) {
+    insert(json, updateCallback) {
         let attributes = JSON.parse(json.attribute_json);
         let algorithm = JSON.parse(json.algorithm_json);
-        return this.rootStore.algorithmStore.insert(algorithm)
+        return this.rootStore.algorithmStore.insert(algorithm, updateCallback)
             .then(() => {
                 let states = attributes.states;
                 return this.rootStore.stateStore.insertAll(states);
             }).then(() => {
                 let recommendations = attributes.recommendations;
-                return this.rootStore.recommendationStore.insertAll(recommendations);
+                return this.rootStore.recommendationStore.insertAll(recommendations, updateCallback);
             }).then(() => {
                 let questions = attributes.questions;
                 //item has nested info
-                return this.rootStore.questionStore.insertAll(questions);
+                return this.rootStore.questionStore.insertAll(questions, updateCallback);
             }).catch(err => {
                 console.log(err);
                 errorAlert("Update failed", err.toString());
