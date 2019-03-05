@@ -29,6 +29,20 @@ export default class StateContainer extends React.Component {
             proceedClicked: true
         })
     };
+    
+    removeDuplicates(items){
+        let stack = [];
+        for(let x = 0; x < items.length; x++ ) {
+            if (stack[items[x].Id] !== items[x].Id) {
+                stack[items[x].Id] = items[x].Id;
+            }
+            else {
+                items.splice(x, 1);
+                x--;
+            }
+        }
+        return items;
+    }
 
     render() {
 
@@ -38,19 +52,19 @@ export default class StateContainer extends React.Component {
         return (
             <View>
                 <View>
-                    <RecommendationContainer recommendations={state.Recommendations}/>
+                    <RecommendationContainer recommendations={this.removeDuplicates(state.Recommendations)}/>
                 </View>
 
                 {
-                    !proceedClicked &&
+                    (!proceedClicked && state.Recommendations.length !== 0) &&
                     <ProceedButton title={'Proceed'} onPress={this.handleProceedClicked}/>
 
                 }
 
                 {
-                    proceedClicked &&
+                    (proceedClicked || state.Recommendations.length === 0) &&
                     <View>
-                        <QuestionContainer questions={state.Questions}/>
+                        <QuestionContainer questions={this.removeDuplicates(state.Questions)}/>
                         {
                             state.NextStateId &&
                             <NextStateContainer nextStateId={state.NextStateId}/>
