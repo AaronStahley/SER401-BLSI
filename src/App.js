@@ -111,8 +111,8 @@ export default class App extends React.Component {
         //*/
 
         /* //uncomment to get db code
-        //let str = await FileSystem.readAsStringAsync(`${sqliteDirectory}/database.db`);
-        //console.log({str : str});  
+        let str = await FileSystem.readAsStringAsync(`${sqliteDirectory}/database.db`);
+        console.log({str : str});  
         //*/
         
     };

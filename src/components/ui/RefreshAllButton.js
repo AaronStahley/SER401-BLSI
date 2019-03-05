@@ -32,7 +32,9 @@ export default class RefreshAllButton extends React.Component {
 
   update = () => {
     this.props.update.Refresh++;
+    errorAlert("Done","");
   }
+
   render() {
     return ( <View>
       <TouchableOpacity onPress={

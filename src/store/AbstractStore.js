@@ -61,8 +61,11 @@ export default class AbstractStore {
         return this.jsonToSqlInsertString(json)
             .then((values) => {
                 let keys = this.jsonToSqlInsertKeys(json);
-                this.transporter.select(`insert into ${this.table} (${keys}) values (${values})`)
-            }).then(() => updateCallback);
+
+                console.log(`insert or replace into ${this.table} (${keys}) values (${values})`);
+                this.transporter.select(`insert or replace into ${this.table} (${keys}) values (${values})`)
+                    .then(() => updateCallback);
+            });
     }
 
     delete = (id) => {
@@ -90,7 +93,7 @@ export default class AbstractStore {
                 str += key + " = ";
 
                 if ((typeof json[key]) === 'string') {
-                    str += "'" + json[key] + "'";
+                    str += '"' + json[key] + '"';
                 } else if (json[key] === true) {
                     str += 1;
                 } else if (json[key] === false) {
@@ -115,7 +118,7 @@ export default class AbstractStore {
         return Promise.all(Object.keys(json).map((key) => {
             //if (key !== "id"){ //remove id
                 if ((typeof json[key]) === 'string') {
-                    str += "'" + json[key] + "'";
+                    str += '"' + json[key] + '"';
                 } else if (json[key] === true) {
                     str += 1;
                 } else if (json[key] === false) {
