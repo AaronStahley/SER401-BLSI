@@ -25,10 +25,12 @@ class Recommendation extends React.Component {
               <Text>
                 {`\u2022  `}
                 {recommendation.Title}
+                {recommendation.Description}
               </Text>
             </View>
             <View style={styles.infoIconContainer}>
-                {recommendation.Description !== null ?
+                
+                {recommendation.Description ?
                     <Icon
                         name="info"
                         color={Colors.moreInfoIcon}
