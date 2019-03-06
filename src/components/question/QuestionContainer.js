@@ -24,9 +24,9 @@ export default class QuestionContainer extends React.Component {
               {questions.map((question, index) => (
                 <View key={question.Id}>
                   <Question question={question} number={index + 1} />
-                  {index + 1 !== questions.length && (
-                    <View style={styles.separator} />
-                  )}
+                  {index + 1 !== questions.length ?
+                    <View style={styles.separator} /> : null
+                  }
                 </View>
               ))}
             </View>

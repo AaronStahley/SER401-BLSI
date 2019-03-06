@@ -10,6 +10,7 @@ import {queryAlert, errorAlert} from "./AlertBox"
 @inject("rootStore")
 @observer
 export default class RefreshAllButton extends React.Component {
+
   homeOnPress = async () => {
     retrieveAlgorithms()
       .then(json => {
@@ -18,7 +19,7 @@ export default class RefreshAllButton extends React.Component {
           json.collection.map(item => {
             retrieveAlgorithm(item.id)
               .then(json => {
-                this.props.rootStore.updateStore.updateOrInsert(json);
+                this.props.rootStore.updateStore.insert(json, this.update);
               })
           })
         );
@@ -28,6 +29,11 @@ export default class RefreshAllButton extends React.Component {
           "Currently not able to connect to service.");
       });
   };
+
+  update = () => {
+    this.props.update.Refresh++;
+    errorAlert("Done","");
+  }
 
   render() {
     return ( <View>

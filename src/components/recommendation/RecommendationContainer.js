@@ -33,10 +33,10 @@ export default class RecommendationContainer extends React.Component {
                                           recommendation={recommendation}
                                           number={index + 1}
                                       />
-                                      {
-                                          ((index + 1) !== recommendations.length) &&
-                                          <View style={styles.separator}/>
-                                      }
+                                        {
+                                            ((index + 1) !== recommendations.length) ?
+                                            <View style={styles.separator}/> : null
+                                        }
                                   </View>
                               )
                           )

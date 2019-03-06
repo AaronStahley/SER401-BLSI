@@ -15,7 +15,6 @@ export default class RecommendationScreen extends React.Component {
     render() {
         const {navigation}   = this.props;
         const recommendation = navigation.getParam('recommendation', null);
-        console.log(recommendation);
         return (
             <ScrollView style={styles.container}>
                 <View>

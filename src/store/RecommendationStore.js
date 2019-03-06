@@ -20,9 +20,9 @@ WHERE state_recommendation.state_id = ?`, [state.Id])
         }));
     }
 
-    insertAll = (recommendations) => {
+    insertAll = (recommendations, updateCallback) => {
         return Promise.all(recommendations.map((item) => {
-            this.insert(item);
+            this.insert(item, updateCallback);
         }));
     }
 

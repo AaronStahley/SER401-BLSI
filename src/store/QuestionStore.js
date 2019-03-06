@@ -1,7 +1,5 @@
 import AbstractStore from "./AbstractStore";
 import Question from "../model/Question";
-import {QuestionOption} from "../model/Question";
-import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class QuestionStore extends AbstractStore {
     constructor(rootStore, transporter) {
@@ -29,26 +27,26 @@ WHERE state_question.state_id = ?`, [state.Id])
         return this.update(json)
             .then((res) => {
                 Promise.all(options.map((item) => {
-                    return this.rootStore.QuestionOptionStore.update(item);
+                    return this.rootStore.questionOptionStore.update(item);
                 }))
                 return res;
             })
     };
 
-    insertAll = (questions) => {
+    insertAll = (questions, updateCallback) => {
         return Promise.all(questions.map((item) => {
-            this.rootStore.questionStore.insertWithParts(item);
+            this.rootStore.questionStore.insertWithParts(item, updateCallback);
         }));
     }
 
-    insertWithParts = (json) => {
+    insertWithParts = (json, updateCallback) => {
         let options = json.question_options;
         delete json.question_options;
 
-        return this.insert(json)
+        return this.insert(json, updateCallback)
             .then((res) => {
                 Promise.all(options.map((item) => {
-                    return this.rootStore.QuestionOptionStore.insert(item);
+                    return this.rootStore.questionOptionStore.insert(item, updateCallback);
                 }))
                 return res;
             })
@@ -67,7 +65,7 @@ WHERE state_question.state_id = ?`, [state.Id])
         return this.updateOrInsert(json)
             .then((res) => {
                 Promise.all(options.map((item) => {
-                    return this.rootStore.QuestionOptionStore.updateOrInsert(item);
+                    return this.rootStore.questionOptionStore.updateOrInsert(item);
                 }))
                 return res;
             })

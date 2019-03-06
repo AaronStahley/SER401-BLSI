@@ -5,10 +5,12 @@ import RefreshButton from "../components/ui/RefreshButton.js"
 
 export default class AlgDescriptionScreen extends React.Component {
     
-    static navigationOptions = ({navigation}) => ({
+    static navigationOptions = ({navigation}) => {
+        const { params = {} } = navigation.state;
+
         //Fixes Error where PCH Icon shifts to the right.
-        headerRight: < RefreshButton algorithm={navigation.getParam('algorithm', null)}></RefreshButton>
-    });
+        return {headerRight: <RefreshButton algorithmId={params.algorithm.Id}/>}
+    };
 
     render() {
         const {navigation} = this.props;

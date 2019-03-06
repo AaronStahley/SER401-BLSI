@@ -24,6 +24,8 @@ export default class Transporter {
         });
     }
 
+    
+
     select(sql, params) {
         return new BluebirdPromise((resolve, reject) => {
             this.database.transaction(tx => {

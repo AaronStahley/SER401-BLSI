@@ -56,13 +56,16 @@ export default class AbstractStore {
             .then(res => res.length > 0 ? res[0] : null);
     };
 
-    insert = (json) => {
-        delete json.id;
-        return this.jsonToSqlInsertString(Object.values(json))
-            .then((str) => this.transporter.select(`insert into ${this.table} 
-                (${Object.keys(json)}) values (${str})`)
-            )//.then(this.processResults)
-            .then(res => res.length > 0 ? res[0] : null);
+    insert = (json, updateCallback) => {
+        //delete json.id;
+        return this.jsonToSqlInsertString(json)
+            .then((values) => {
+                let keys = this.jsonToSqlInsertKeys(json);
+
+                console.log(`insert or replace into ${this.table} (${keys}) values (${values})`);
+                this.transporter.select(`insert or replace into ${this.table} (${keys}) values (${values})`)
+                    .then(() => updateCallback);
+            });
     }
 
     delete = (id) => {
@@ -71,6 +74,7 @@ export default class AbstractStore {
             .then(res => res.length > 0 ? res[0] : null);
     }
 
+    //Incomplete, but not operable
     updateOrInsert = (json) => {
         return this.update(json)
             .then((res) => {
@@ -89,8 +93,12 @@ export default class AbstractStore {
                 str += key + " = ";
 
                 if ((typeof json[key]) === 'string') {
-                    str += "'" + json[key] + "'";
-                } else if(json[key] === "null") {
+                    str += '"' + json[key] + '"';
+                } else if (json[key] === true) {
+                    str += 1;
+                } else if (json[key] === false) {
+                    str += 0;
+                } else if (json[key] === "null") {
                     str += json[key].toUpperCase();
                 } else {
                     str += json[key];
@@ -99,31 +107,48 @@ export default class AbstractStore {
                 str += ", ";
             }
         });
-
         //Finish string
         let len = str.length;
         str = str.substring(0, len - 2);
         return str;
     }
 
-    jsonToSqlInsertString = (values) => {
+    jsonToSqlInsertString = (json) => {
         let str = "";
-        return Promise.all(values.map((item) => {
-            if ((typeof item) === 'string') {
-                str += "'" + item + "'";
-            } else if (item === "null") {
-                str += item.toUpperCase();
-            } else {
-                str += item;
-            }
-
-            str += ", ";
+        return Promise.all(Object.keys(json).map((key) => {
+            //if (key !== "id"){ //remove id
+                if ((typeof json[key]) === 'string') {
+                    str += '"' + json[key] + '"';
+                } else if (json[key] === true) {
+                    str += 1;
+                } else if (json[key] === false) {
+                    str += 0;
+                } else if (json[key] === "null") {
+                    str += json[key].toUpperCase();
+                } else {
+                    str += json[key];
+                }
+                str += ", ";
+            //}
+            
         }))
         .then(() => {
             let len = str.length;
             str = str.substring(0, len - 2);
             return str;
         });
+    }
+
+    jsonToSqlInsertKeys = (json) => {
+        let str = "";
+        Object.keys(json).forEach((key) => {
+            //if (key !== "id") {
+                str += key + ", ";
+            //}
+        });
+         let len = str.length;
+         str = str.substring(0, len - 2);
+         return str;
     }
 
     convertFieldNames = (row) => {

@@ -1,7 +1,4 @@
 import AbstractStore from "./AbstractStore";
-import Question from "../model/Question";
-import {QuestionOption} from "../model/Question";
-import BluebirdPromise from "../common/BluebirdPromise";
 import QuestionAnswer from "../model/QuestionAnswer";
 
 export default class QuestionAnswerStore extends AbstractStore {
