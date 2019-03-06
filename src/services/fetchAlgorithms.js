@@ -3,9 +3,26 @@
    * @param {*} id id for the algorithm you want to update
    * @author Aaron S
    */
+
+
+  import {Platform} from "react-native";
+
+  var path = ""
+  
+  /**
+   * Determines the path to pull data from server. 
+   * Local host on android is different that iOS. 
+   * @author Aaron S
+   */
+  const determinePath = Platform.select({
+    ios: () => this.path = "localhost:3001",
+    android: () => this.path = "10.0.2.2:3001",
+  })();
+
+
   export const retrieveAlgorithm = async (id) => {
     if(!id) throw "Id undefined";
-    const URL = `http://192.168.1.2:3001/release/${id}?key=key`; //`http://localhost:3001/release/${id}?key=key`;
+    const URL = `http://${this.path}/release/${id}?key=key`; //`http://localhost:3001/release/${id}?key=key`;
     return fetch(URL)
       .then(response => {
         if (!response.ok) {
@@ -26,7 +43,7 @@
    * @author Aaron S
    */
   export const retrieveAlgorithms = async () => {
-    const URL = "http://192.168.1.2:3001/release?key=key"; //"http://localhost:3001/release?key=key"; 
+    const URL = `http://${this.path}/release?key=key`; //"http://localhost:3001/release?key=key"; 
     return fetch(URL)
       .then(response => {
         if (!response.ok) {
