@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TouchableOpacity, Alert } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Icon } from "expo";
 import { inject, observer } from "mobx-react/native";
 import {retrieveAlgorithm} from "../../services/fetchAlgorithms";

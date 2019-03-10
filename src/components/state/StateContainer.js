@@ -10,18 +10,15 @@ import ProceedButton from "../ui/ProceedButton";
 export default class StateContainer extends React.Component {
 
     state = {
-        proceedClicked: false,
-        currentState  : null
+        proceedClicked: false
     };
 
     componentDidMount() {
         let {state} = this.props;
 
-        if (!state.started || state.Recommendation.length === 0) {
-            this.setState({
-                proceedClicked: state.started
-            });
-        }
+        this.setState({
+            proceedClicked: state.started
+        });
     }
 
     handleProceedClicked = () => {
@@ -29,20 +26,6 @@ export default class StateContainer extends React.Component {
             proceedClicked: true
         })
     };
-    
-    removeDuplicates(items){
-        let stack = [];
-        for(let x = 0; x < items.length; x++ ) {
-            if (stack[items[x].Id] !== items[x].Id) {
-                stack[items[x].Id] = items[x].Id;
-            }
-            else {
-                items.splice(x, 1);
-                x--;
-            }
-        }
-        return items;
-    }
 
     render() {
 
@@ -52,25 +35,31 @@ export default class StateContainer extends React.Component {
         return (
             <View>
                 <View>
-                    <RecommendationContainer recommendations={this.removeDuplicates(state.Recommendations)}/>
+                    <RecommendationContainer state={state}/>
                 </View>
 
                 {
-                    (!proceedClicked && state.Recommendations.length !== 0) &&
-                    <ProceedButton title={'Proceed'} onPress={this.handleProceedClicked}/>
-
-                }
-
-                {
-                    (proceedClicked || state.Recommendations.length === 0) &&
+                    state.Questions.length > 0 &&
                     <View>
-                        <QuestionContainer questions={this.removeDuplicates(state.Questions)}/>
                         {
-                            state.NextStateId &&
-                            <NextStateContainer nextStateId={state.NextStateId}/>
+                            (!proceedClicked && state.Recommendations.length !== 0) &&
+                            <ProceedButton title={'Proceed'} onPress={this.handleProceedClicked}/>
+
+                        }
+
+                        {
+                            (proceedClicked || state.Recommendations.length === 0) &&
+                            <View>
+                                <QuestionContainer state={state}/>
+                                {
+                                    state.NextStateId &&
+                                    <NextStateContainer nextStateId={state.NextStateId} path={state.getPath()}/>
+                                }
+                            </View>
                         }
                     </View>
                 }
+
             </View>
         );
     }
