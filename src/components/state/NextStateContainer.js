@@ -1,65 +1,42 @@
 import React from 'react';
-import {View, StyleSheet, Button} from 'react-native';
-import Colors from '../../common/Colors';
+import {View} from 'react-native';
 import {inject, observer} from "mobx-react/native";
 import StateContainer from "./StateContainer";
 
 @inject("rootStore")
 @observer
 export default class NextStateContainer extends React.Component {
+
     state = {
-        proceedClicked: false,
-        currentState  : null
+        currentState: null
     };
 
     componentDidMount() {
-        if (!this.state.currentState) {
-            this.loadState();
-        }
+        let {nextStateId, rootStore, path} = this.props;
+
+        this.setState({
+            currentState: rootStore.stateStore.createInstance(nextStateId, path)
+        });
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.nextStateId !== prevProps.nextStateId) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        let {nextStateId, rootStore, path} = this.props;
+
+        if (prevProps.nextStateId !== nextStateId) {
             this.setState({
-                currentState: null
+                currentState: rootStore.stateStore.createInstance(nextStateId, path)
             });
-            this.loadState();
         }
     }
 
-
-    loadState() {
-        let {nextStateId, rootStore} = this.props;
-        rootStore.stateStore.findPK(nextStateId)
-            .then(state => state.init())
-            .then(state => {
-                this.setState({
-                    currentState: state,
-                });
-                return state;
-            });
-    }
 
     render() {
-
-        let {currentState} = this.state;
-
-        if (!currentState) {
+        if (!this.state.currentState) {
             return <View/>;
         }
 
         return (
-            <StateContainer state={currentState}/>
+            <StateContainer state={this.state.currentState}/>
         );
     }
 }
-
-
-const styles = StyleSheet.create({
-    proceedButton: {
-        alignContent: 'center',
-        marginTop   : 10,
-        marginBottom: 10,
-        borderRadius: 0
-    }
-});

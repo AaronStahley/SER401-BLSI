@@ -2,10 +2,17 @@
  * Create by Taylor Greeff
  */
 
-import {observable} from 'mobx'
 import AbstractModel from "./AbstractModel";
 
 export default class StateRecommendation extends AbstractModel {
-    Id = null;
-    @observable RecommendationId = null;
+    StateId          = null;
+    RecommendationId = null;
+
+    get State() {
+        return this.rootStore.stateStore.get(this.StateId);
+    }
+
+    get Recommendation() {
+        return this.rootStore.recommendationStore.get(this.RecommendationId);
+    }
 }

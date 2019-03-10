@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, View,Platform} from 'react-native';
+import {Image} from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 
 import ConversationScreen from '../../screens/ConversationScreen';
@@ -19,43 +19,43 @@ import Colors from "../../common/Colors";
  * options on that page.
  */
 const navigationConfig = {
-  initialRouteName: "Home",
-  headerMode: "float",
-  navigationOptions: {
-    headerTintColor: "#fff", // Changes back arrow to white.
-    //PCH logo in the center.
-    headerTitle: (
-      <Image
-        style={{
-          flex: 1,
-          width: 40,
-          height: 40,
-          resizeMode: "contain",
-          alignSelf: "center"
-        }}
-        source={require("../../../assets/images/WHITE_HAND_LOGO.png")}
-      />
-    ),
-    headerStyle: {
-      backgroundColor: Colors.navBarBackground,
-      marginTop: 10,
-      paddingBottom: 10,
-      height: 50,
-      elevation: 0,
-      borderBottomWidth: 0,
+    initialRouteName : "Home",
+    headerMode       : "float",
+    navigationOptions: {
+        headerTintColor: "#fff", // Changes back arrow to white.
+        //PCH logo in the center.
+        headerTitle    : (
+            <Image
+                style={{
+                    flex      : 1,
+                    width     : 40,
+                    height    : 40,
+                    resizeMode: "contain",
+                    alignSelf : "center"
+                }}
+                source={require("../../../assets/images/WHITE_HAND_LOGO.png")}
+            />
+        ),
+        headerStyle    : {
+            backgroundColor  : Colors.navBarBackground,
+            marginTop        : 10,
+            paddingBottom    : 10,
+            height           : 50,
+            elevation        : 0,
+            borderBottomWidth: 0,
+        }
     }
-  }
 };
 
 /**
  * When adding new pages make sure to add it here.
  */
 const AppNavigator = createStackNavigator({
-    Home: { screen: HomeScreen},
-    Conversation: {screen: ConversationScreen},
+    Home          : {screen: HomeScreen},
+    Conversation  : {screen: ConversationScreen},
     AlgDescription: {screen: AlgDescriptionScreen},
     Recommendation: {screen: RecommendationScreen},
-    Discharge: {screen: DischargeScreen}
-},navigationConfig);
+    Discharge     : {screen: DischargeScreen}
+}, navigationConfig);
 
 export default AppNavigator;

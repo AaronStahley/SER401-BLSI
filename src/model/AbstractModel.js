@@ -9,6 +9,13 @@ export default class AbstractModel {
         return this.store.rootStore;
     }
 
+    reload() {
+        if ('Id' in this) {
+            return this.store.findPK(this.Id);
+        }
+        return Promise.resolve(null);
+    };
+
     fromObj(json) {
         for (let field in json) {
             if (field in this) {
@@ -19,6 +26,11 @@ export default class AbstractModel {
     }
 
     toJson() {
+        return this._toJson(this);
+    }
+
+
+    _toJson(object) {
         let ignore = ['store'];
 
         let arrayConverter = (array) => {
@@ -45,9 +57,9 @@ export default class AbstractModel {
         };
 
         let resultObj = {};
-        Object.keys(this).forEach(field => {
+        Object.keys(object).forEach(field => {
             if (!(ignore.includes(field))) {
-                resultObj[field] = valConverter(this[field]);
+                resultObj[field] = valConverter(object[field]);
             }
         });
         return resultObj;

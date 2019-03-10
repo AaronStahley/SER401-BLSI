@@ -7,7 +7,7 @@ import 'react-native';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import {QuestionStore} from "../QuestionStore";
-import {RootStore} from "../RootStore";
+import {RootStore} from "../root/RootStore";
 
 
 //Don't use the => function, since we need this

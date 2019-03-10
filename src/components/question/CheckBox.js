@@ -31,13 +31,13 @@ export default class CheckBox extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  checkBoxButton: {
-    flex: 1,
-    backgroundColor: Colors.questionBubble,
-    paddingBottom: 5,
-    paddingTop: 5,
-    paddingHorizontal: 5,
-    borderColor: Colors.questionCheckBoxBorder,
-    borderWidth: 1
-  }
+    checkBoxButton: {
+        flex             : 1,
+        backgroundColor  : Colors.questionBubble,
+        paddingBottom    : 5,
+        paddingTop       : 5,
+        paddingHorizontal: 5,
+        borderColor      : Colors.questionCheckBoxBorder,
+        borderWidth      : 1
+    }
 });

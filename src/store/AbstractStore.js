@@ -1,27 +1,38 @@
 import BluebirdPromise from "../common/BluebirdPromise";
+import {observable} from "mobx";
+import * as mobx from "mobx";
 
 export default class AbstractStore {
-    collection = {};
-    storeLocally;
-    allFound = false;
+    @observable collection = [];
+    allFound               = false;
     transporter;
     model;
     table;
 
-    constructor(model, tableName, rootStore, transporter, storeLocally = false) {
-        this.model = model;
+    constructor(model, tableName, rootStore, transporter) {
+        this.model       = model;
         this.transporter = transporter;
-        this.rootStore = rootStore;
-        this.table = tableName;
-        this.storeLocally = storeLocally;
+        this.rootStore   = rootStore;
+        this.table       = tableName;
     }
 
-    getPK = id => {
-        if (this.storeLocally && id in this.collection) {
-            return this.collection[id];
-        }
-        return null;
+    get = id => {
+        return this.collection.find(item => item.Id === id);
     };
+
+    // getOrFindPK = id => {
+    //     return this.getPK(id)
+    //         ? Promise.resolve(id)
+    //         : this.findPK(id);
+    // };
+
+
+    // getPK = id => {
+    //     if (id in this.collection) {
+    //         return this.collection[id];
+    //     }
+    //     return null;
+    // };
 
     findPK = id => {
         return this.transporter.select(`select * from ${this.table} where id = ?;`, [id])
@@ -35,7 +46,7 @@ export default class AbstractStore {
     };
 
     getOrFindAll = () => {
-        if (this.allFound && this.storeLocally) {
+        if (this.allFound) {
             return new BluebirdPromise((resolve, reject) => {
                 resolve(Object.values(this.collection));
             })
@@ -50,106 +61,43 @@ export default class AbstractStore {
     };
 
     update = (json) => {
-        let str = this.jsonToSqlUpdateString(json);
-        return this.transporter.select(`update ${this.table} set ${str} where id = ${json.id}`)
-            //.then(this.processResults)
+        let id = json.Id;
+        delete json.Id;
+
+        let {sql, values} = this.transporter.buildUpdateSql(this.table, id, json);
+
+        return this.transporter.execute(sql, values)
+            .then(res => res.rowsAffected > 0);
+    };
+
+    insert = (json) => {
+        delete json.Id;
+
+        let {sql, values} = this.transporter.buildInsertSql(this.table, json);
+
+        return this.transporter.execute(sql, values)
+            .then(res => {
+                if (res.insertId) {
+                    return res.insertId;
+                }
+                return null;
+            })
+    };
+
+    delete = (id) => {
+        return this.transporter.execute(`delete from ${this.table} where id = ?`, [id])
+            .then(this.processResults)
             .then(res => res.length > 0 ? res[0] : null);
     };
 
-    insert = (json, updateCallback) => {
-        //delete json.id;
-        return this.jsonToSqlInsertString(json)
-            .then((values) => {
-                let keys = this.jsonToSqlInsertKeys(json);
-
-                console.log(`insert or replace into ${this.table} (${keys}) values (${values})`);
-                this.transporter.select(`insert or replace into ${this.table} (${keys}) values (${values})`)
-                    .then(() => updateCallback);
-            });
-    }
-
-    delete = (id) => {
-        return this.transporter.select(`delete from ${this.table} where id = ${id}`)
-            .then(this.processResults)
-            .then(res => res.length > 0 ? res[0] : null);
-    }
-
     //Incomplete, but not operable
     updateOrInsert = (json) => {
-        return this.update(json)
-            .then((res) => {
-                console.log(res);
-                if(res) {
-
-                }
-                //this.insert(json);
-            });
-    }
-
-    jsonToSqlUpdateString = (json) => {
-        let str = "";
-        Object.keys(json).forEach((key) => {
-            if (key !== "id") {
-                str += key + " = ";
-
-                if ((typeof json[key]) === 'string') {
-                    str += '"' + json[key] + '"';
-                } else if (json[key] === true) {
-                    str += 1;
-                } else if (json[key] === false) {
-                    str += 0;
-                } else if (json[key] === "null") {
-                    str += json[key].toUpperCase();
-                } else {
-                    str += json[key];
-                }
-
-                str += ", ";
-            }
-        });
-        //Finish string
-        let len = str.length;
-        str = str.substring(0, len - 2);
-        return str;
-    }
-
-    jsonToSqlInsertString = (json) => {
-        let str = "";
-        return Promise.all(Object.keys(json).map((key) => {
-            //if (key !== "id"){ //remove id
-                if ((typeof json[key]) === 'string') {
-                    str += '"' + json[key] + '"';
-                } else if (json[key] === true) {
-                    str += 1;
-                } else if (json[key] === false) {
-                    str += 0;
-                } else if (json[key] === "null") {
-                    str += json[key].toUpperCase();
-                } else {
-                    str += json[key];
-                }
-                str += ", ";
-            //}
-            
-        }))
-        .then(() => {
-            let len = str.length;
-            str = str.substring(0, len - 2);
-            return str;
-        });
-    }
-
-    jsonToSqlInsertKeys = (json) => {
-        let str = "";
-        Object.keys(json).forEach((key) => {
-            //if (key !== "id") {
-                str += key + ", ";
-            //}
-        });
-         let len = str.length;
-         str = str.substring(0, len - 2);
-         return str;
-    }
+        if (json.id && json.id !== "") {
+            return this.update(json);
+        } else {
+            return this.insert(json);
+        }
+    };
 
     convertFieldNames = (row) => {
         let mappedObj = {};
@@ -164,20 +112,24 @@ export default class AbstractStore {
         return mappedObj;
     };
 
+    register = (obj) => {
+        this.collection.push(obj);
+        return this;
+    };
+
     processResults = (_array) => {
-        if (_array.length == 0) {
+        if (_array.length === 0) {
             return [];
         }
 
         return _array.map(row => {
-
-            let obj = new this.model(this);
-            obj.fromObj(this.convertFieldNames(row));
-
-            if (this.storeLocally) {
-                this.collection[obj.Id] = obj;
+            let obj = 'id' in row ? this.get(row.id) : null;
+            if (!obj) {
+                obj = new this.model(this);
+                this.register(obj);
             }
 
+            obj.fromObj(this.convertFieldNames(row));
             return obj;
         });
     };

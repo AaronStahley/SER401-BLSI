@@ -3,23 +3,22 @@ import {computed, observable} from "mobx";
 
 export default class QuestionAnswer extends AbstractModel {
     Id                           = null;
-    StateId                      = null;
     QuestionId                   = null;
+    StatePath                    = null;
     @observable QuestionOptionId = null;
-    @observable TextAnswer       = null;
-    Question                     = null;
+    @observable NumberAnswer     = null;
 
     @computed
     get completed() {
-        return (this.QuestionOptionId !== null || this.TextAnswer !== null);
+        return (this.QuestionOptionId !== null || this.NumberAnswer !== null);
     }
 
-    get State() {
-        return this.store.rootStore.stateStore.getPK(this.StateId);
+    get question() {
+        return this.store.rootStore.questionStore.get(this.QuestionId);
     }
 
     get QuestionOption() {
-        return this.store.rootStore.questionOptionStore.getPK(this.QuestionOptionId);
+        return this.store.rootStore.questionOptionStore.get(this.QuestionOptionId);
     }
 
     get IsGood() {
@@ -27,7 +26,24 @@ export default class QuestionAnswer extends AbstractModel {
             return this.QuestionOption.IsGood;
         }
 
-        //TODO:: determin how to tell if text input is bad or good
-        return true;
+        return null;
+    }
+
+    save() {
+        if (!this.Id) {
+            return this.store.insert(this.toJson())
+                .then(insertId => {
+                    this.Id = insertId;
+                    this.store.register(this);
+                    this.reload();
+                });
+        } else {
+            return this.store.update(this.toJson())
+                .then(good => {
+                    if (good === true) {
+                        this.reload();
+                    }
+                });
+        }
     }
 }

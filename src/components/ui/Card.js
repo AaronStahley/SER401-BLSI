@@ -1,8 +1,6 @@
 import React from 'react';
 import { Divider } from 'react-native-elements'
-import { Icon } from "expo";
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import FavoritesIcon from './FavoritesIcon.js'
+import {Text, View, StyleSheet} from 'react-native';
 
 /**
  * A card that holds a title and body text with a favorites star on the 
