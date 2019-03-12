@@ -86,8 +86,6 @@ export default class AbstractStore {
 
     delete = (id) => {
         return this.transporter.execute(`delete from ${this.table} where id = ?`, [id])
-            .then(this.processResults)
-            .then(res => res.length > 0 ? res[0] : null);
     };
 
     //Incomplete, but not operable

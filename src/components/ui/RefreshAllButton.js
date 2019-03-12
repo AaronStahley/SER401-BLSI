@@ -2,7 +2,7 @@ import React from "react";
 import {View, TouchableOpacity} from "react-native";
 import {Icon} from "expo";
 import {inject, observer} from "mobx-react/native";
-import {retrieveAlgorithms, retrieveAlgorithm} from "../../services/fetchAlgorithms";
+import {checkAvailability, retrieveAlgorithm, retrieveAlgorithms} from "../../services/fetchAlgorithms";
 import {queryAlert, errorAlert} from "./AlertBox"
 
 //import BluebirdPromise from "bluebird";
@@ -11,25 +11,40 @@ import {queryAlert, errorAlert} from "./AlertBox"
 @observer
 export default class RefreshAllButton extends React.Component {
 
-    homeOnPress = async () => {
-        retrieveAlgorithms()
-            .then(json => {
-                if (!json) throw new Error("Data not available");
-                return Promise.all(
-                    json.collection.map(item => {
-                        return retrieveAlgorithm(item.id)
-                            .then(json => {
-                                this.props.rootStore.updateStore.insert(json);
-                            })
-                            .then(() => this.update)
-                    })
-                );
-            }).catch(err => {
+    deleteAlgorithms = (algorithms) => {
+        let ids = [];
+        return Promise.all(
+            algorithms.map((item) => {
+                if(item.Id) {
+                    ids.push({id : item.Id, 
+                        favorited: item.IsFavorited, 
+                        dateModified: item.DateModified,
+                        version: item.VersionId
+                    });
+                    return this.props.rootStore.algorithmStore.delete(item.Id)
+                        .then((res) => {console.log(res)})
+                }
+        }))                
+        .then(() => ids);
+    }
 
-            console.log(err);
-            errorAlert("Data not available", "Currently not able to connect to service.");
-        });
-    };
+    homeOnPress = async () => {
+        return retrieveAlgorithms() //Check connection
+            .then((res) => res ? null : () => {throw "Not available"})
+            .then(this.props.rootStore.algorithmStore.getOrFindAll)
+            .then((algos) => this.deleteAlgorithms(algos)) //clear out algorithms
+            .then(ids => {
+                return Promise.all(ids.map((id) => {
+                    return retrieveAlgorithm(id.id)
+                        .then(json => {
+                            this.props.rootStore.updateStore.insert(json);
+                        })
+                }))
+            }).catch(err => {
+                console.log(err);
+                errorAlert("Data not available", "Currently not able to connect to service.");
+            });
+    }; 
 
     update = () => {
         this.props.update.Refresh++;
