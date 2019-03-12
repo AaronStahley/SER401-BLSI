@@ -19,6 +19,7 @@ const determinePath = Platform.select({
     android: () => this.path = "10.0.2.2:3001",
 })();
 
+const getAllURL = `http://${this.path}/release?key=key`; //"http://localhost:3001/release?key=key";
 
 export const retrieveAlgorithm = async (id) => {
     if (!id) throw "Id undefined";
@@ -29,10 +30,6 @@ export const retrieveAlgorithm = async (id) => {
                 throw response;
             }
             return response.json();
-        })
-        .then(json => {
-            console.log("parsed json", json);
-            return json;
         }).catch(err => {
             console.log("No Connection", err);
         });
@@ -43,18 +40,29 @@ export const retrieveAlgorithm = async (id) => {
  * @author Aaron S
  */
 export const retrieveAlgorithms = async () => {
-    const URL = `http://${this.path}/release?key=key`; //"http://localhost:3001/release?key=key"; 
+    const URL = getAllURL;
     return fetch(URL)
         .then(response => {
             if (!response.ok) {
                 throw response;
             }
             return response.json();
-        })
-        .then(json => {
-            console.log("parsed json", json); // access json.body here
-            return json;
         }).catch(err => {
             console.log("No Connection", err);
         });
 };
+
+export const checkAvailability = async () => {
+    const URL = `http://${this.path}/release?key=key`;
+    return fetch(URL, {
+        method: "CONNECT",
+    }).then(response => {
+        if (!response.ok) {
+            throw response;
+        }
+        console.log(response.json())
+        return response.json();
+    }).catch(err => {
+        console.log("No Connection", err);
+    });
+}
