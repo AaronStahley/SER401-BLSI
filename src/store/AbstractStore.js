@@ -97,6 +97,15 @@ export default class AbstractStore {
         }
     };
 
+    updateElseInsert = (json) => {
+        return this.update(json)
+            .then((res) => {
+                if(res) {
+                    return null;
+                }
+                return this.insert(json);
+            })
+    }
     convertFieldNames = (row) => {
         let mappedObj = {};
         for (let dbField in row) {

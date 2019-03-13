@@ -37,7 +37,7 @@ export default class RefreshAllButton extends React.Component {
                 return Promise.all(ids.map((id) => {
                     return retrieveAlgorithm(id.id)
                         .then(json => {
-                            this.props.rootStore.updateStore.insert(json);
+                            this.props.rootStore.updateStore.dynamicInsertion("updateElseInsert", json);
                         })
                 }))
             }).catch(err => {

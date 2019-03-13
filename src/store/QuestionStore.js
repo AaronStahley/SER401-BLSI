@@ -60,4 +60,19 @@ export default class QuestionStore extends AbstractStore {
                 .then(() => res))
 
     };
+
+    dynamicInsertionAll = (funcName, questions) => {
+        return Promise.all(questions.map((item) => {
+            this.rootStore.questionStore.dynamicInsertionWithParts(funcName, item);
+        }));
+    };
+
+    dynamicInsertionWithParts = (funcName, json) => {
+        let options = json.question_options;
+        delete json.question_options;
+
+        return this[funcName](json)
+            .then((res) => Promise.all(options.map((item) => this.rootStore.questionOptionStore[funcName](item)))
+                .then(() => res))
+    };
 }

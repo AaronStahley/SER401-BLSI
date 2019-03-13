@@ -119,4 +119,37 @@ export default class StateStore extends AbstractStore {
                     )).then(() => res);
             })
     };
+
+    dynamicInsertionAll = (funcName, states) => {
+        return Promise.all(states.map((item) => {
+            //item has nested info
+            this.dynamicInsertionWithParts(funcName, item);
+        }));
+    };
+
+    dynamicInsertionWithParts = (funcName, json) => {
+        let question_ids = json.question_ids;
+        delete json.question_ids;
+        let recommendation_ids = json.recommendation_ids;
+        delete json.recommendation_ids;
+
+        return this[funcName](json)
+            .then(this.processResults)
+            .then((res) => {
+                return question_ids === [] ?
+                    res :
+                    Promise.all(question_ids.map((item) => this.rootStore.stateQuestionStore[funcName]({
+                        id: json.id,
+                        question_id: item
+                    }))).then(() => res);
+
+            }).then((res) => {
+                return recommendation_ids === [] ?
+                    res :
+                    Promise.all(recommendation_ids.map((item) => this.rootStore.stateRecommendationStore[funcName]({
+                        id: json.id,
+                        recommendation_id: item
+                    }))).then(() => res);
+            })
+    };
 }
