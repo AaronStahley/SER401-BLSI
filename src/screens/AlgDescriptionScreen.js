@@ -1,7 +1,8 @@
 import React from 'react';
 import HTMLView from 'react-native-htmlview';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Button} from 'react-native';
 import RefreshButton from "../components/ui/RefreshButton.js"
+import email from 'react-native-email'
 
 export default class AlgDescriptionScreen extends React.Component {
     
@@ -11,6 +12,19 @@ export default class AlgDescriptionScreen extends React.Component {
         //Fixes Error where PCH Icon shifts to the right.
         return {headerRight: <RefreshButton algorithmId={params.algorithm.Id}/>}
     };
+
+    /**
+     * Opens email app and sends through that.
+     * 
+     */
+    handleEmail = () => {
+        const to = ['stahleyaaron@yahoo.com'] // string or array of email addresses
+        email(to, {
+            cc: [],
+            subject: 'TEST',
+            body: 'TEST EMAIL'
+        }).catch(console.error)
+    }
 
     render() {
         const {navigation} = this.props;
@@ -22,6 +36,11 @@ export default class AlgDescriptionScreen extends React.Component {
                     <Text style={styles.titleText}>{algorithm.Name}</Text>
                     <HTMLView style={styles.descriptionText} value={`<div>${algorithm.Description}</div>`}/>
                 </View>
+
+                <View >
+                    <Button title="Send Mail" onPress={this.handleEmail} />
+                </View>
+
             </ScrollView>
         );
     }
