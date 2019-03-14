@@ -91,9 +91,9 @@ export default class UpdateStore {
         let algorithm = JSON.parse(json.algorithm_json);
 
         return this.rootStore.algorithmStore[funcName](algorithm)
-            .then(() => this.rootStore.stateStore.dynamicInsertionAll(attributes.states))
-            .then(() => this.rootStore.recommendationStore.dynamicInsertionAll(attributes.recommendations))
-            .then(() => this.rootStore.questionStore.dynamicInsertionAll(attributes.questions))
+            .then(() => this.rootStore.stateStore.dynamicInsertionAll(funcName, attributes.states))
+            .then(() => this.rootStore.recommendationStore.dynamicInsertionAll(funcName, attributes.recommendations))
+            .then(() => this.rootStore.questionStore.dynamicInsertionAll(funcName, attributes.questions))
             .catch(err => {
                 console.log(err);
                 errorAlert("Update failed", err.toString());

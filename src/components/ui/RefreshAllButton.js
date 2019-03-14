@@ -29,11 +29,20 @@ export default class RefreshAllButton extends React.Component {
     }
 
     homeOnPress = async () => {
-        return retrieveAlgorithms() //Check connection
-            .then((res) => res ? null : () => {throw "Not available"})
-            .then(this.props.rootStore.algorithmStore.getOrFindAll)
-            .then((algos) => this.deleteAlgorithms(algos)) //clear out algorithms
-            .then(ids => {
+        return retrieveAlgorithms()
+            .then((res) => {
+                if(!res) {
+                    throw "Not available"
+                }
+            })
+            .then(() => this.props.rootStore.algorithmStore.getOrFindAll())
+            .then((algos) => this.deleteAlgorithms(algos)
+                .then((ids) => {
+                    this.props.rootStore.transporter.init();
+                    return ids;
+                })
+            ).then((ids) => {
+                this.props.rootStore.transporter.init();
                 return Promise.all(ids.map((id) => {
                     return retrieveAlgorithm(id.id)
                         .then(json => {

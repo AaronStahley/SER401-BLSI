@@ -71,7 +71,7 @@ export default class AbstractStore {
     };
 
     insert = (json) => {
-        delete json.Id;
+        //delete json.Id;
 
         let {sql, values} = this.transporter.buildInsertSql(this.table, json);
 
@@ -104,7 +104,9 @@ export default class AbstractStore {
                     return null;
                 }
                 return this.insert(json);
-            })
+            }).catch(err => {
+                console.log(err);
+            });
     }
     convertFieldNames = (row) => {
         let mappedObj = {};
