@@ -7,6 +7,7 @@ import HomeScreen from '../../screens/HomeScreen';
 import AlgDescriptionScreen from '../../screens/AlgDescriptionScreen';
 import RecommendationScreen from '../../screens/RecommendationScreen';
 import DischargeScreen from '../../screens/DischargeScreen';
+import UpdateScreen from '../../screens/UpdateScreen';
 import Colors from "../../common/Colors";
 
 
@@ -55,7 +56,8 @@ const AppNavigator = createStackNavigator({
     Conversation  : {screen: ConversationScreen},
     AlgDescription: {screen: AlgDescriptionScreen},
     Recommendation: {screen: RecommendationScreen},
-    Discharge     : {screen: DischargeScreen}
+    Discharge     : {screen: DischargeScreen},
+    UpdateScreen  : {screen: UpdateScreen}
 }, navigationConfig);
 
 export default AppNavigator;

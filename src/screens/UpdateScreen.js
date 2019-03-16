@@ -8,25 +8,23 @@ import {
     View,
     TouchableOpacity,
     Dimensions,
-    Alert,
     LayoutAnimation,
     UIManager,
-    TouchableHighlight
 } from 'react-native';
-import {ButtonGroup, SearchBar} from 'react-native-elements'
+import {SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
-import {observable} from 'mobx'
 import {
     widthPercentageToDP as widthDP,
     listenOrientationChange,
     removeOrientationListener
 } from 'react-native-responsive-screen'
-import DownloadButton from "../components/ui/DownloadButton.js"
+import RefreshAllButton from "../components/ui/RefreshAllButton.js"
 import {Button} from '../components/ui/Button'
 import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
-import FavoritesIcon from "../components/ui/FavoritesIcon.js";
 import Colors from "../common/Colors";
+import {retrieveAlgorithms, retrieveAlgorithm} from "../services/fetchAlgorithms";
+import { errorAlert } from '../components/ui/AlertBox.js';
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
 var searchBarTransition = {
@@ -38,22 +36,15 @@ var searchBarTransition = {
 
 @inject("rootStore")
 @observer
-export default class HomeScreen extends React.Component {
+export default class UpdateScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
-
         const {params = {}} = navigation.state;
 
         return {
-
             headerRight   : (
                 <SearchButton openSearchBar={params.handleSeach}/>
             ),
-            headerLeft    : (
-                <DownloadButton  
-                onPress={() => navigation.navigate("UpdateScreen", {algorithms: params.algorithms})}
-                />
-            ), headerStyle: {
-
+            headerStyle: {
                 backgroundColor  : Colors.navBarBackground,
                 marginTop        : 10,
                 paddingBottom    : 10,
@@ -68,45 +59,35 @@ export default class HomeScreen extends React.Component {
         algorithms   : [],
         searchText   : "",
         selectedIndex: 0,
-        popUpSearch  : false,
-        refresh      : false,
-        update       : null
+        popUpSearch  : false
     };
+
+    getAlgorithms = () => {
+        return retrieveAlgorithms()
+            .then((res) => {
+                this.setState({
+                    algorithms: res
+                })
+                console.log(res);
+                if(res.length === 0){
+                    errorAlert("No algorithms available.", 
+                        "Try again later");
+                }
+            }).catch((err) => {console.log(err)});
+    }
 
     componentDidMount() {
         //Sets the parametors that are passed to the navigationOpions.
         this.props.navigation.setParams({
             handleSeach: this.setSearchState
         });
-
-        this.props.navigation.setParams({
-            refreshPage: this.refreshPage
-        });
-
-        const {updateStore} = this.props.rootStore;
-        this.props.navigation.setParams({
-            update: new updateStore.model(updateStore, 0)
-        });
-
-        this.setState({update: new updateStore.model(updateStore, 0)})
-
         listenOrientationChange(this);
-        this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
-            this.setState({
-                algorithms: res
-            });
-        });
+        this.getAlgorithms()
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.update !== this.state.update) {
-            this.refreshPage();
-            this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
-                this.setState({
-                    algorithms: res
-                });
-                //console.log(res[0].Id);
-            });
+        if (prevState.algorithms !== this.state.algorithms) {
+            this.getAlgorithms()
         }
     }
 
@@ -155,87 +136,51 @@ export default class HomeScreen extends React.Component {
         this.setState({searchText: text});
     };
 
-    //Refreshes that page when called
-    refreshPage = () => {
-        this.setState(({update}) => {
-            update.Refresh++;
-        });
-    }
-
     renderAlgorithm = (navigate, algorithm, search) => {
         // Algorithm renders if search text is empty or search text matches algorithm name
-        var name   = algorithm.Name.toLowerCase();
+        var name   = algorithm.name.toLowerCase();
         var search = search.toLowerCase();
         var match  = name.includes(search) && name !== '' && search !== '';
 
         let content = (
             <Card
-                title={algorithm.Name}
+                title={algorithm.name}
                 bodyText={algorithm.ShortDescription}
-                favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
-                key={algorithm.Id}
+                key={algorithm.id}
                 containerStyle={setCardStyle()}
             >
                 <View style={styles.buttonContiner}>
-                    <Button
-                        onPress={() =>
-                            navigate("AlgDescription", {algorithm: algorithm})
-                        }
-                    >
-                        Info
-                    </Button>
-                    <Button
-                        onPress={() =>
-                            navigate("Conversation", {algorithm: algorithm})
-                        }
-                    >
-                        Start
-                    </Button>
+                    
                 </View>
             </Card>)
 
-        if (this.state.selectedIndex == 1 && algorithm.IsFavorited == 1 && (this.state.searchText === '' || match)) {
-            return (
-                content
-            )
-        } else if (this.state.selectedIndex == 0 && (this.state.searchText === '' || match)) {
-            return (
-                content
-            )
-        }
+            return content;
     };
 
     render() {
         const {algorithms} = this.state;
         const {navigate}   = this.props.navigation;
-
-        const buttons         = ['All', 'Favorites']
         const {selectedIndex} = this.state
 
         return (
             <View style={styles.container}>
-                <View style={styles.outerButtonGroupContainer}>
-                    <ButtonGroup
-                        buttons={buttons}
-                        onPress={this.updateIndex}
-                        selectedIndex={selectedIndex}
-                        containerStyle={styles.buttonGroupContainer}
-                        buttonStyle={styles.buttonGroup}
-                        selectedButtonStyle={styles.buttonGroupEnabled}
-                        selectedTextStyle={{color: "white"}}
-                        textStyle={{color: "white", fontSize: 18}}
-                        innerBorderStyle={{width: 1.5, color: "#ee3e41"}}
-                    /></View>
+                <TouchableOpacity 
+                    onPress={this.getAlgorithms}
+                    style={styles.refreshButtonContainer}
+                >
+                    <Text style={styles.refreshButtonText}>Refresh</Text>
+                </TouchableOpacity>
                 <ScrollView>
                     {this.renderSearch()}
                     <View style={setViewStyle()}>
-                        {algorithms.map(algorithm =>
+                        {console.log(this.state.algorithms)}
+                        {/*algorithms.map(algorithm =>
                             this.renderAlgorithm(
                                 navigate,
                                 algorithm,
                                 this.state.searchText
                             )
-                        )}
+                            )*/}
                     </View>
                 </ScrollView>
             </View>
@@ -308,29 +253,18 @@ const styles = StyleSheet.create({
             }
         })
     },
-    buttonGroupContainer     : {
-        height      : 50,
-        marginTop   : -3,
-        marginLeft  : 0,
-        marginRight : 0,
-        borderRadius: 0,
-        borderWidth : 0,
-        ...Platform.select({
-            android: {
-                borderBottomColor: "rgba(0, 0, 0, 0.08)",
-                borderBottomWidth: 3
-            }
-        })
-    },
-    buttonGroup              : {
+    refreshButtonContainer     : {
+        justifyContent : "center",
+        position: "relative",
+        flexDirection: "row",
         backgroundColor: Colors.PCH_RED,
-        paddingTop     : 10
+        marginTop   : 10,
+        marginLeft  : 10,
+        marginRight : 10,
+        borderRadius: 5
     },
-    buttonGroupEnabled       : {
-        backgroundColor  : Colors.PCH_RED,
-        borderTopColor   : Colors.PCH_RED,
-        borderBottomColor: "white",
-        borderBottomWidth: 3
+    refreshButtonText : {
+        color : "#fff"
     },
     titleText                : {
         fontSize    : 20,
@@ -339,14 +273,7 @@ const styles = StyleSheet.create({
     descriptionText          : {
         marginBottom: 10
     },
-    buttonContiner           : {
-        flexDirection: "row" //Aligns buttons next to one another.
-    },
-    bodyText                 : {
-        fontSize    : 16,
-        marginBottom: 15,
-        borderRadius: 5
-    },
+
     searchBarContainer       : {
         backgroundColor  : "#fff",
         borderTopColor   : "transparent",
