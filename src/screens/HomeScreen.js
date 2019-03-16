@@ -60,16 +60,19 @@ export default class HomeScreen extends React.Component {
                 borderBottomWidth: 0,
             }
         };
-    }
+    };
 
     state = {
-        algorithms   : [],
         searchText   : "",
         selectedIndex: 0,
         popUpSearch  : false,
         refresh      : false,
         update       : null
     };
+
+    get algorithms() {
+        return this.props.rootStore.algorithmStore.collection;
+    }
 
     componentDidMount() {
         //Sets the parametors that are passed to the navigationOpions.
@@ -86,14 +89,10 @@ export default class HomeScreen extends React.Component {
             update: new updateStore.model(updateStore, 0)
         });
 
-        this.setState({update: new updateStore.model(updateStore, 0)})
+        this.setState({update: new updateStore.model(updateStore, 0)});
 
         listenOrientationChange(this);
-        this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
-            this.setState({
-                algorithms: res
-            });
-        });
+        this.props.rootStore.algorithmStore.getOrFindAll(true);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -204,8 +203,7 @@ export default class HomeScreen extends React.Component {
     };
 
     render() {
-        const {algorithms} = this.state;
-        const {navigate}   = this.props.navigation;
+        const {navigate} = this.props.navigation;
 
         const buttons         = ['All', 'Favorites']
         const {selectedIndex} = this.state
@@ -227,7 +225,7 @@ export default class HomeScreen extends React.Component {
                 <ScrollView>
                     {this.renderSearch()}
                     <View style={setViewStyle()}>
-                        {algorithms.map(algorithm =>
+                        {this.algorithms.map(algorithm =>
                             this.renderAlgorithm(
                                 navigate,
                                 algorithm,

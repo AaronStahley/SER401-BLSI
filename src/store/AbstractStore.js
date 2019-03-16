@@ -45,8 +45,8 @@ export default class AbstractStore {
             .then(this.processResults);
     };
 
-    getOrFindAll = () => {
-        if (this.allFound) {
+    getOrFindAll = (forceFetch = false) => {
+        if (this.allFound || forceFetch) {
             return new BluebirdPromise((resolve, reject) => {
                 resolve(Object.values(this.collection));
             })
