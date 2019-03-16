@@ -35,7 +35,7 @@ export default class StateContainer extends React.Component {
         return (
             <View>
                 <View>
-                    <RecommendationContainer state={state}/>
+                    <RecommendationContainer state={state} finalRecommendation={state.StateIdNextGood === null && state.StateIdNextBad === null}/>
                 </View>
 
                 {
