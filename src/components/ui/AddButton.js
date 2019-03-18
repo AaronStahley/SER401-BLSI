@@ -8,7 +8,7 @@ import {queryAlert, errorAlert} from "./AlertBox"
 
 @inject("rootStore")
 @observer
-export default class DownloadButton extends React.Component {
+export default class AddButton extends React.Component {
 
     render() {
         return (<View>
