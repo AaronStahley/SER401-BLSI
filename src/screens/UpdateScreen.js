@@ -1,5 +1,4 @@
 import React, {Fragment} from 'react';
-
 import {
     ScrollView,
     StyleSheet,
@@ -7,7 +6,6 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Dimensions,
     LayoutAnimation,
     UIManager,
 } from 'react-native';
@@ -18,13 +16,10 @@ import {
     listenOrientationChange,
     removeOrientationListener
 } from 'react-native-responsive-screen'
-import RefreshAllButton from "../components/ui/RefreshAllButton.js"
-import {Button} from '../components/ui/Button'
-import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
 import Colors from "../common/Colors";
-import {retrieveAlgorithms, retrieveAlgorithm} from "../services/fetchAlgorithms";
-import { errorAlert } from '../components/ui/AlertBox.js';
+import UpdateAlgorithmList from '../components/ui/UpdateAlgorithmList';
+import {retrieveAlgorithms} from '../services/fetchAlgorithms'
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
 var searchBarTransition = {
@@ -54,41 +49,23 @@ export default class UpdateScreen extends React.Component {
             }
         };
     }
-
+    
     state = {
         algorithms   : [],
         searchText   : "",
         selectedIndex: 0,
-        popUpSearch  : false
+        popUpSearch  : false,
+        loading     : true
     };
 
-    getAlgorithms = () => {
-        return retrieveAlgorithms()
-            .then((res) => {
-                this.setState({
-                    algorithms: res
-                })
-                console.log(res);
-                if(res.length === 0){
-                    errorAlert("No algorithms available.", 
-                        "Try again later");
-                }
-            }).catch((err) => {console.log(err)});
-    }
-
-    componentDidMount() {
+    async componentDidMount() {
         //Sets the parametors that are passed to the navigationOpions.
         this.props.navigation.setParams({
             handleSeach: this.setSearchState
         });
         listenOrientationChange(this);
-        this.getAlgorithms()
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.algorithms !== this.state.algorithms) {
-            this.getAlgorithms()
-        }
+        this.getAlgorithms();
+        this.props.rootStore.algorithmStore.getOrFindAll(true); //get updated collection
     }
 
     componentWillUnmount() {
@@ -105,10 +82,6 @@ export default class UpdateScreen extends React.Component {
             this.setState({popUpSearch: false})
             this.renderSearch()
         }
-    }
-
-    updateIndex = (selectedIndex) => {
-        this.setState({selectedIndex})
     }
 
     //Renders the search bar bellow header.
@@ -136,106 +109,49 @@ export default class UpdateScreen extends React.Component {
         this.setState({searchText: text});
     };
 
-    renderAlgorithm = (navigate, algorithm, search) => {
-        // Algorithm renders if search text is empty or search text matches algorithm name
-        var name   = algorithm.name.toLowerCase();
-        var search = search.toLowerCase();
-        var match  = name.includes(search) && name !== '' && search !== '';
-
-        let content = (
-            <Card
-                title={algorithm.name}
-                bodyText={algorithm.ShortDescription}
-                key={algorithm.id}
-                containerStyle={setCardStyle()}
-            >
-                <View style={styles.buttonContiner}>
-                    
-                </View>
-            </Card>)
-
-            return content;
-    };
+    getAlgorithms = async () => {
+        return await retrieveAlgorithms()
+            .then(res => {
+                this.setState({
+                    algorithms: res.collection,
+                    loading: false
+                })
+                return res;
+            }).catch(err => {
+                console.log("No Connection", err);
+            });
+    }
 
     render() {
-        const {algorithms} = this.state;
-        const {navigate}   = this.props.navigation;
-        const {selectedIndex} = this.state
-
+        const {algorithms, loading} = this.state;
+        
+        if(loading) {
+            return <View></View>
+        }
         return (
             <View style={styles.container}>
                 <TouchableOpacity 
-                    onPress={this.getAlgorithms}
+                    onPress={() => this.getAlgorithms()}
                     style={styles.refreshButtonContainer}
                 >
-                    <Text style={styles.refreshButtonText}>Refresh</Text>
+                    <Text style={styles.text}>Refresh List</Text>
                 </TouchableOpacity>
                 <ScrollView>
                     {this.renderSearch()}
-                    <View style={setViewStyle()}>
-                        {console.log(this.state.algorithms)}
-                        {/*algorithms.map(algorithm =>
-                            this.renderAlgorithm(
-                                navigate,
-                                algorithm,
-                                this.state.searchText
-                            )
-                            )*/}
-                    </View>
+                    <UpdateAlgorithmList 
+                        algorithms={algorithms} 
+                        loading={loading}/>
                 </ScrollView>
             </View>
         );
     }
 }
 
-const setViewStyle = function () {
-    if (Dimensions.get('window').width > 500) {
-        return {
-            flexWrap      : 'wrap',
-            flexDirection : 'row',
-            justifyContent: 'center'
-        }
-    } else {
-        return {
-            flexWrap: 'wrap'
-        }
-    }
-}
-
-const setCardStyle = function () {
-    if (Dimensions.get('window').width > 1000) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff',
-            width          : '33%'
-        }
-    } else if (Dimensions.get('window').width > 500) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff',
-            width          : '50%'
-        }
-    } else {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff'
-        }
-    }
-}
-
 const styles = StyleSheet.create({
+    text: {
+        color: "#fff",
+        fontSize: 16
+    },
     container                : {
         flex           : 1,
         justifyContent : 'center',
@@ -257,14 +173,12 @@ const styles = StyleSheet.create({
         justifyContent : "center",
         position: "relative",
         flexDirection: "row",
+        padding: 10,
         backgroundColor: Colors.PCH_RED,
         marginTop   : 10,
         marginLeft  : 10,
         marginRight : 10,
-        borderRadius: 5
-    },
-    refreshButtonText : {
-        color : "#fff"
+        borderRadius: 5,
     },
     titleText                : {
         fontSize    : 20,

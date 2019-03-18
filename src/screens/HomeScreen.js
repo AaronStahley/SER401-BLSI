@@ -21,7 +21,7 @@ import {
     listenOrientationChange,
     removeOrientationListener
 } from 'react-native-responsive-screen'
-import DownloadButton from "../components/ui/DownloadButton.js"
+import AddButton from "../components/ui/AddButton.js"
 import {Button} from '../components/ui/Button'
 import {Card} from "../components/ui/Card.js";
 import SearchButton from '../components/ui/SearchButton.js';
@@ -49,7 +49,7 @@ export default class HomeScreen extends React.Component {
                 <SearchButton openSearchBar={params.handleSeach}/>
             ),
             headerLeft    : (
-                <DownloadButton  
+                <AddButton  
                 onPress={() => navigation.navigate("UpdateScreen", {algorithms: params.algorithms})}
                 />
             ), headerStyle: {
