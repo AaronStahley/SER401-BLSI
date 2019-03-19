@@ -71,7 +71,7 @@ export default class AbstractStore {
     };
 
     insert = (json) => {
-        delete json.Id;
+        //delete json.Id;
 
         let {sql, values} = this.transporter.buildInsertSql(this.table, json);
 
@@ -86,8 +86,6 @@ export default class AbstractStore {
 
     delete = (id) => {
         return this.transporter.execute(`delete from ${this.table} where id = ?`, [id])
-            .then(this.processResults)
-            .then(res => res.length > 0 ? res[0] : null);
     };
 
     //Incomplete, but not operable
@@ -99,6 +97,17 @@ export default class AbstractStore {
         }
     };
 
+    updateElseInsert = (json) => {
+        return this.update(json)
+            .then((res) => {
+                if(res) {
+                    return null;
+                }
+                return this.insert(json);
+            }).catch(err => {
+                console.log(err);
+            });
+    }
     convertFieldNames = (row) => {
         let mappedObj = {};
         for (let dbField in row) {

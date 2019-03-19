@@ -31,4 +31,10 @@ export default class RecommendationStore extends AbstractStore {
             this.updateOrInsert(item);
         }));
     }
+
+    dynamicInsertionAll = (funcName, recommendations) => {
+        return Promise.all(recommendations.map((item) => {
+            this[funcName](item);
+        }));
+    }
 }
