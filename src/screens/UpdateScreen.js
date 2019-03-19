@@ -159,7 +159,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff"
     },
     outerButtonGroupContainer: {
-        // backgroundColor: "#ee3e41",
         position: "relative",
         ...Platform.select({
             ios: {

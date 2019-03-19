@@ -13,8 +13,9 @@ export default class RefreshButton extends React.Component {
     Promise.resolve(retrieveAlgorithm(algorithmId)
       .then(json => {
         if (!json) throw new Error("Data not available");
-        this.props.rootStore.updateStore.update(json);
+        this.props.rootStore.updateStore.dynamicInsertion("updateElseInsert", json);
       })
+      .then(() => this.props.rootStore.updateStore.dynamicExecute("PRAGMA foreign_keys = on;"))
       .catch(err => {
         console.log(err);
         errorAlert("Data not available",

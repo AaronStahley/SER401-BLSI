@@ -2,7 +2,6 @@ import React from "react";
 import {View, ActivityIndicator} from "react-native";
 import ReleaseAlgorithmCard from "./ReleaseAlgorithmCard"
 import UpdateButton from "./UpdateButton"
-import Colors from "../../common/Colors"
 
 export default class UpdateAlgorithmList extends React.Component {
 
