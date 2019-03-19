@@ -46,7 +46,7 @@ export default class AbstractStore {
     };
 
     getOrFindAll = (forceFetch = false) => {
-        if (this.allFound || forceFetch) {
+        if (this.allFound && !forceFetch) {
             return new BluebirdPromise((resolve, reject) => {
                 resolve(Object.values(this.collection));
             })
@@ -123,13 +123,18 @@ export default class AbstractStore {
         }
 
         return _array.map(row => {
-            let obj = 'id' in row ? this.get(row.id) : null;
+            let isRegistered = false;
+            let obj          = 'id' in row ? this.get(row.id) : null;
+
             if (!obj) {
-                obj = new this.model(this);
-                this.register(obj);
+                isRegistered = true;
+                obj          = new this.model(this);
             }
 
             obj.fromObj(this.convertFieldNames(row));
+            if (isRegistered) {
+                this.register(obj);
+            }
             return obj;
         });
     };

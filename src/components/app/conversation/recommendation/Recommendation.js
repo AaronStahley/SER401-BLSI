@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-import Colors from '../../common/Colors';
+import Colors from '../../../../common/Colors';
 import {observer} from "mobx-react/native";
 import {Icon} from "react-native-elements";
 import { withNavigation } from 'react-navigation';

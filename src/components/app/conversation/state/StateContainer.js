@@ -4,7 +4,7 @@ import QuestionContainer from "../question/QuestionContainer";
 import {observer} from "mobx-react/native";
 import NextStateContainer from "./NextStateContainer";
 import RecommendationContainer from "../recommendation/RecommendationContainer";
-import ProceedButton from "../ui/ProceedButton";
+import ProceedButton from "../../../ui/ProceedButton";
 
 @observer
 export default class StateContainer extends React.Component {

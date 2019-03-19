@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
-import Colors from '../../common/Colors';
+import Colors from '../../../../common/Colors';
 import Question from "./Question";
-import Images from "../../common/Images";
+import Images from "../../../../common/Images";
 import {inject, observer} from "mobx-react/native";
 
 @inject("rootStore")

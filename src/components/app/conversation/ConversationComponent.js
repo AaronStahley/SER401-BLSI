@@ -1,17 +1,17 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View, Text, Button, Alert, TouchableOpacity, Dimensions} from 'react-native';
-import Colors from '../common/Colors';
 import {observer, inject} from 'mobx-react/native';
-import NextStateContainer from "../components/state/NextStateContainer";
+import NextStateContainer from "./state/NextStateContainer";
 import {widthPercentageToDP as widthDP} from "react-native-responsive-screen";
 import {AppLoading} from "expo";
-import StartOverButton from "../components/navigation/StartOverButton";
+import StartOverButton from "../../navigation/StartOverButton";
+import Colors from "../../../common/Colors";
 
 let {height, width} = Dimensions.get("window");
 
 @inject('rootStore')
 @observer
-export default class ConversationScreen extends React.Component {
+export default class ConversationComponent extends React.Component {
     scrollView;
 
     constructor() {

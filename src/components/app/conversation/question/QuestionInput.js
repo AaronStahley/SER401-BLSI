@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, ActionSheetIOS,} from 'react-native';
 import CheckBox from './CheckBox';
-import Colors from '../../common/Colors';
+import Colors from '../../../../common/Colors';
 import {Col, Grid} from "react-native-easy-grid";
 import {observer} from "mobx-react/native";
-import NumberField from "../ui/NumberField";
+import NumberField from "../../../ui/NumberField";
 import {Dropdown} from 'react-native-material-dropdown';
 
 

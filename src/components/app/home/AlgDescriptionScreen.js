@@ -1,7 +1,7 @@
 import React from 'react';
 import HTMLView from 'react-native-htmlview';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import RefreshButton from "../components/ui/RefreshButton.js"
+import RefreshButton from "../../ui/RefreshButton.js"
 
 export default class AlgDescriptionScreen extends React.Component {
     
