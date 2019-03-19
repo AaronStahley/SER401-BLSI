@@ -19,7 +19,6 @@ import RefreshAllButton from "../../ui/RefreshAllButton.js"
 import SearchButton from '../../ui/SearchButton.js';
 import Colors from "../../../common/Colors";
 import AlgorithmListItem from "./AlgorithmListItem";
-import {toJS} from "mobx";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
 var searchBarTransition = {
@@ -116,13 +115,13 @@ export default class HomeComponent extends React.Component {
 
     //Sets the state of if the serch bar should pop up based on the header icon press.
     setSearchState = () => {
-        if (this.state.popUpSearch == false) {
+        if (this.state.popUpSearch === false) {
             this.setState({popUpSearch: true}, function () {
-                this.renderSearch()
+                LayoutAnimation.configureNext(searchBarTransition);
             });
         } else {
-            this.setState({popUpSearch: false})
-            this.renderSearch()
+            this.setState({popUpSearch: false});
+            LayoutAnimation.configureNext(searchBarTransition);
         }
     };
 
@@ -130,26 +129,6 @@ export default class HomeComponent extends React.Component {
         this.setState({selectedIndex})
     };
 
-    //Renders the search bar bellow header.
-    renderSearch = () => {
-
-        LayoutAnimation.configureNext(searchBarTransition);
-        if (this.state.popUpSearch === true) {
-            return (
-                <SearchBar
-                    placeholder="Search algorithm..."
-                    onChangeText={this.updateSearch}
-                    value={this.state.searchText}
-                    containerStyle={styles.searchBarContainer}
-                    inputStyle={styles.searchBarInput}
-                    clearIcon
-                    autoFocus={true}
-                />
-            );
-        } else {
-            return null
-        }
-    };
 
     updateSearch = text => {
         this.setState({searchText: text});
@@ -181,7 +160,18 @@ export default class HomeComponent extends React.Component {
                     />
                 </View>
                 <ScrollView>
-                    {this.renderSearch()}
+                    {
+                        this.state.popUpSearch &&
+                        <SearchBar
+                            placeholder="Search algorithm..."
+                            onChangeText={this.updateSearch}
+                            value={this.state.searchText}
+                            containerStyle={styles.searchBarContainer}
+                            inputStyle={styles.searchBarInput}
+                            clearIcon
+                            autoFocus={true}
+                        />
+                    }
                     <View style={setViewStyle()}>
                         {this.algorithms.map(algorithm =>
                             <AlgorithmListItem key={algorithm.Id} algorithm={algorithm}
