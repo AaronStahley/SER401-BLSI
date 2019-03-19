@@ -19,6 +19,10 @@ export default class StateContainer extends React.Component {
         this.setState({
             proceedClicked: state.started
         });
+
+        var pathArr = state.getPath().split(':');
+        var prevId = pathArr[pathArr.length - 2] 
+        console.log(state.Id + ', ' + prevId);
     }
 
     handleProceedClicked = () => {
@@ -35,7 +39,7 @@ export default class StateContainer extends React.Component {
         return (
             <View>
                 <View>
-                    <RecommendationContainer state={state} finalRecommendation={state.StateIdNextGood === null && state.StateIdNextBad === null}/>
+                    <RecommendationContainer state={state} finalRecommendation={state.StateIdNextGood === null && state.StateIdNextBad === null} goodResult={true}/>
                 </View>
 
                 {

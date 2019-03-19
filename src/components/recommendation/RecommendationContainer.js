@@ -10,7 +10,7 @@ import Recommendation from "./Recommendation";
 export default class RecommendationContainer extends React.Component {
 
     render() {
-        let {state, finalRecommendation} = this.props;
+        let {state, finalRecommendation, goodResult} = this.props;
 
         if (state.Recommendations.length === 0) {
             return <View/>;
@@ -23,7 +23,7 @@ export default class RecommendationContainer extends React.Component {
                         source={Images.recommendationIcon}
                     />
                 </View>
-                <View style={setTextBubble(finalRecommendation)}>
+                <View style={setTextBubble(finalRecommendation, goodResult)}>
                     {
                         state.Recommendations.map((recommendation, index) => (
                                 <View key={recommendation.Id}>
@@ -46,8 +46,7 @@ export default class RecommendationContainer extends React.Component {
     }
 }
 
-const setTextBubble = function(final) {
-    var goodResult = true;
+const setTextBubble = function(final, goodResult) {
     if (final && goodResult) {
         return {
             backgroundColor  : Colors.recommendationBubbleGood,
