@@ -6,12 +6,12 @@ export default class AlgorithmStore extends AbstractStore {
         super(Algorithm, 'algorithm', rootStore, transporter, true);
     }
 
-    contains(name, algorithmId, versionNumber) {
+    contains(algorithm, algo_json) {
         let exists = false;
         this.collection.forEach((item) => {
-            if(item.Name === name &&
-                item.Id == algorithmId &&
-                item.VersionId === versionNumber) {
+            if(item.Id === algorithm.algorithm_id &&
+                item.DateModified === algo_json.date_modified &&
+                item.VersionId === algorithm.version_number) {
                     exists = true;
             }
         })

@@ -13,25 +13,7 @@ export default class RecommendationStore extends AbstractStore {
         return this.transporter.select(`select * from ${this.table} where algorithm_id = ?;`, [this.algorithm.Id])
             .then(this.processResults)
     }
-
-    updateAll = (recommendations) => {
-        return Promise.all(recommendations.map((item) => {
-            this.update(item);
-        }));
-    };
-
-    insertAll = (recommendations) => {
-        return Promise.all(recommendations.map((item) => {
-            return this.insert(item);
-        }));
-    };
-
-    updateOrInsertAll = (recommendations) => {
-        return Promise.all(recommendations.map((item) => {
-            this.updateOrInsert(item);
-        }));
-    }
-
+    
     dynamicInsertionAll = (funcName, recommendations) => {
         return Promise.all(recommendations.map((item) => {
             this[funcName](item);

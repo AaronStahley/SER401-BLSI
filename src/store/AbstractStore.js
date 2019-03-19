@@ -103,11 +103,16 @@ export default class AbstractStore {
                 if(res) {
                     return null;
                 }
-                return this.insert(json);
+
+                let {sql, values} = this.transporter.buildInsertSql(this.table, json);
+                sql += "; PRAGMA foreign_keys=off;";
+                
+                return this.transporter.execute(sql, values);
             }).catch(err => {
                 console.log(err);
             });
     }
+
     convertFieldNames = (row) => {
         let mappedObj = {};
         for (let dbField in row) {

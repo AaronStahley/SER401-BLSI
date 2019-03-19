@@ -28,58 +28,6 @@ export default class UpdateStore {
             .catch(err => console.log(err));
     }
 
-    update(obj) {
-        let attributes = JSON.parse(json.attribute_json);
-        let algorithm  = JSON.parse(json.algorithm_json);
-        return this.rootStore.algorithmStore.update(algorithm)
-            .then(() => {
-                let states = attributes.states;
-                return this.rootStore.stateStore.updateAll(states);
-            }).then(() => {
-                let recommendations = attributes.recommendations;
-                return this.rootStore.recommendationStore.updateAll(recommendations);
-            }).then(() => {
-                let questions = attributes.questions;
-                //item has nested info
-                return this.rootStore.questionStore.updateAll(questions);
-            }).catch(err => {
-                console.log(err);
-                errorAlert("Update failed", err.toString());
-            });
-    }
-
-    insert(json) {
-        let attributes = JSON.parse(json.attribute_json);
-        let algorithm  = JSON.parse(json.algorithm_json);
-        return this.rootStore.algorithmStore.insert(algorithm)
-            .then(() => this.rootStore.stateStore.insertAll(attributes.states))
-            .then(() => this.rootStore.recommendationStore.insertAll(attributes.recommendations))
-            .then(() => this.rootStore.questionStore.insertAll(attributes.questions))
-            .catch(err => {
-                console.log(err);
-                errorAlert("Update failed", err.toString());
-            });
-    }
-
-    updateOrInsert(json) {
-        let attributes = JSON.parse(json.attribute_json);
-        let algorithm  = JSON.parse(json.algorithm_json);
-        
-        return this.rootStore.algorithmStore.updateOrInsert(algorithm)
-            .then(() => {
-                return this.rootStore.stateStore.updateOrInsertAll(attributes.states);
-            }).then(() => {
-                let recommendations = attributes.recommendations;
-                return this.rootStore.recommendationStore.updateOrInsertAll(attributes.recommendations);
-            }).then(() => {
-                let questions = attributes.questions;
-                //item has nested info
-                return this.rootStore.questionStore.updateOrInsertAll(attributes.questions);
-            }).catch(err => {
-                console.log(err);
-                errorAlert("Update failed", err.toString());
-            });
-    }
 
     /**
      * Allows for unique function calling of functions when updating
@@ -94,6 +42,20 @@ export default class UpdateStore {
             .then(() => this.rootStore.stateStore.dynamicInsertionAll(funcName, attributes.states))
             .then(() => this.rootStore.recommendationStore.dynamicInsertionAll(funcName, attributes.recommendations))
             .then(() => this.rootStore.questionStore.dynamicInsertionAll(funcName, attributes.questions))
+            .catch(err => {
+                console.log(err);
+                errorAlert("Update failed", err.toString());
+            });
+    }
+
+    dynamicExecute(sql) {
+        return this.rootStore.algorithmStore.execute(sql, [])
+            .then(() => this.rootStore.stateStore.execute(sql, []))
+            .then(() => this.rootStore.stateQuestionStore.execute(sql, []))
+            .then(() => this.rootStore.stateRecommendationStore.execute(sql, []))
+            .then(() => this.rootStore.recommendationStore.execute(sql, []))
+            .then(() => this.rootStore.questionStore.execute(sql, []))
+            .then(() => this.rootStore.questionOptionStore.execute(sql, []))
             .catch(err => {
                 console.log(err);
                 errorAlert("Update failed", err.toString());

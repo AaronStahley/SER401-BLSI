@@ -14,56 +14,10 @@ export default class QuestionStore extends AbstractStore {
             .then(this.processResults)
     }
 
-    updateAll = (questions) => {
-        return Promise.all(questions.map((item) => {
-            this.rootStore.questionStore.updateWithParts(item);
-        }));
-    };
-
-    updateWithParts = (json) => {
-        let options = json.question_options;
-        delete json.question_options;
-
-        return this.update(json)
-            .then((res) => Promise.all(options.map((item) => this.rootStore.questionOptionStore.update(item)))
-                .then(() => res)
-            )
-    };
-
-    insertAll = (questions) => {
-        return Promise.all(questions.map((item) => {
-            this.rootStore.questionStore.insertWithParts(item);
-        }));
-    };
-
-    insertWithParts = (json) => {
-        let options = json.question_options;
-        delete json.question_options;
-
-        return this.insert(json)
-            .then((res) => Promise.all(options.map((item) => this.rootStore.questionOptionStore.insert(item)))
-                .then(() => res))
-    };
-
-    updateOrInsertAll = (questions) => {
-        return Promise.all(questions.map((item) => {
-            this.rootStore.questionStore.updateOrInsertWithParts(item);
-        }));
-    };
-
-    updateOrInsertWithParts = (json) => {
-        let options = json.question_options;
-        delete json.question_options;
-
-        return this.updateOrInsert(json)
-            .then((res) => Promise.all(options.map((item) => this.rootStore.questionOptionStore.updateOrInsert(item)))
-                .then(() => res))
-
-    };
 
     dynamicInsertionAll = (funcName, questions) => {
         return Promise.all(questions.map((item) => {
-            this.rootStore.questionStore.dynamicInsertionWithParts(funcName, item);
+            this.dynamicInsertionWithParts(funcName, item);
         }));
     };
 
