@@ -121,15 +121,20 @@ export default class AbstractStore {
         if (_array.length === 0) {
             return [];
         }
-
+ 
         return _array.map(row => {
-            let obj = 'id' in row ? this.get(row.id) : null;
+            let isRegistered = false;
+            let obj          = 'id' in row ? this.get(row.id) : null;
+ 
             if (!obj) {
-                obj = new this.model(this);
+                isRegistered = true;
+                obj          = new this.model(this);
+            }
+ 
+            obj.fromObj(this.convertFieldNames(row));
+            if (isRegistered) {
                 this.register(obj);
             }
-
-            obj.fromObj(this.convertFieldNames(row));
             return obj;
         });
     };
