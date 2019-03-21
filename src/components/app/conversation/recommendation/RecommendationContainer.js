@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
-import Colors from '../../common/Colors';
-import Images from "../../common/Images";
+import Colors from '../../../../common/Colors';
+import Images from "../../../../common/Images";
 import {inject, observer} from "mobx-react/native";
 import Recommendation from "./Recommendation";
 

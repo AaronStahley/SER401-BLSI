@@ -28,7 +28,7 @@ export default class UpdateStore {
             .catch(err => console.log(err));
     }
 
-    update(obj) {
+    update(json) {
         let attributes = JSON.parse(json.attribute_json);
         let algorithm  = JSON.parse(json.algorithm_json);
         return this.rootStore.algorithmStore.update(algorithm)

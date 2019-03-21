@@ -1,32 +1,24 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 
 import {
     ScrollView,
     StyleSheet,
     Platform,
-    Text,
     View,
-    TouchableOpacity,
     Dimensions,
-    Alert,
     LayoutAnimation,
     UIManager,
-    TouchableHighlight
 } from 'react-native';
 import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
-import {observable} from 'mobx'
 import {
-    widthPercentageToDP as widthDP,
     listenOrientationChange,
     removeOrientationListener
 } from 'react-native-responsive-screen'
-import RefreshAllButton from "../components/ui/RefreshAllButton.js"
-import {Button} from '../components/ui/Button'
-import {Card} from "../components/ui/Card.js";
-import SearchButton from '../components/ui/SearchButton.js';
-import FavoritesIcon from "../components/ui/FavoritesIcon.js";
-import Colors from "../common/Colors";
+import RefreshAllButton from "../../ui/RefreshAllButton.js"
+import SearchButton from '../../ui/SearchButton.js';
+import Colors from "../../../common/Colors";
+import AlgorithmListItem from "./AlgorithmListItem";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
 var searchBarTransition = {
@@ -38,7 +30,7 @@ var searchBarTransition = {
 
 @inject("rootStore")
 @observer
-export default class HomeScreen extends React.Component {
+export default class HomeComponent extends React.Component {
     static navigationOptions = ({navigation}) => {
 
         const {params = {}} = navigation.state;
@@ -60,16 +52,29 @@ export default class HomeScreen extends React.Component {
                 borderBottomWidth: 0,
             }
         };
-    }
+    };
 
     state = {
-        algorithms   : [],
         searchText   : "",
         selectedIndex: 0,
         popUpSearch  : false,
         refresh      : false,
         update       : null
     };
+
+    get algorithms() {
+        let algorithms;
+        if (this.state.selectedIndex === 1) {
+            algorithms = this.props.rootStore.algorithmStore.collection.filter(algorithm => algorithm.IsFavorited);
+
+        } else if (this.state.selectedIndex === 0) {
+            algorithms = this.props.rootStore.algorithmStore.collection;
+        }
+
+        return this.state.searchText !== '' ? algorithms : algorithms.filter(algorithm => {
+            return (algorithm.Name !== '' && algorithm.Name.search(this.state.searchText) >= 0)
+        })
+    }
 
     componentDidMount() {
         //Sets the parametors that are passed to the navigationOpions.
@@ -86,14 +91,10 @@ export default class HomeScreen extends React.Component {
             update: new updateStore.model(updateStore, 0)
         });
 
-        this.setState({update: new updateStore.model(updateStore, 0)})
+        this.setState({update: new updateStore.model(updateStore, 0)});
 
         listenOrientationChange(this);
-        this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
-            this.setState({
-                algorithms: res
-            });
-        });
+        this.props.rootStore.algorithmStore.getOrFindAll(true);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -114,40 +115,20 @@ export default class HomeScreen extends React.Component {
 
     //Sets the state of if the serch bar should pop up based on the header icon press.
     setSearchState = () => {
-        if (this.state.popUpSearch == false) {
+        if (this.state.popUpSearch === false) {
             this.setState({popUpSearch: true}, function () {
-                this.renderSearch()
+                LayoutAnimation.configureNext(searchBarTransition);
             });
         } else {
-            this.setState({popUpSearch: false})
-            this.renderSearch()
+            this.setState({popUpSearch: false});
+            LayoutAnimation.configureNext(searchBarTransition);
         }
-    }
+    };
 
     updateIndex = (selectedIndex) => {
         this.setState({selectedIndex})
-    }
-
-    //Renders the search bar bellow header.
-    renderSearch = () => {
-
-        LayoutAnimation.configureNext(searchBarTransition);
-        if (this.state.popUpSearch == true) {
-            return (
-                <SearchBar
-                    placeholder="Search algorithm..."
-                    onChangeText={this.updateSearch}
-                    value={this.state.searchText}
-                    containerStyle={styles.searchBarContainer}
-                    inputStyle={styles.searchBarInput}
-                    clearIcon
-                    autoFocus={true}
-                />
-            );
-        } else {
-            return null
-        }
     };
+
 
     updateSearch = text => {
         this.setState({searchText: text});
@@ -158,63 +139,16 @@ export default class HomeScreen extends React.Component {
         this.setState(({update}) => {
             update.Refresh++;
         });
-    }
-
-    renderAlgorithm = (navigate, algorithm, search) => {
-        // Algorithm renders if search text is empty or search text matches algorithm name
-        var name   = algorithm.Name.toLowerCase();
-        var search = search.toLowerCase();
-        var match  = name.includes(search) && name !== '' && search !== '';
-
-        let content = (
-            <Card
-                title={algorithm.Name}
-                bodyText={algorithm.ShortDescription}
-                favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
-                key={algorithm.Id}
-                containerStyle={setCardStyle()}
-            >
-                <View style={styles.buttonContiner}>
-                    <Button
-                        onPress={() =>
-                            navigate("AlgDescription", {algorithm: algorithm})
-                        }
-                    >
-                        Info
-                    </Button>
-                    <Button
-                        onPress={() =>
-                            navigate("Conversation", {algorithm: algorithm})
-                        }
-                    >
-                        Start
-                    </Button>
-                </View>
-            </Card>)
-
-        if (this.state.selectedIndex == 1 && algorithm.IsFavorited == 1 && (this.state.searchText === '' || match)) {
-            return (
-                content
-            )
-        } else if (this.state.selectedIndex == 0 && (this.state.searchText === '' || match)) {
-            return (
-                content
-            )
-        }
     };
 
     render() {
-        const {algorithms} = this.state;
-        const {navigate}   = this.props.navigation;
-
-        const buttons         = ['All', 'Favorites']
-        const {selectedIndex} = this.state
+        const {selectedIndex} = this.state;
 
         return (
             <View style={styles.container}>
                 <View style={styles.outerButtonGroupContainer}>
                     <ButtonGroup
-                        buttons={buttons}
+                        buttons={['All', 'Favorites']}
                         onPress={this.updateIndex}
                         selectedIndex={selectedIndex}
                         containerStyle={styles.buttonGroupContainer}
@@ -223,16 +157,25 @@ export default class HomeScreen extends React.Component {
                         selectedTextStyle={{color: "white"}}
                         textStyle={{color: "white", fontSize: 18}}
                         innerBorderStyle={{width: 1.5, color: "#ee3e41"}}
-                    /></View>
+                    />
+                </View>
                 <ScrollView>
-                    {this.renderSearch()}
+                    {
+                        this.state.popUpSearch &&
+                        <SearchBar
+                            placeholder="Search algorithm..."
+                            onChangeText={this.updateSearch}
+                            value={this.state.searchText}
+                            containerStyle={styles.searchBarContainer}
+                            inputStyle={styles.searchBarInput}
+                            clearIcon
+                            autoFocus={true}
+                        />
+                    }
                     <View style={setViewStyle()}>
-                        {algorithms.map(algorithm =>
-                            this.renderAlgorithm(
-                                navigate,
-                                algorithm,
-                                this.state.searchText
-                            )
+                        {this.algorithms.map(algorithm =>
+                            <AlgorithmListItem key={algorithm.Id} algorithm={algorithm}
+                                               navigation={this.props.navigation}/>
                         )}
                     </View>
                 </ScrollView>
@@ -251,39 +194,6 @@ const setViewStyle = function () {
     } else {
         return {
             flexWrap: 'wrap'
-        }
-    }
-}
-
-const setCardStyle = function () {
-    if (Dimensions.get('window').width > 1000) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff',
-            width          : '33%'
-        }
-    } else if (Dimensions.get('window').width > 500) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff',
-            width          : '50%'
-        }
-    } else {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff'
         }
     }
 }
