@@ -130,18 +130,18 @@ export default class AbstractStore {
         if (_array.length === 0) {
             return [];
         }
-
+ 
         return _array.map(row => {
-            let isRegistered = false;
+            let isRegistered = true;
             let obj          = 'id' in row ? this.get(row.id) : null;
-
+ 
             if (!obj) {
-                isRegistered = true;
+                isRegistered = false;
                 obj          = new this.model(this);
             }
-
+ 
             obj.fromObj(this.convertFieldNames(row));
-            if (isRegistered) {
+            if (!isRegistered) {
                 this.register(obj);
             }
             return obj;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View, Text, Button, Alert, TouchableOpacity, Dimensions} from 'react-native';
+import {ScrollView, StyleSheet, View, Text, Button, Alert, TouchableOpacity, Dimensions, ActivityIndicator} from 'react-native';
 import {observer, inject} from 'mobx-react/native';
 import NextStateContainer from "./state/NextStateContainer";
 import {widthPercentageToDP as widthDP} from "react-native-responsive-screen";
@@ -31,9 +31,10 @@ export default class ConversationComponent extends React.Component {
         const algorithm  = navigation.getParam('algorithm', null);
 
         this.setState({algorithm: algorithm, isLoading: true});
+
         this.props.rootStore.createAlgorithmRootStore(algorithm)
             .then(() => {
-                this.setState({isLoading: false});
+                this.delay()
             })
     }
 
@@ -45,10 +46,19 @@ export default class ConversationComponent extends React.Component {
             this.setState({algorithm: algorithm, isLoading: true});
             this.props.rootStore.createAlgorithmRootStore(algorithm)
                 .then(() => {
-                    this.setState({isLoading: false});
+                   this.delay()
                 })
         }
 
+    }
+
+    //Allows the activity icon to display for a min of 300ms
+    //Doing to makes it look better vizualy. 
+    delay() { 
+        setTimeout(function() { 
+            this.setState({isLoading: false});
+
+        }.bind(this), 300);
     }
 
 
@@ -69,11 +79,15 @@ export default class ConversationComponent extends React.Component {
 
         if (this.state.isLoading) {
             return (
-                <AppLoading/>
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator 
+                        style={styles.activityIndicator}
+                        size="large" 
+                        color={Colors.PCH_RED} />
+                </View> 
             );
         }
-
-
+        
         return (
             <ScrollView
                 onLayout={this._onLayout}
@@ -122,6 +136,14 @@ const setConvoStyle = function () {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: { 
+        flex: 1,
+        backgroundColor: 'white'
+        
+    },
+    activityIndicator: { 
+        marginTop: 20
+    },
     root           : {
         backgroundColor: Colors.conversationBackground,
         alignSelf      : 'stretch',
