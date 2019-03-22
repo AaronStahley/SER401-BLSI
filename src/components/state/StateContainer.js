@@ -20,9 +20,9 @@ export default class StateContainer extends React.Component {
             proceedClicked: state.started
         });
 
-        var pathArr = state.getPath().split(':');
-        var prevId = pathArr[pathArr.length - 2] 
-        console.log(state.Id + ', ' + prevId);
+        /*var pathArr = state.getPath().split(':');
+        var prevId = pathArr[pathArr.length - 2];
+        console.log(state.Id + ', ' + prevId);*/
     }
 
     handleProceedClicked = () => {
