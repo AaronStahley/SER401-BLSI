@@ -10,7 +10,7 @@ import Recommendation from "./Recommendation";
 export default class RecommendationContainer extends React.Component {
 
     render() {
-        let {state} = this.props;
+        let {state, finalRecommendation, goodResult} = this.props;
 
         if (state.Recommendations.length === 0) {
             return <View/>;
@@ -23,7 +23,7 @@ export default class RecommendationContainer extends React.Component {
                         source={Images.recommendationIcon}
                     />
                 </View>
-                <View style={styles.textBubble}>
+                <View style={setTextBubble(finalRecommendation, goodResult)}>
                     {
                         state.Recommendations.map((recommendation, index) => (
                                 <View key={recommendation.Id}>
@@ -43,6 +43,51 @@ export default class RecommendationContainer extends React.Component {
                 </View>
             </View>
         );
+    }
+}
+
+const setTextBubble = function(final, goodResult) {
+    if (final && goodResult) {
+        return {
+            backgroundColor  : Colors.recommendationBubbleGood,
+            borderColor      : Colors.recommendationIconBorderGood,
+            borderStyle      : "solid",
+            borderRadius     : 10,
+            borderWidth      : 1,
+            paddingTop       : 5,
+            paddingBottom    : 5,
+            paddingHorizontal: 10,
+            marginBottom     : 10,
+            width            : '80%',
+        }
+    }
+    else if (final && !goodResult) {
+        return {
+            backgroundColor  : Colors.recommendationBubbleBad,
+            borderColor      : Colors.recommendationIconBorderBad,
+            borderStyle      : "solid",
+            borderRadius     : 10,
+            borderWidth      : 1,
+            paddingTop       : 5,
+            paddingBottom    : 5,
+            paddingHorizontal: 10,
+            marginBottom     : 10,
+            width            : '80%',
+        }
+    }
+    else {
+        return {
+            backgroundColor  : Colors.recommendationBubble,
+            borderColor      : Colors.recommendationIconBorder,
+            borderStyle      : "solid",
+            borderRadius     : 10,
+            borderWidth      : 1,
+            paddingTop       : 5,
+            paddingBottom    : 5,
+            paddingHorizontal: 10,
+            marginBottom     : 10,
+            width            : '80%',
+        }
     }
 }
 
