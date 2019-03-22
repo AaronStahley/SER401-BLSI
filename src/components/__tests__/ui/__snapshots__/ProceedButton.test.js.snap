@@ -41,7 +41,7 @@ exports[`renders correctly 1`] = `
         }
       }
     >
-      Proceed
+      snapshot
     </Text>
   </View>
 </View>

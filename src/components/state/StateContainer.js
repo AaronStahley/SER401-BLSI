@@ -1,13 +1,15 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View,Text} from 'react-native';
 import QuestionContainer from "../question/QuestionContainer";
 import {observer} from "mobx-react/native";
 import NextStateContainer from "./NextStateContainer";
 import RecommendationContainer from "../recommendation/RecommendationContainer";
 import ProceedButton from "../ui/ProceedButton";
+import { withNavigation } from 'react-navigation';
+
 
 @observer
-export default class StateContainer extends React.Component {
+class StateContainer extends React.Component {
 
     state = {
         proceedClicked: false
@@ -15,14 +17,9 @@ export default class StateContainer extends React.Component {
 
     componentDidMount() {
         let {state} = this.props;
-
         this.setState({
-            proceedClicked: state.started
+            proceedClicked: state.started        
         });
-
-        /*var pathArr = state.getPath().split(':');
-        var prevId = pathArr[pathArr.length - 2];
-        console.log(state.Id + ', ' + prevId);*/
     }
 
     handleProceedClicked = () => {
@@ -33,38 +30,49 @@ export default class StateContainer extends React.Component {
 
     render() {
 
-        let {state}          = this.props;
+        let {state,type}          = this.props;
         let {proceedClicked} = this.state;
-
         return (
             <View>
                 <View>
                     <RecommendationContainer state={state} finalRecommendation={state.StateIdNextGood === null && state.StateIdNextBad === null} goodResult={true}/>
                 </View>
-
                 {
                     state.Questions.length > 0 &&
                     <View>
                         {
                             (!proceedClicked && state.Recommendations.length !== 0) &&
-                            <ProceedButton title={'Proceed'} onPress={this.handleProceedClicked}/>
-
+                            <ProceedButton 
+                                title={'Proceed'} 
+                                onPress={this.handleProceedClicked}
+                            />
                         }
-
                         {
                             (proceedClicked || state.Recommendations.length === 0) &&
                             <View>
                                 <QuestionContainer state={state}/>
                                 {
                                     state.NextStateId &&
-                                    <NextStateContainer nextStateId={state.NextStateId} path={state.getPath()}/>
+                                    <NextStateContainer 
+                                        nextStateType={state.NextStateType} 
+                                        nextStateId={state.NextStateId} 
+                                        path={state.getPath()}
+                                    />
                                 }
                             </View>
                         }
                     </View>
                 }
-
+                {
+                    (state.Questions.length === 0 && type === "good") &&
+                    <ProceedButton 
+                        title={'Discharge'} 
+                        onPress={() =>   this.props.navigation.navigate('Discharge')}
+                    />
+                }
             </View>
         );
     }
 }
+
+export default withNavigation(StateContainer);

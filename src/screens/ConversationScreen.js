@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View, Text, Button, Alert, TouchableOpacity, Dimensions} from 'react-native';
+import {ScrollView,View, StyleSheet, ActivityIndicator, Dimensions} from 'react-native';
 import Colors from '../common/Colors';
 import {observer, inject} from 'mobx-react/native';
 import NextStateContainer from "../components/state/NextStateContainer";
@@ -31,9 +31,10 @@ export default class ConversationScreen extends React.Component {
         const algorithm  = navigation.getParam('algorithm', null);
 
         this.setState({algorithm: algorithm, isLoading: true});
+
         this.props.rootStore.createAlgorithmRootStore(algorithm)
             .then(() => {
-                this.setState({isLoading: false});
+                this.delay()
             })
     }
 
@@ -45,10 +46,19 @@ export default class ConversationScreen extends React.Component {
             this.setState({algorithm: algorithm, isLoading: true});
             this.props.rootStore.createAlgorithmRootStore(algorithm)
                 .then(() => {
-                    this.setState({isLoading: false});
+                   this.delay()
                 })
         }
 
+    }
+
+    //Allows the activity icon to display for a min of 300ms
+    //Doing to makes it look better vizualy. 
+    delay() { 
+        setTimeout(function() { 
+            this.setState({isLoading: false});
+
+        }.bind(this), 300);
     }
 
 
@@ -69,11 +79,15 @@ export default class ConversationScreen extends React.Component {
 
         if (this.state.isLoading) {
             return (
-                <AppLoading/>
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator 
+                        style={styles.activityIndicator}
+                        size="large" 
+                        color={Colors.PCH_RED} />
+                </View> 
             );
         }
-
-
+        
         return (
             <ScrollView
                 onLayout={this._onLayout}
@@ -85,7 +99,9 @@ export default class ConversationScreen extends React.Component {
                     this.scrollView.scrollToEnd({animated: true});
                 }}
             >
-                <NextStateContainer nextStateId={algorithm.StateIdStart}/>
+                <NextStateContainer
+                    nextStateId={algorithm.StateIdStart}
+                />
             </ScrollView>);
     }
 
@@ -122,6 +138,14 @@ const setConvoStyle = function () {
 }
 
 const styles = StyleSheet.create({
+    loadingContainer: { 
+        flex: 1,
+        backgroundColor: 'white'
+        
+    },
+    activityIndicator: { 
+        marginTop: 20
+    },
     root           : {
         backgroundColor: Colors.conversationBackground,
         alignSelf      : 'stretch',
