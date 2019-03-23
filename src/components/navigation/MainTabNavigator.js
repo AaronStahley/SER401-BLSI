@@ -55,7 +55,7 @@ const AppNavigator = createStackNavigator({
     Conversation  : {screen: ConversationComponent},
     AlgDescription: {screen: AlgDescriptionScreen},
     Recommendation: {screen: RecommendationScreen},
-    Discharge     : {screen: DischargeScreen}
+    Discharge     : {screen: DischargeScreen},
 }, navigationConfig);
 
 export default AppNavigator;

@@ -38,6 +38,12 @@ export default {
   recommendationIcon: "#fff",
   recommendationIconBorder: "#919191",
 
+  // Final Recommendation Bubble Colors
+  recommendationBubbleGood: '#c5f7d3',
+  recommendationIconBorderGood: '#328c3e',
+  recommendationBubbleBad: '#f7c5c5',
+  recommendationIconBorderBad: '#8c3232',
+
   //Header Style Colors
   navBarBackground: "#ee3e41",
   headerStyleRightButton: "#fff",

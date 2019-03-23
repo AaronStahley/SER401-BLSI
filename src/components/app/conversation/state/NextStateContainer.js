@@ -34,9 +34,13 @@ export default class NextStateContainer extends React.Component {
         if (!this.state.currentState) {
             return <View/>;
         }
-
         return (
-            <StateContainer state={this.state.currentState} type={this.props.nextStateType}/>
+            <StateContainer 
+                onDischargePress={this.props.onDischargePress}
+                type={this.props.nextStateType} 
+                state={this.state.currentState}
+            />
+            
         );
     }
 }
