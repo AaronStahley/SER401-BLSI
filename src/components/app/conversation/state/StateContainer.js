@@ -53,7 +53,7 @@ export default class StateContainer extends React.Component {
                                 <QuestionContainer state={state}/>
                                 {
                                     state.NextStateId &&
-                                    <NextStateContainer nextStateId={state.NextStateId} path={state.getPath()}/>
+                                    <NextStateContainer nextStateId={state.NextStateId} nextStateType={state.NextStateType} path={state.getPath()}/>
                                 }
                             </View>
                         }

@@ -1,27 +1,24 @@
 import AbstractModel from "./AbstractModel";
-import {observable, action, computed} from "mobx";
-import * as mobx from "mobx";
-import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class Question extends AbstractModel {
-    Id          = null;
-    Question    = null;
-    Prompt      = "";
-    TypeKey     = null;
-    AlgorithmId = null;
+    id           = null;
+    text         = null;
+    prompt       = "";
+    type_key     = null;
+    algorithm_id = null;
 
     get Options() {
-        return this.rootStore.questionOptionStore.collection.filter(option => option.QuestionId === this.Id)
+        return this.rootStore.questionOptionStore.collection.filter(option => option.question_id === this.id)
     }
 
     convertNumberToOption(number) {
         let selected = this.Options.filter(option => {
             let valid = true;
-            if (valid && option.MinValue !== null) {
-                valid = option.MinValue <= number;
+            if (valid && option.min_value !== null) {
+                valid = option.min_value <= number;
             }
-            if (valid && option.MaxValue !== null) {
-                valid = option.MaxValue >= number;
+            if (valid && option.max_value !== null) {
+                valid = option.max_value >= number;
             }
             return valid;
         });

@@ -1,11 +1,8 @@
-import AlgorithmStore from '../AlgorithmStore';
 import QuestionStore from '../QuestionStore';
 import RecommendationStore from '../RecommendationStore';
 import StateStore from '../StateStore';
-import Transporter from "../../common/Transporter";
 import QuestionAnswerStore from "../QuestionAnswerStore";
 import QuestionOptionStore from "../QuestionOptionStore";
-import UpdateStore from '../UpdateStore';
 import StateQuestionStore from '../StateQuestionStore';
 import StateRecommendationStore from '../StateRecommendationStore';
 
@@ -42,6 +39,22 @@ export default class AlgorithmRootStore {
             this.stateStore.init(),
             this.stateQuestionStore.init(),
             this.stateRecommendationStore.init()
-        ]);
+        ]).then(() => this);
+    }
+
+
+    deleteData(store) {
+        // cant get cascade delete to work with sqlite, PRAGMA foreign_keys=ON; not working
+        return Promise.all([
+            this.questionAnswerStore.deleteAll(),
+            this.questionOptionStore.deleteAll(),
+            this.stateQuestionStore.deleteAll(),
+            this.stateRecommendationStore.deleteAll()
+        ])
+            .then(() => Promise.all([
+                this.questionStore.deleteAll(),
+                this.recommendationStore.deleteAll(),
+                this.stateStore.deleteAll()
+            ]))
     }
 }

@@ -26,7 +26,7 @@ export default class RecommendationContainer extends React.Component {
                 <View style={styles.textBubble}>
                     {
                         state.Recommendations.map((recommendation, index) => (
-                                <View key={recommendation.Id}>
+                                <View key={recommendation.id}>
                                     <Recommendation
                                         recommendation={recommendation}
                                         number={index + 1}

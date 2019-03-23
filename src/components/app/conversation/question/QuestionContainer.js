@@ -10,7 +10,7 @@ import {inject, observer} from "mobx-react/native";
 export default class QuestionContainer extends React.Component {
 
     getAnswer = (question) => {
-        return this.props.state.QuestionAnswers.find(questionAnswer => questionAnswer.QuestionId === question.Id);
+        return this.props.state.QuestionAnswers.find(questionAnswer => questionAnswer.question_id === question.id);
     };
 
 
@@ -26,7 +26,7 @@ export default class QuestionContainer extends React.Component {
                 <View style={styles.bubble}>
                     {
                         state.Questions.map((question, index) => (
-                            <View key={question.Id}>
+                            <View key={question.id}>
                                 <Question question={question} answer={this.getAnswer(question)} number={index + 1}/>
 
                                 {

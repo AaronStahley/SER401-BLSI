@@ -1,32 +1,9 @@
-import React, {Fragment} from 'react';
-
-import {
-    ScrollView,
-    StyleSheet,
-    Platform,
-    Text,
-    View,
-    TouchableOpacity,
-    Dimensions,
-    Alert,
-    LayoutAnimation,
-    UIManager,
-    TouchableHighlight
-} from 'react-native';
-import {ButtonGroup, SearchBar} from 'react-native-elements'
+import React from 'react';
+import {StyleSheet, View, Dimensions,} from 'react-native';
 import {inject, observer} from 'mobx-react/native'
-import {observable} from 'mobx'
-import {
-    widthPercentageToDP as widthDP,
-    listenOrientationChange,
-    removeOrientationListener
-} from 'react-native-responsive-screen'
-import RefreshAllButton from "../../ui/RefreshAllButton.js"
 import {Button} from '../../ui/Button'
 import {Card} from "../../ui/Card.js";
-import SearchButton from '../../ui/SearchButton.js';
 import FavoritesIcon from "../../ui/FavoritesIcon.js";
-import Colors from "../../../common/Colors";
 
 @inject("rootStore")
 @observer
@@ -37,10 +14,10 @@ export default class AlgorithmListItem extends React.Component {
 
         return (
             <Card
-                title={algorithm.Name}
-                bodyText={algorithm.ShortDescription}
-                favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.IsFavorited}/>}
-                key={algorithm.Id}
+                title={algorithm.name}
+                bodyText={algorithm.short_description}
+                favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.is_favorite}/>}
+                key={algorithm.id}
                 containerStyle={setCardStyle()}
             >
                 <View style={styles.buttonContiner}>

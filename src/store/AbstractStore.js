@@ -1,10 +1,10 @@
 import BluebirdPromise from "../common/BluebirdPromise";
 import {observable} from "mobx";
-import * as mobx from "mobx";
 
 export default class AbstractStore {
     @observable collection = [];
     allFound               = false;
+    rootStore;
     transporter;
     model;
     table;
@@ -17,22 +17,8 @@ export default class AbstractStore {
     }
 
     get = id => {
-        return this.collection.find(item => item.Id === id);
+        return this.collection.find(item => item.id === id);
     };
-
-    // getOrFindPK = id => {
-    //     return this.getPK(id)
-    //         ? Promise.resolve(id)
-    //         : this.findPK(id);
-    // };
-
-
-    // getPK = id => {
-    //     if (id in this.collection) {
-    //         return this.collection[id];
-    //     }
-    //     return null;
-    // };
 
     findPK = id => {
         return this.transporter.select(`select * from ${this.table} where id = ?;`, [id])
@@ -61,8 +47,8 @@ export default class AbstractStore {
     };
 
     update = (json) => {
-        let id = json.Id;
-        delete json.Id;
+        let id = json.id;
+        delete json.id;
 
         let {sql, values} = this.transporter.buildUpdateSql(this.table, id, json);
 
@@ -71,54 +57,15 @@ export default class AbstractStore {
     };
 
     insert = (json) => {
-        //delete json.Id;
-
+        //delete json.id;
         let {sql, values} = this.transporter.buildInsertSql(this.table, json);
 
         return this.transporter.execute(sql, values)
-            .then(res => {
-                if (res.insertId) {
-                    return res.insertId;
-                }
-                return null;
-            })
+            .then(res => res.insertId)
     };
 
     delete = (id) => {
         return this.transporter.execute(`delete from ${this.table} where id = ?`, [id])
-    };
-
-    //Incomplete, but not operable
-    updateOrInsert = (json) => {
-        if (json.id && json.id !== "") {
-            return this.update(json);
-        } else {
-            return this.insert(json);
-        }
-    };
-
-    updateElseInsert = (json) => {
-        return this.update(json)
-            .then((res) => {
-                if(res) {
-                    return null;
-                }
-                return this.insert(json);
-            }).catch(err => {
-                console.log(err);
-            });
-    }
-    convertFieldNames = (row) => {
-        let mappedObj = {};
-        for (let dbField in row) {
-            let modelField = dbField.toLowerCase()
-                .split('_')
-                .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                .join('');
-
-            mappedObj[modelField] = row[dbField];
-        }
-        return mappedObj;
     };
 
     register = (obj) => {
@@ -127,20 +74,21 @@ export default class AbstractStore {
     };
 
     processResults = (_array) => {
+        console.log(_array);
         if (_array.length === 0) {
             return [];
         }
- 
+
         return _array.map(row => {
             let isRegistered = true;
             let obj          = 'id' in row ? this.get(row.id) : null;
- 
+
             if (!obj) {
                 isRegistered = false;
                 obj          = new this.model(this);
             }
- 
-            obj.fromObj(this.convertFieldNames(row));
+
+            obj.fromObj(row);
             if (!isRegistered) {
                 this.register(obj);
             }

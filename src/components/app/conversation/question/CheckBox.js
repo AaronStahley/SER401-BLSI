@@ -9,7 +9,7 @@ export default class CheckBox extends React.Component {
 
     handleClick = () => {
         let {option, onClick} = this.props;
-        onClick(option.Id);
+        onClick(option.id);
     };
 
     render() {
@@ -21,7 +21,7 @@ export default class CheckBox extends React.Component {
                 containerStyle={styles.checkBoxButton}
                 checkedColor={Colors.questionCheckBoxChecked}
                 uncheckedColor={Colors.questionCheckBoxUnchecked}
-                title={option.Label}
+                title={option.label}
                 onPress={this.handleClick}
                 checked={selected}
                 textStyle={{fontSize: 12}}

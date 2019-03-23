@@ -36,7 +36,7 @@ export default class NextStateContainer extends React.Component {
         }
 
         return (
-            <StateContainer state={this.state.currentState}/>
+            <StateContainer state={this.state.currentState} type={this.props.nextStateType}/>
         );
     }
 }

@@ -2,19 +2,10 @@ import AbstractStore from "./AbstractStore";
 import Algorithm from "../model/Algorithm";
 
 export default class AlgorithmStore extends AbstractStore {
+
+    static TABLE_NAME = 'algorithm';
+
     constructor(rootStore, transporter) {
-        super(Algorithm, 'algorithm', rootStore, transporter, true);
+        super(Algorithm, AlgorithmStore.TABLE_NAME, rootStore, transporter, true);
     }
-
-    deleteStates = (id) => {
-        return this.transporter.execute(`delete from ${this.rootStore.stateStore.table} where AlgorithmId = ?`, [id])
-    };
-
-    deleteQuestions = (id) => {
-        return this.transporter.execute(`delete from ${this.rootStore.questionStore.table} where AlgorithmId = ?`, [id])
-    };
-
-    deleteRecommendation = (id) => {
-        return this.transporter.execute(`delete from ${this.rootStore.recommendationStore.table} where AlgorithmId = ?`, [id])
-    };
 }

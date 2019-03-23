@@ -1,9 +1,9 @@
 import AbstractModel from "./AbstractModel";
 
 export default class Recommendation extends AbstractModel {
-    Id          = null;
-    Title       = null;
-    Description = null;
-    AlgorithmId = null;
-    ShortDescription = null;
+    id          = null;
+    title       = null;
+    description = null;
+    algorithm_id = null;
+    short_description = null;
 }

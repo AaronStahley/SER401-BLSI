@@ -7,7 +7,7 @@ import {
     View,
     Dimensions,
     LayoutAnimation,
-    UIManager,
+    UIManager, ActivityIndicator,
 } from 'react-native';
 import {ButtonGroup, SearchBar} from 'react-native-elements'
 import {inject, observer} from 'mobx-react/native'
@@ -19,6 +19,7 @@ import RefreshAllButton from "../../ui/RefreshAllButton.js"
 import SearchButton from '../../ui/SearchButton.js';
 import Colors from "../../../common/Colors";
 import AlgorithmListItem from "./AlgorithmListItem";
+import Loading from "../../ui/Loading";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
 var searchBarTransition = {
@@ -41,7 +42,7 @@ export default class HomeComponent extends React.Component {
                 <SearchButton openSearchBar={params.handleSeach}/>
             ),
             headerLeft    : (
-                <RefreshAllButton refresh={params.refreshPage} update={params.update}/>
+                <RefreshAllButton refreshPage={params.refreshPage}/>
             ), headerStyle: {
 
                 backgroundColor  : Colors.navBarBackground,
@@ -58,21 +59,20 @@ export default class HomeComponent extends React.Component {
         searchText   : "",
         selectedIndex: 0,
         popUpSearch  : false,
-        refresh      : false,
-        update       : null
+        isLoading    : false
     };
 
     get algorithms() {
         let algorithms;
         if (this.state.selectedIndex === 1) {
-            algorithms = this.props.rootStore.algorithmStore.collection.filter(algorithm => algorithm.IsFavorited);
+            algorithms = this.props.rootStore.algorithmStore.collection.filter(algorithm => algorithm.is_favorite);
 
         } else if (this.state.selectedIndex === 0) {
             algorithms = this.props.rootStore.algorithmStore.collection;
         }
 
         return this.state.searchText !== '' ? algorithms : algorithms.filter(algorithm => {
-            return (algorithm.Name !== '' && algorithm.Name.search(this.state.searchText) >= 0)
+            return (algorithm.name !== '' && algorithm.name.search(this.state.searchText) >= 0)
         })
     }
 
@@ -86,27 +86,8 @@ export default class HomeComponent extends React.Component {
             refreshPage: this.refreshPage
         });
 
-        const {updateStore} = this.props.rootStore;
-        this.props.navigation.setParams({
-            update: new updateStore.model(updateStore, 0)
-        });
-
-        this.setState({update: new updateStore.model(updateStore, 0)});
-
         listenOrientationChange(this);
         this.props.rootStore.algorithmStore.getOrFindAll(true);
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.update !== this.state.update) {
-            this.refreshPage();
-            this.props.rootStore.algorithmStore.getOrFindAll().then(res => {
-                this.setState({
-                    algorithms: res
-                });
-                //console.log(res[0].Id);
-            });
-        }
     }
 
     componentWillUnmount() {
@@ -135,14 +116,16 @@ export default class HomeComponent extends React.Component {
     };
 
     //Refreshes that page when called
-    refreshPage = () => {
-        this.setState(({update}) => {
-            update.Refresh++;
-        });
+    refreshPage = (refreshing) => {
+        this.setState({isLoading: refreshing});
     };
 
     render() {
         const {selectedIndex} = this.state;
+
+        if (this.state.isLoading) {
+            return <Loading/>;
+        }
 
         return (
             <View style={styles.container}>
@@ -174,7 +157,7 @@ export default class HomeComponent extends React.Component {
                     }
                     <View style={setViewStyle()}>
                         {this.algorithms.map(algorithm =>
-                            <AlgorithmListItem key={algorithm.Id} algorithm={algorithm}
+                            <AlgorithmListItem key={algorithm.id} algorithm={algorithm}
                                                navigation={this.props.navigation}/>
                         )}
                     </View>

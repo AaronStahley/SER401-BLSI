@@ -16,7 +16,7 @@ export default class Question extends React.Component {
                     <Text>{number}</Text>
                 </View>
                 <View style={styles.questionInputTexContainer}>
-                    <Text style={{paddingBottom: 5}}>{question.Question}</Text>
+                    <Text style={{paddingBottom: 5}}>{question.text}</Text>
                     <QuestionInput
                         question={question}
                         answer={answer}
