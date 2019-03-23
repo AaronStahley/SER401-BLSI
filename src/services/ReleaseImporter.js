@@ -58,6 +58,7 @@ export default class ReleaseImporter {
                 let clonedState                = Object.assign({}, state);
                 clonedState.state_id_next_good = null;
                 clonedState.state_id_next_bad  = null;
+                delete clonedState.id;
                 delete clonedState.question_ids;
                 delete clonedState.recommendation_ids;
 
@@ -76,7 +77,9 @@ export default class ReleaseImporter {
     insertLocalQuestions(store, algorithm) {
         return Promise.all(
             algorithm.attribute_json.questions.map(question => {
-                return store.questionStore.insertWithOptions(question)
+                let clonedQuestion = Object.assign({}, question);
+                delete clonedQuestion.id;
+                return store.questionStore.insertWithOptions(clonedQuestion)
                     .then(question_id => store.questionStore.findPK(question_id))
                     .then(newObj => {
                         return {
@@ -91,7 +94,9 @@ export default class ReleaseImporter {
     insertLocalRecommendations(store, algorithm) {
         return Promise.all(
             algorithm.attribute_json.recommendations.map(recommendation => {
-                return store.recommendationStore.insert(recommendation)
+                let clonedRecommendation = Object.assign({}, recommendation);
+                delete clonedRecommendation.id;
+                return store.recommendationStore.insert(clonedRecommendation)
                     .then(recommendation_id => store.recommendationStore.findPK(recommendation_id))
                     .then(newObj => {
                         return {
@@ -108,11 +113,11 @@ export default class ReleaseImporter {
             states.map(stateMap => {
 
                 if (stateMap.old.state_id_next_bad) {
-                    stateMap.new.state_id_next_good = states.find(state => state.old.id === stateMap.old.state_id_next_bad).new.id;
+                    stateMap.new.state_id_next_bad = states.find(state => state.old.id === stateMap.old.state_id_next_bad).new.id;
                 }
 
                 if (stateMap.old.state_id_next_good) {
-                    stateMap.new.state_id_next_bad = states.find(state => state.old.id === stateMap.old.state_id_next_good).new.id;
+                    stateMap.new.state_id_next_good = states.find(state => state.old.id === stateMap.old.state_id_next_good).new.id;
                 }
 
                 return stateMap.new.save()
