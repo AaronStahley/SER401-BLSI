@@ -35,7 +35,7 @@ class StateContainer extends React.Component {
         return (
             <View>
                 <View>
-                    <RecommendationContainer state={state} finalRecommendation={state.StateIdNextGood === null && state.StateIdNextBad === null} goodResult={true}/>
+                    <RecommendationContainer state={state} finalRecommendation={state.StateIdNextGood === null && state.StateIdNextBad === null} goodResult={type === 'good'}/>
                 </View>
                 {
                     state.Questions.length > 0 &&

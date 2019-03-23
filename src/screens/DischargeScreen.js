@@ -29,7 +29,7 @@ export default class DischargeScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          subject: "PCH Dischage Instructions",
+          subject: "PCH Discharge Instructions",
           body:
             "No Ibuprofen or other NSAIDS. Acetaminophen is ok.\n\n" +
             "May go back to school when off narcotic pain meds.\n\n" +
