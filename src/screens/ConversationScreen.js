@@ -99,7 +99,9 @@ export default class ConversationScreen extends React.Component {
                     this.scrollView.scrollToEnd({animated: true});
                 }}
             >
-                <NextStateContainer nextStateId={algorithm.StateIdStart}/>
+                <NextStateContainer
+                    nextStateId={algorithm.StateIdStart}
+                />
             </ScrollView>);
     }
 

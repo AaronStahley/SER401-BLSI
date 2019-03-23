@@ -60,4 +60,14 @@ export default class State extends AbstractModel {
         }
         return null;
     }
+
+    @computed
+    get NextStateType() {
+        if (this.completed) {
+            return this.QuestionAnswers.filter(questionAnswer => {
+                return !questionAnswer.IsGood
+            }).length > 0 ? "bad" : "good";
+        }
+        return null;
+    }
 }
