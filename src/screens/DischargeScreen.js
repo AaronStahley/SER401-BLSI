@@ -14,40 +14,50 @@ export default class DischargeScreen extends React.Component {
         <ScrollView style={styles.container}>
           <View >
               <Card
-                  title='Discharge Instructions'>
+                  title='ATOMAC Guideline Discharge Instructions ver2.1'>
                   <Text style={{marginBottom: 10}}>
-                      No Ibuprofen or other NSAIDS. Acetaminophen is ok.
+                      Return to Emergency Room (ER) for increasing pain, paleness, dizziness,
+                      shortness of breath, vomiting, worsening shoulder pain, intestinal bleeding,
+                      or black tarry stools.
                   </Text>
                   <Divider style={{ backgroundColor: '#b3b3b3' }} />
                   <Text style={{marginBottom: 10, marginTop: 10}}>
-                      May go back to school when off narcotic pain meds.
+                      Call trauma surgeon’s office for fever (temp >101oF) or jaundice (yellow
+                      eyes, yellow skin).
                   </Text>
                   <Divider style={{ backgroundColor: '#b3b3b3' }} />
                   <Text style={{marginBottom: 10, marginTop: 10}}>
-                      Restricted activity for length per APSA Guidelines. Weeks = 2+grade.
+                      Restricted activity for (grade +2) weeks
+                      o Your child’s injury grade was a grade ______ .
+                      o Your child may return to sports in _________ weeks.
                   </Text>
                   <Divider style={{ backgroundColor: '#b3b3b3' }} />
                   <Text style={{marginBottom: 10, marginTop: 10}}>
-                      Activity restrictions include all sports, any recreational activity with
-                      wheels, or any activity that involves having both feet off the ground.
+                      No ibuprofen (Motrin, etc), aspirin, or other NSAIDS. Acetaminophen
+                      (Tylenol) is okay.
                   </Text>
                   <Divider style={{ backgroundColor: '#b3b3b3' }} />
                   <Text style={{marginBottom: 10, marginTop: 10}}>
-                      Return to ED for increasing pain, pallor, dizziness, fever, vomiting,
-                      worsening shoulder pain, GI bleeding or black tarry stools.
+                      Child may go back to school when off pain meds, but no gym classes or
+                      sports.
                   </Text>
                   <Divider style={{ backgroundColor: '#b3b3b3' }} />
                   <Text style={{marginBottom: 10, marginTop: 10}}>
-                      Call office for jaundice (yellow discoloration to white part of eye).
+                      The patient is granted medical permission to change class 5 minutes early (to
+                      prevent re-injury between classes).
                   </Text>
                   <Divider style={{ backgroundColor: '#b3b3b3' }} />
                   <Text style={{marginBottom: 10, marginTop: 10}}>
-                      Office visit for Grade 3-5 injury at 2 weeks post injury or phone
-                      call follow-up for grade 1-2 injury at 2 weeks.
+                      Follow-up:
+                      o Grade 1-2 Injury: Phone call follow-up at 2 weeks and again at 2
+                      months after injury.
+                      o Grade 3-5 injury: Office visit at 2 weeks. Phone call follow-up at 2
+                      months after injury
                   </Text>
                   <Divider style={{ backgroundColor: '#b3b3b3' }} />
                   <Text style={{marginBottom: 10, marginTop: 10}}>
-                      No follow-up imaging is required unless symptoms develop.
+                      No routine follow-up imaging is required. Imaging is recommended for
+                      patients with increasing pain, or symptoms.
                   </Text>
               </Card>
               <Card
