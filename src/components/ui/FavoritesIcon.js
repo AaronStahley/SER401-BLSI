@@ -44,13 +44,13 @@ export default class FavoritesIcon extends React.Component {
             this.setState({ enabled: true, color: Colors.favoritesEnabled, iconName: "ios-star" }, function() { 
                 //TODO - PUT THE ALGORITHM IN THE FAVORITES SECTION OF THE DATABASE. 
                 this.props.algo.is_favorite = 1
-                this.props.rootStore.algorithmStore.update({ id: this.props.algo.id, is_favorited: 1})
+                this.props.rootStore.algorithmStore.update({ id: this.props.algo.id, is_favorite: 1})
             });
         } else {
             this.setState({ enabled: false, color: Colors.favoritesDisabled, iconName: "ios-star-outline" }, function() { 
                 //TODO - TAKE THE ALGORITHM OUT OF THE FAVORITES SECTION OF THE DATABASE.
                 this.props.algo.is_favorite = 0
-                this.props.rootStore.algorithmStore.update({ id: this.props.algo.id, is_favorited: 0});
+                this.props.rootStore.algorithmStore.update({ id: this.props.algo.id, is_favorite: 0});
             });
         }
     };
