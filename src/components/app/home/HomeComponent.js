@@ -42,7 +42,8 @@ export default class HomeComponent extends React.Component {
                 <SearchButton openSearchBar={params.handleSeach}/>
             ),
             headerLeft    : (
-                <RefreshAllButton refreshPage={params.refreshPage}/>
+                <View></View>
+                // <RefreshAllButton refreshPage={params.refreshPage}/>
             ), headerStyle: {
 
                 backgroundColor  : Colors.navBarBackground,

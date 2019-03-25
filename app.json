@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "SER401_BLSI",
-    "description": "A very interesting project.",
-    "slug": "SER401_BLSI",
+    "name": "BLSI",
+    "description": "The Blunt Liver and Spleen (BLSI) application for Phoenix Children's Hospital (PCH) is an application that prevents unnecessary surgeries when there may or may not be internal bleeding. The BLSI algorithm helps determine whether or not a surgeon needs to perform an operation on the patient. The BLSI algorithm's main purpose is to prevent unnecessary surgeries for patients.",
+    "slug": "blsi",
     "privacy": "public",
     "sdkVersion": "30.0.0",
     "platforms": [
@@ -36,6 +36,7 @@
     },
     "android": {
       "package": "com.yourcompany.yourappname"
-    }
+    },
+    "githubUrl": "https://github.com/AaronStahley/SER401-BLSI"
   }
 }
