@@ -2,39 +2,27 @@ import React from "react";
 import {View, TouchableOpacity} from "react-native";
 import {Icon} from "expo";
 import {inject, observer} from "mobx-react/native";
-import {retrieveAlgorithms, retrieveAlgorithm} from "../../services/fetchAlgorithms";
 import {queryAlert, errorAlert} from "./AlertBox"
 
 //import BluebirdPromise from "bluebird";
 
-@inject("rootStore")
+@inject("rootStore", "releaseImporter")
 @observer
 export default class RefreshAllButton extends React.Component {
 
-    homeOnPress = async () => {
-        retrieveAlgorithms()
-            .then(json => {
-                if (!json) throw new Error("Data not available");
-                return Promise.all(
-                    json.collection.map(item => {
-                        return retrieveAlgorithm(item.id)
-                            .then(json => {
-                                this.props.rootStore.updateStore.insert(json);
-                            })
-                            .then(() => this.update)
-                    })
-                );
-            }).catch(err => {
+    homeOnPress = () => {
 
-            console.log(err);
-            errorAlert("Data not available", "Currently not able to connect to service.");
-        });
+        this.props.refreshPage(true);
+        return this.props.releaseImporter.updateAll()
+            .then(() => {
+                this.props.refreshPage(false);
+            })
+            .catch(err => {
+                console.log(err);
+                errorAlert("Data not available", "Currently not able to connect to service.");
+            });
     };
 
-    update = () => {
-        this.props.update.Refresh++;
-        return errorAlert("Done", "");
-    };
 
     render() {
         return (<View>

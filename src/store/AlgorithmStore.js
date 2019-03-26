@@ -2,8 +2,10 @@ import AbstractStore from "./AbstractStore";
 import Algorithm from "../model/Algorithm";
 
 export default class AlgorithmStore extends AbstractStore {
-    constructor(rootStore, transporter) {
-        super(Algorithm, 'algorithm', rootStore, transporter, true);
-    }
 
+    static TABLE_NAME = 'algorithm';
+
+    constructor(rootStore, transporter) {
+        super(Algorithm, AlgorithmStore.TABLE_NAME, rootStore, transporter, true);
+    }
 }

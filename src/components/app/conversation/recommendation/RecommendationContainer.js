@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
-import Colors from '../../common/Colors';
-import Images from "../../common/Images";
+import Colors from '../../../../common/Colors';
+import Images from "../../../../common/Images";
 import {inject, observer} from "mobx-react/native";
 import Recommendation from "./Recommendation";
 
@@ -26,7 +26,7 @@ export default class RecommendationContainer extends React.Component {
                 <View style={setTextBubble(finalRecommendation, goodResult)}>
                     {
                         state.Recommendations.map((recommendation, index) => (
-                                <View key={recommendation.Id}>
+                                <View key={recommendation.id}>
                                     <Recommendation
                                         recommendation={recommendation}
                                         number={index + 1}

@@ -1,34 +1,34 @@
-import {observable, action, computed} from 'mobx'
+import {computed} from 'mobx'
 import AbstractModel from "./AbstractModel";
-import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class State extends AbstractModel {
-    Id              = null;
-    Path            = null;
-    StateIdNextGood = null;
-    StateIdNextBad  = null;
-    AlgorithmId     = null;
+    id                 = null;
+    path               = null;
+    state_id_next_good = null;
+    state_id_next_bad  = null;
+    algorithm_id       = null;
+    is_initial         = null;
 
     setPath(path) {
-        this.Path = path;
+        this.path = path;
         return this;
     }
 
     getPath() {
-        return this.Path;
+        return this.path;
     }
 
     @computed
     get Recommendations() {
         return this.rootStore.stateRecommendationStore.collection
-            .filter(item => item.StateId === this.Id)
+            .filter(item => item.state_id === this.id)
             .map(item => item.Recommendation);
     }
 
     @computed
     get Questions() {
         return this.rootStore.stateQuestionStore.collection
-            .filter(item => item.StateId === this.Id)
+            .filter(item => item.state_id === this.id)
             .map(item => item.Question);
     }
 
@@ -36,7 +36,7 @@ export default class State extends AbstractModel {
     get QuestionAnswers() {
         return this.Questions
             .map(question => {
-                let answer = this.rootStore.questionAnswerStore.collection.find(questionAnswer => questionAnswer.QuestionId === question.Id && questionAnswer.StatePath === this.Path);
+                let answer = this.rootStore.questionAnswerStore.collection.find(questionAnswer => questionAnswer.question_id === question.id && questionAnswer.state_path === this.path);
                 return answer ? answer : this.rootStore.questionAnswerStore.create(question, this);
             });
     }
@@ -56,7 +56,7 @@ export default class State extends AbstractModel {
         if (this.completed) {
             return this.QuestionAnswers.filter(questionAnswer => {
                 return !questionAnswer.IsGood
-            }).length > 0 ? this.StateIdNextBad : this.StateIdNextGood;
+            }).length > 0 ? this.state_id_next_bad : this.state_id_next_good;
         }
         return null;
     }
@@ -69,5 +69,12 @@ export default class State extends AbstractModel {
             }).length > 0 ? "bad" : "good";
         }
         return null;
+    }
+
+
+    toJson() {
+        let clonedState = Object.assign({}, this);
+        delete clonedState.path;
+        return this._toJson(clonedState);
     }
 }

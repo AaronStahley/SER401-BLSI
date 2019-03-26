@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-import Colors from '../../common/Colors';
+import Colors from '../../../../common/Colors';
 import QuestionInput from "./QuestionInput";
 import {observer} from "mobx-react/native";
 
@@ -16,7 +16,7 @@ export default class Question extends React.Component {
                     <Text>{number}</Text>
                 </View>
                 <View style={styles.questionInputTexContainer}>
-                    <Text style={{paddingBottom: 5}}>{question.Question}</Text>
+                    <Text style={{paddingBottom: 5}}>{question.text}</Text>
                     <QuestionInput
                         question={question}
                         answer={answer}

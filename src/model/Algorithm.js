@@ -2,13 +2,12 @@ import {observable} from 'mobx'
 import AbstractModel from "./AbstractModel";
 
 export default class Algorithm extends AbstractModel {
-    Id               = null;
-    VersionId        = null;
-    @observable Name = null;
-    StateIdStart     = null;
-    @observable Description = null;
-    ShortDescription = null;
-    @observable IsFavorited = null;
-    DateModified     = null;
-    DateCreated      = null;
+    id                            = null;
+    @observable version_number    = null;
+    @observable name              = null;
+    @observable description       = null;
+    @observable short_description = null;
+    @observable is_favorite       = null;
+    date_modified                 = null;
+    date_created                  = null;
 }

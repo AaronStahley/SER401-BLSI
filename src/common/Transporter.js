@@ -19,7 +19,7 @@ export default class Transporter {
     }
 
     execute(sql, params) {
-        console.log(sql);
+        // console.log(sql);
         return new BluebirdPromise((resolve, reject) => {
             this.database.transaction(tx => {
                 tx.executeSql(
@@ -38,13 +38,14 @@ export default class Transporter {
 
 
     select(sql, params) {
+        // console.log(sql);
         return new BluebirdPromise((resolve, reject) => {
             this.database.transaction(tx => {
                 tx.executeSql(
                     sql,
                     params,
-                    (_, {rows: {_array}}) => {
-                        resolve(_array);
+                    (_, res) => {
+                        resolve(res.rows._array);
                     }
                 );
             }, err => {
@@ -60,7 +61,7 @@ export default class Transporter {
         let values     = [];
 
         Object.keys(json).forEach(key => {
-            updateKeys.push(`${this.convertFieldNames([key])} = ?`);
+            updateKeys.push(`${key} = ?`);
             values.push(this.convertValueToSql(json[key]));
         });
         values.push(id);
@@ -73,7 +74,7 @@ export default class Transporter {
 
 
     buildInsertSql = (table, json) => {
-        let insertKeys   = this.convertFieldNames(Object.keys(json));
+        let insertKeys   = Object.keys(json);
         let insertParams = new Array(insertKeys.length).fill("?");
         let values       = Object.keys(json).map((key) => this.convertValueToSql(json[key]));
 
@@ -82,13 +83,6 @@ export default class Transporter {
             values: values
         };
     };
-
-    convertFieldNames = (fields) => {
-        return fields.map(field => field.replace(/\.?([A-Z]+)/g, function (x, y) {
-            return "_" + y.toLowerCase()
-        }).replace(/^_/, ""));
-    };
-
 
     convertValueToSql = (val) => {
         switch (true) {

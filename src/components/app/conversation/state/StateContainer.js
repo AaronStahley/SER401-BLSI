@@ -4,9 +4,8 @@ import QuestionContainer from "../question/QuestionContainer";
 import {observer} from "mobx-react/native";
 import NextStateContainer from "./NextStateContainer";
 import RecommendationContainer from "../recommendation/RecommendationContainer";
-import ProceedButton from "../ui/ProceedButton";
+import ProceedButton from "../../../ui/ProceedButton";
 import { withNavigation } from 'react-navigation';
-
 
 @observer
 class StateContainer extends React.Component {
@@ -35,7 +34,7 @@ class StateContainer extends React.Component {
         return (
             <View>
                 <View>
-                    <RecommendationContainer state={state} finalRecommendation={state.StateIdNextGood === null && state.StateIdNextBad === null} goodResult={type === 'good'}/>
+                    <RecommendationContainer state={state} finalRecommendation={state.state_id_next_good === null && state.state_id_next_bad === null} goodResult={type === 'good'}/>
                 </View>
                 {
                     state.Questions.length > 0 &&

@@ -1,5 +1,4 @@
 import Transporter from "../../common/Transporter";
-import UpdateStore from '../UpdateStore';
 import AlgorithmRootStore from "./AlgorithmRootStore";
 import AlgorithmStore from "../AlgorithmStore";
 
@@ -7,11 +6,9 @@ export default class RootStore {
     transporter;
     algorithmStore;
     algorithmRootStore;
-    updateStore;
 
     constructor(dbName) {
         this.transporter    = new Transporter(dbName);
-        this.updateStore    = new UpdateStore(this, this.transporter);
         this.algorithmStore = new AlgorithmStore(this, this.transporter);
     }
 

@@ -18,8 +18,8 @@ export default class RecommendationScreen extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 <View>
-                    <Text style={styles.titleText}>{recommendation.Title}</Text>
-                    <HTMLView style={styles.descriptionText} value={`<div>${recommendation.Description}</div>`}/>
+                    <Text style={styles.titleText}>{recommendation.title}</Text>
+                    <HTMLView style={styles.descriptionText} value={`<div>${recommendation.description}</div>`}/>
                 </View>
             </ScrollView>
         );

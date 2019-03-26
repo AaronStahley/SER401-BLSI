@@ -1,21 +1,32 @@
 import React from 'react';
-import {ScrollView,View, StyleSheet, ActivityIndicator, Dimensions} from 'react-native';
-import Colors from '../common/Colors';
+import {
+    ScrollView,
+    StyleSheet,
+    View,
+    Text,
+    Button,
+    Alert,
+    TouchableOpacity,
+    Dimensions,
+    ActivityIndicator
+} from 'react-native';
 import {observer, inject} from 'mobx-react/native';
-import NextStateContainer from "../components/state/NextStateContainer";
+import NextStateContainer from "./state/NextStateContainer";
 import {widthPercentageToDP as widthDP} from "react-native-responsive-screen";
 import {AppLoading} from "expo";
-import StartOverButton from "../components/navigation/StartOverButton";
+import StartOverButton from "../../navigation/StartOverButton";
+import Colors from "../../../common/Colors";
+import Loading from "../../ui/Loading";
 
 let {height, width} = Dimensions.get("window");
 
 @inject('rootStore')
 @observer
-export default class ConversationScreen extends React.Component {
+export default class ConversationComponent extends React.Component {
     scrollView;
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isLoading: true,
             layout   : {
@@ -46,7 +57,7 @@ export default class ConversationScreen extends React.Component {
             this.setState({algorithm: algorithm, isLoading: true});
             this.props.rootStore.createAlgorithmRootStore(algorithm)
                 .then(() => {
-                   this.delay()
+                    this.delay()
                 })
         }
 
@@ -54,8 +65,8 @@ export default class ConversationScreen extends React.Component {
 
     //Allows the activity icon to display for a min of 300ms
     //Doing to makes it look better vizualy. 
-    delay() { 
-        setTimeout(function() { 
+    delay() {
+        setTimeout(function () {
             this.setState({isLoading: false});
 
         }.bind(this), 300);
@@ -73,21 +84,14 @@ export default class ConversationScreen extends React.Component {
     };
 
     render() {
-        let {navigation} = this.props;
-        const algorithm  = navigation.getParam('algorithm', null);
-
+        let {navigation, rootStore} = this.props;
 
         if (this.state.isLoading) {
-            return (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator 
-                        style={styles.activityIndicator}
-                        size="large" 
-                        color={Colors.PCH_RED} />
-                </View> 
-            );
+            return <Loading/>;
         }
-        
+
+        let startState = rootStore.stateStore.collection.find(state => state.is_initial);
+
         return (
             <ScrollView
                 onLayout={this._onLayout}
@@ -99,9 +103,7 @@ export default class ConversationScreen extends React.Component {
                     this.scrollView.scrollToEnd({animated: true});
                 }}
             >
-                <NextStateContainer
-                    nextStateId={algorithm.StateIdStart}
-                />
+                <NextStateContainer nextStateId={startState.id}/>
             </ScrollView>);
     }
 
@@ -138,14 +140,6 @@ const setConvoStyle = function () {
 }
 
 const styles = StyleSheet.create({
-    loadingContainer: { 
-        flex: 1,
-        backgroundColor: 'white'
-        
-    },
-    activityIndicator: { 
-        marginTop: 20
-    },
     root           : {
         backgroundColor: Colors.conversationBackground,
         alignSelf      : 'stretch',

@@ -2,12 +2,12 @@ import React from 'react';
 import {Image} from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 
-import ConversationScreen from '../../screens/ConversationScreen';
-import HomeScreen from '../../screens/HomeScreen';
-import AlgDescriptionScreen from '../../screens/AlgDescriptionScreen';
-import RecommendationScreen from '../../screens/RecommendationScreen';
-import DischargeScreen from '../../screens/DischargeScreen';
+import AlgDescriptionScreen from '../app/home/AlgDescriptionScreen';
+import RecommendationScreen from '../app/conversation/RecommendationScreen';
+import DischargeScreen from '../app/conversation/DischargeScreen';
 import Colors from "../../common/Colors";
+import HomeComponent from "../app/home/HomeComponent";
+import ConversationComponent from "../app/conversation/ConversationComponent";
 
 
 /**
@@ -51,8 +51,8 @@ const navigationConfig = {
  * When adding new pages make sure to add it here.
  */
 const AppNavigator = createStackNavigator({
-    Home          : {screen: HomeScreen},
-    Conversation  : {screen: ConversationScreen},
+    Home          : {screen: HomeComponent},
+    Conversation  : {screen: ConversationComponent},
     AlgDescription: {screen: AlgDescriptionScreen},
     Recommendation: {screen: RecommendationScreen},
     Discharge     : {screen: DischargeScreen},

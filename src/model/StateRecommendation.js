@@ -5,14 +5,14 @@
 import AbstractModel from "./AbstractModel";
 
 export default class StateRecommendation extends AbstractModel {
-    StateId          = null;
-    RecommendationId = null;
+    state_id          = null;
+    recommendation_id = null;
 
     get State() {
-        return this.rootStore.stateStore.get(this.StateId);
+        return this.rootStore.stateStore.get(this.state_id);
     }
 
     get Recommendation() {
-        return this.rootStore.recommendationStore.get(this.RecommendationId);
+        return this.rootStore.recommendationStore.get(this.recommendation_id);
     }
 }

@@ -1,27 +1,27 @@
 import AbstractModel from "./AbstractModel";
 
 export default class QuestionOption extends AbstractModel {
-    Id         = null;
-    QuestionId = null;
-    Label      = null;
-    _MinValue  = null;
-    _MaxValue  = null;
-    IsGood     = null;//true|false
+    id          = null;
+    question_id = null;
+    label       = null;
+    _min_value  = null;
+    _max_value  = null;
+    is_good     = null;//true|false
 
-    set MinValue(val) {
-        this._MinValue = val !== null ? val * 1 : null
+    set min_value(val) {
+        this._min_value = val !== null ? val * 1 : null
     }
 
-    get MinValue() {
-        return this._MinValue;
+    get min_value() {
+        return this._min_value;
     }
 
-    set MaxValue(val) {
-        this._MaxValue = val !== null ? val * 1 : null
+    set max_value(val) {
+        this._max_value = val !== null ? val * 1 : null
     }
 
-    get MaxValue() {
-        return this._MaxValue;
+    get max_value() {
+        return this._max_value;
     }
 
 }

@@ -1,34 +1,10 @@
-import AbstractStore from "./AbstractStore";
 import Recommendation from "../model/Recommendation";
+import AbstractAlgorithmStore from "./AbstractAlgorithmStore";
 
-export default class RecommendationStore extends AbstractStore {
-    algorithm;
+export default class RecommendationStore extends AbstractAlgorithmStore {
+    static TABLE_NAME = 'recommendation';
 
     constructor(rootStore, algorithm, transporter) {
-        super(Recommendation, 'recommendation', rootStore, transporter);
-        this.algorithm = algorithm;
-    }
-
-    init() {
-        return this.transporter.select(`select * from ${this.table} where algorithm_id = ?;`, [this.algorithm.Id])
-            .then(this.processResults)
-    }
-
-    updateAll = (recommendations) => {
-        return Promise.all(recommendations.map((item) => {
-            this.update(item);
-        }));
-    };
-
-    insertAll = (recommendations) => {
-        return Promise.all(recommendations.map((item) => {
-            return this.insert(item);
-        }));
-    };
-
-    updateOrInsertAll = (recommendations) => {
-        return Promise.all(recommendations.map((item) => {
-            this.updateOrInsert(item);
-        }));
+        super(Recommendation, RecommendationStore.TABLE_NAME, algorithm, rootStore, transporter);
     }
 }

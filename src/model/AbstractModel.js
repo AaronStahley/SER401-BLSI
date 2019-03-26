@@ -10,10 +10,10 @@ export default class AbstractModel {
     }
 
     reload() {
-        if ('Id' in this) {
-            return this.store.findPK(this.Id);
+        if ('id' in this) {
+            return this.store.findPK(this.id);
         }
-        return Promise.resolve(null);
+        return Promise.resolve(this);
     };
 
     fromObj(json) {
@@ -63,5 +63,25 @@ export default class AbstractModel {
             }
         });
         return resultObj;
+    }
+
+
+    save() {
+        if (!this.id) {
+            return this.store.insert(this.toJson())
+                .then(insertId => {
+                    this.id = insertId;
+                    this.store.register(this);
+                    return this.reload();
+                });
+        } else {
+            return this.store.update(this.toJson())
+                .then(good => {
+                    if (good === true) {
+                        return this.reload();
+                    }
+                    return null;
+                });
+        }
     }
 }

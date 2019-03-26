@@ -5,14 +5,14 @@
 import AbstractModel from "./AbstractModel";
 
 export default class StateQuestion extends AbstractModel {
-    StateId    = null;
-    QuestionId = null;
+    state_id    = null;
+    question_id = null;
 
     get State() {
-        return this.rootStore.stateStore.get(this.StateId);
+        return this.rootStore.stateStore.get(this.state_id);
     }
 
     get Question() {
-        return this.rootStore.questionStore.get(this.QuestionId);
+        return this.rootStore.questionStore.get(this.question_id);
     }
 }
