@@ -71,9 +71,9 @@ export default class HomeComponent extends React.Component {
             algorithms = this.props.rootStore.algorithmStore.collection;
         }
 
-        return this.state.searchText !== '' ? algorithms : algorithms.filter(algorithm => {
-            return (algorithm.name !== '' && algorithm.name.search(this.state.searchText) >= 0)
-        })
+        return (
+            algorithms.filter(algorithm => algorithm.name.toLowerCase().includes(this.state.searchText.toLowerCase()))
+        );
     }
 
     componentDidMount() {
