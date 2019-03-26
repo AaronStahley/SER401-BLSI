@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Platform, StatusBar} from 'react-native';
 import {AppLoading, Asset, Font, Icon, FileSystem} from 'expo';
 import AppNavigator from './components/navigation/AppNavigator';
 import {Provider} from "mobx-react/native";
@@ -42,7 +42,7 @@ export default class App extends React.Component {
         return (
             <Provider rootStore={this.rootStore} releaseImporter={this.releaseImporter}>
                 <View style={styles.container}>
-                    {/*{Platform.OS === 'ios' && <StatusBar barStyle="default" />}*/}
+                    {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
                     <AppNavigator/>
                 </View>
             </Provider>
@@ -131,5 +131,6 @@ const styles = StyleSheet.create({
     container: {
         flex           : 1,
         backgroundColor: '#fff',
+        paddingTop: Platform.OS === 'ios' ? 0: StatusBar.currentHeight
     },
 });

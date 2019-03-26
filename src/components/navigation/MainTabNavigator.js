@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image} from 'react-native';
+import {Image,Platform} from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 
 import AlgDescriptionScreen from '../app/home/AlgDescriptionScreen';
@@ -27,6 +27,8 @@ const navigationConfig = {
         headerTitle    : (
             <Image
                 style={{
+                    marginTop: Platform.OS === 'ios' ? 10: 0,
+                    marginBottom: Platform.OS === 'ios' ? 5: 0,
                     flex      : 1,
                     width     : 40,
                     height    : 40,
@@ -38,7 +40,6 @@ const navigationConfig = {
         ),
         headerStyle    : {
             backgroundColor  : Colors.navBarBackground,
-            marginTop        : 10,
             paddingBottom    : 10,
             height           : 50,
             elevation        : 0,

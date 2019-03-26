@@ -16,7 +16,6 @@ export default class DischargeScreen extends React.Component {
             ), headerStyle: {
 
                 backgroundColor  : Colors.navBarBackground,
-                marginTop        : 10,
                 paddingBottom    : 10,
                 height           : 50,
                 elevation        : 0, //Removes the underline from nav
