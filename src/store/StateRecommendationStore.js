@@ -16,6 +16,6 @@ export default class StateRecommendationStore extends AbstractAlgorithmStore {
 
     deleteAll() {
         this.collection.clear();
-        return this.transporter.execute(`delete from ${this.table} as t where t.state_id in (select s.id from ${StateStore.TABLE_NAME} as s where s.algorithm_id = ?)`, [this.algorithm.id])
+        return this.transporter.execute(`delete from ${this.table} where ${this.table}.state_id in (select s.id from ${StateStore.TABLE_NAME} as s where s.algorithm_id = ?)`, [this.algorithm.id])
     }
 }

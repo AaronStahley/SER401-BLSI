@@ -16,6 +16,6 @@ export default class QuestionOptionStore extends AbstractAlgorithmStore {
 
     deleteAll() {
         this.collection.clear();
-        return this.transporter.execute(`delete from ${this.table} as t where t.question_id in (select q.id from ${QuestionStore.TABLE_NAME} as q where q.algorithm_id = ?)`, [this.algorithm.id])
+        return this.transporter.execute(`delete from ${this.table} where ${this.table}.question_id in (select q.id from ${QuestionStore.TABLE_NAME} as q where q.algorithm_id = ?)`, [this.algorithm.id])
     }
 }
