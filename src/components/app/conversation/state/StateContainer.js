@@ -34,7 +34,7 @@ class StateContainer extends React.Component {
 
         const isFinalRecomm = state.state_id_next_good === null && state.state_id_next_bad === null
 
-        const renderDischargeButton = state.Questions.length === 0 && type === "good";
+        const renderDischargeButton = isFinalRecomm && type === "good";
         const renderProceed = !proceedClicked && !isFinalRecomm && state.Recommendations.length !== 0;    
         const renderQuestion = proceedClicked || state.Recommendations.length === 0;
 
