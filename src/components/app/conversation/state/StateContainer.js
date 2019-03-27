@@ -31,39 +31,43 @@ class StateContainer extends React.Component {
 
         let {state,type}          = this.props;
         let {proceedClicked} = this.state;
+
+        const isFinalRecomm = state.state_id_next_good === null && state.state_id_next_bad === null
+
+        const renderDischargeButton = isFinalRecomm && type === "good";
+        const renderProceed = !proceedClicked && !isFinalRecomm && state.Recommendations.length !== 0;    
+        const renderQuestion = proceedClicked || state.Recommendations.length === 0;
+
         return (
             <View>
                 <View>
-                    <RecommendationContainer state={state} finalRecommendation={state.state_id_next_good === null && state.state_id_next_bad === null} goodResult={type === 'good'}/>
+                    <RecommendationContainer state={state} finalRecommendation={isFinalRecomm} goodResult={type === 'good'}/>
                 </View>
+                <View>
+                    {
+                        (renderProceed) &&
+                        <ProceedButton 
+                            title={'Proceed'} 
+                            onPress={this.handleProceedClicked}
+                        />
+                    }
+                    {
+                        (renderQuestion) &&
+                        <View>
+                            <QuestionContainer state={state}/>
+                            {
+                                state.NextStateId &&
+                                <NextStateContainer 
+                                    nextStateType={state.NextStateType} 
+                                    nextStateId={state.NextStateId} 
+                                    path={state.getPath()}
+                                />
+                            }
+                        </View>
+                    }
+                </View>                
                 {
-                    state.Questions.length > 0 &&
-                    <View>
-                        {
-                            (!proceedClicked && state.Recommendations.length !== 0) &&
-                            <ProceedButton 
-                                title={'Proceed'} 
-                                onPress={this.handleProceedClicked}
-                            />
-                        }
-                        {
-                            (proceedClicked || state.Recommendations.length === 0) &&
-                            <View>
-                                <QuestionContainer state={state}/>
-                                {
-                                    state.NextStateId &&
-                                    <NextStateContainer 
-                                        nextStateType={state.NextStateType} 
-                                        nextStateId={state.NextStateId} 
-                                        path={state.getPath()}
-                                    />
-                                }
-                            </View>
-                        }
-                    </View>
-                }
-                {
-                    (state.Questions.length === 0 && type === "good") &&
+                    (renderDischargeButton) &&
                     <ProceedButton 
                         title={'Discharge'} 
                         onPress={() =>   this.props.navigation.navigate('Discharge')}
