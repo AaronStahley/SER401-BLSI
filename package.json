@@ -3,13 +3,11 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "start": "concurrently \"npm:start-*\"",
+    "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "jest",
-    "start-app": "expo start",
-    "start-image-builder": "node assets/AppImageBuilder.js"
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-expo"
@@ -19,7 +17,6 @@
     "@types/react-native": "^0.57.36",
     "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "bluebird": "^3.5.3",
-    "concurrently": "^4.1.0",
     "expo": "^30.0.1",
     "expo-cli": "^2.11.6",
     "mobx": "^5.9.0",

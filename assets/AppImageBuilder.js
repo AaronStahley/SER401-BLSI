@@ -25,7 +25,7 @@ compileImages = (fileLoc, files) => {
     //Build image list
     files.forEach(file => {
         const name = getName(file)
-        images += `"${name}" : require("../${fileLoc}/${file}"),\n\r`
+        images += `"${name}" : require("../../${fileLoc}/${file}"),\n\r`
     });
 
     return images;
