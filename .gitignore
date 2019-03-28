@@ -50,4 +50,5 @@ package-lock.json
 node_modules/**/*
 .expo/**/*
 
+src/common/DescriptionImages.js
 

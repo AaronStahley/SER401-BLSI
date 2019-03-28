@@ -2,7 +2,7 @@ import React from 'react';
 import HTMLView from 'react-native-htmlview';
 import {ScrollView, StyleSheet, Text, View, Button} from 'react-native';
 import RefreshButton from "../../ui/RefreshButton.js"
-import email from 'react-native-email'
+import Images from "../../../common/DescriptionImages.js"
 
 export default class AlgDescriptionScreen extends React.Component {
     
@@ -13,6 +13,13 @@ export default class AlgDescriptionScreen extends React.Component {
         return {headerRight: <RefreshButton algorithmId={params.algorithm.id}/>}
     };
 
+    buildHtml(algorithm) {
+        let html = `<div>${algorithm.description}</div>`
+
+        let img = "";
+        return html;
+    }
+
     render() {
         const {navigation} = this.props;
         const algorithm    = navigation.getParam('algorithm', null);
@@ -21,7 +28,8 @@ export default class AlgDescriptionScreen extends React.Component {
             <ScrollView style={styles.container}>
                 <View>
                     <Text style={styles.titleText}>{algorithm.name}</Text>
-                    <HTMLView style={styles.descriptionText} value={`<div>${algorithm.description}</div>`}/>
+                    <HTMLView style={styles.descriptionText} 
+                        value={this.buildHtml(algorithm)}/>
                 </View>
             </ScrollView>
         );
