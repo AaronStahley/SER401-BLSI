@@ -1,14 +1,21 @@
-import AbstractStore from "./AbstractStore";
 import QuestionOption from "../model/QuestionOption";
+import AbstractAlgorithmStore from "./AbstractAlgorithmStore";
+import QuestionStore from "./QuestionStore";
 
-export default class QuestionOptionStore extends AbstractStore {
-    constructor(rootStore, transporter) {
-        super(QuestionOption, 'question_option', rootStore, transporter, true);
+export default class QuestionOptionStore extends AbstractAlgorithmStore {
+    static TABLE_NAME = 'question_option';
+
+    constructor(rootStore, algorithm, transporter) {
+        super(QuestionOption, QuestionOptionStore.TABLE_NAME, algorithm, rootStore, transporter);
     }
 
-
-    findQuestionOptions = (question) => {
-        return this.transporter.select(`SELECT * FROM question_option WHERE question_option.question_id = ?`, [question.Id])
+    init() {
+        return this.transporter.select(`select ${this.table}.* from ${this.table} join question on question.id = ${this.table}.question_id and question.algorithm_id = ?;`, [this.algorithm.id])
             .then(this.processResults)
+    }
+
+    deleteAll() {
+        this.collection.clear();
+        return this.transporter.execute(`delete from ${this.table} where ${this.table}.question_id in (select q.id from ${QuestionStore.TABLE_NAME} as q where q.algorithm_id = ?)`, [this.algorithm.id])
     }
 }

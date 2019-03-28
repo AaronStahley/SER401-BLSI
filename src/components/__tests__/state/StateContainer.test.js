@@ -1,8 +1,8 @@
 import 'react-native';
 import {shallow} from 'enzyme';
 import React from 'react';
-import StateContainer from '../../state/StateContainer';
-import RootStore from "../../../store/RootStore";
+import StateContainer from '../../app/conversation/state/StateContainer';
+import RootStore from "../../../store/root/RootStore";
 import renderer from 'react-test-renderer';
 import {Provider} from "mobx-react/native";
 

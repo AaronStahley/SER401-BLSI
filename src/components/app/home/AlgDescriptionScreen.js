@@ -1,15 +1,17 @@
 import React from 'react';
 import HTMLView from 'react-native-htmlview';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import RefreshButton from "../components/ui/RefreshButton.js"
+import {ScrollView, StyleSheet, Text, View, Button} from 'react-native';
+import RefreshButton from "../../ui/RefreshButton.js"
+import email from 'react-native-email'
 
 export default class AlgDescriptionScreen extends React.Component {
-    algorithm = this.props.algorithm
     
-    static navigationOptions = ({navigation}) => ({
+    static navigationOptions = ({navigation}) => {
+        const { params = {} } = navigation.state;
+
         //Fixes Error where PCH Icon shifts to the right.
-        headerRight: <RefreshButton algorithm={this.algorithm}></RefreshButton>
-    });
+        return {headerRight: <RefreshButton algorithmId={params.algorithm.id}/>}
+    };
 
     render() {
         const {navigation} = this.props;
@@ -18,8 +20,8 @@ export default class AlgDescriptionScreen extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 <View>
-                    <Text style={styles.titleText}>{algorithm.Name}</Text>
-                    <HTMLView style={styles.descriptionText} value={algorithm.Description}/>
+                    <Text style={styles.titleText}>{algorithm.name}</Text>
+                    <HTMLView style={styles.descriptionText} value={`<div>${algorithm.description}</div>`}/>
                 </View>
             </ScrollView>
         );

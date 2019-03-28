@@ -1,13 +1,13 @@
 import React from 'react';
-import {Image, View,Platform} from 'react-native';
+import {Image,Platform} from 'react-native';
 import {createStackNavigator} from 'react-navigation';
 
-import ConversationScreen from '../../screens/ConversationScreen';
-import HomeScreen from '../../screens/HomeScreen';
-import AlgDescriptionScreen from '../../screens/AlgDescriptionScreen';
-import RecommendationScreen from '../../screens/RecommendationScreen';
-import DischargeScreen from '../../screens/DischargeScreen';
+import AlgDescriptionScreen from '../app/home/AlgDescriptionScreen';
+import RecommendationScreen from '../app/conversation/RecommendationScreen';
+import DischargeScreen from '../app/conversation/DischargeScreen';
 import Colors from "../../common/Colors";
+import HomeComponent from "../app/home/HomeComponent";
+import ConversationComponent from "../app/conversation/ConversationComponent";
 
 
 /**
@@ -19,40 +19,44 @@ import Colors from "../../common/Colors";
  * options on that page.
  */
 const navigationConfig = {
-    initialRouteName: 'Home',
-    headerMode: 'float',
+    initialRouteName : "Home",
+    headerMode       : "float",
     navigationOptions: {
-
-        headerTintColor: '#fff', // Changes back arrow to white.
-
+        headerTintColor: "#fff", // Changes back arrow to white.
         //PCH logo in the center.
-        headerTitle: (<Image
-            style={{
-                flex: 1,
-                width: 40,
-                height: 40,
-                resizeMode: 'contain',
-                alignSelf: 'center',
-            }}
-            source={require('../../../assets/images/WHITE_HAND_LOGO.png')}/>
-
+        headerTitle    : (
+            <Image
+                style={{
+                    marginTop: Platform.OS === 'ios' ? 10: 0,
+                    marginBottom: Platform.OS === 'ios' ? 5: 0,
+                    flex      : 1,
+                    width     : 40,
+                    height    : 40,
+                    resizeMode: "contain",
+                    alignSelf : "center"
+                }}
+                source={require("../../../assets/images/WHITE_HAND_LOGO.png")}
+            />
         ),
-        headerStyle: {
-            backgroundColor: Colors.navBarBackground,
-            paddingBottom: 8,
+        headerStyle    : {
+            backgroundColor  : Colors.navBarBackground,
+            paddingBottom    : 10,
+            height           : 50,
+            elevation        : 0,
+            borderBottomWidth: 0,
         }
-        },
-}
+    }
+};
 
 /**
  * When adding new pages make sure to add it here.
  */
 const AppNavigator = createStackNavigator({
-    Home: { screen: HomeScreen},
-    Conversation: {screen: ConversationScreen},
+    Home          : {screen: HomeComponent},
+    Conversation  : {screen: ConversationComponent},
     AlgDescription: {screen: AlgDescriptionScreen},
     Recommendation: {screen: RecommendationScreen},
-    Discharge: {screen: DischargeScreen}
-},navigationConfig);
+    Discharge     : {screen: DischargeScreen},
+}, navigationConfig);
 
 export default AppNavigator;

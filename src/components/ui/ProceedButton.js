@@ -7,7 +7,7 @@ export default class ProceedButton extends React.Component {
         return (
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
-                    <Text style={styles.buttonText}>Proceed</Text>
+                    <Text style={styles.buttonText}>{this.props.title}</Text>
                 </TouchableOpacity>
             </View>
         );

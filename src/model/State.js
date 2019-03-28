@@ -1,52 +1,80 @@
-import {observable, action, computed} from 'mobx'
+import {computed} from 'mobx'
 import AbstractModel from "./AbstractModel";
-import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class State extends AbstractModel {
-    Id                          = null;
-    StateIdNextGood             = null;
-    StateIdNextBad              = null;
-    @observable Questions       = null;
-    @observable Recommendations = null;
+    id                 = null;
+    path               = null;
+    state_id_next_good = null;
+    state_id_next_bad  = null;
+    algorithm_id       = null;
+    is_initial         = null;
+
+    setPath(path) {
+        this.path = path;
+        return this;
+    }
+
+    getPath() {
+        return this.path;
+    }
+
+    @computed
+    get Recommendations() {
+        return this.rootStore.stateRecommendationStore.collection
+            .filter(item => item.state_id === this.id)
+            .map(item => item.Recommendation);
+    }
+
+    @computed
+    get Questions() {
+        return this.rootStore.stateQuestionStore.collection
+            .filter(item => item.state_id === this.id)
+            .map(item => item.Question);
+    }
+
+    @computed
+    get QuestionAnswers() {
+        return this.Questions
+            .map(question => {
+                let answer = this.rootStore.questionAnswerStore.collection.find(questionAnswer => questionAnswer.question_id === question.id && questionAnswer.state_path === this.path);
+                return answer ? answer : this.rootStore.questionAnswerStore.create(question, this);
+            });
+    }
 
     @computed
     get completed() {
-        return this.Questions.filter(question => question.Answer.completed).length === this.Questions.length;
+        return !(this.QuestionAnswers.filter(questionAnswer => !questionAnswer.completed).length > 0);
     }
-
 
     @computed
     get started() {
-        return this.Questions.filter(question => question.Answer.completed).length > 0;
+        return (this.QuestionAnswers.filter(questionAnswer => questionAnswer.completed).length > 0);
     }
 
     @computed
     get NextStateId() {
         if (this.completed) {
-            return this.Questions.filter(question => {
-                return !question.Answer.IsGood
-            }).length > 0 ? this.StateIdNextBad : this.StateIdNextGood;
+            return this.QuestionAnswers.filter(questionAnswer => {
+                return !questionAnswer.IsGood
+            }).length > 0 ? this.state_id_next_bad : this.state_id_next_good;
         }
         return null;
     }
 
-    @action
-    init() {
-        return BluebirdPromise.all([
-            this.store.rootStore.questionStore.findStateQuestions(this)
-                .then(res => {
-                    return BluebirdPromise.all(
-                        res.map(question => {
-                            return question.init(this);
-                        })
-                    );
-                }),
-            this.store.rootStore.recommendationStore.findStateRecommendations(this)
-        ])
-            .then(([questions, recommendations]) => {
-                this.Questions       = questions;
-                this.Recommendations = recommendations;
-                return this;
-            })
+    @computed
+    get NextStateType() {
+        if (this.completed) {
+            return this.QuestionAnswers.filter(questionAnswer => {
+                return !questionAnswer.IsGood
+            }).length > 0 ? "bad" : "good";
+        }
+        return null;
+    }
+
+
+    toJson() {
+        let clonedState = Object.assign({}, this);
+        delete clonedState.path;
+        return this._toJson(clonedState);
     }
 }

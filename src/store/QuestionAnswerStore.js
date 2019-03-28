@@ -1,26 +1,29 @@
-import AbstractStore from "./AbstractStore";
-import Question from "../model/Question";
-import {QuestionOption} from "../model/Question";
-import BluebirdPromise from "../common/BluebirdPromise";
 import QuestionAnswer from "../model/QuestionAnswer";
+import AbstractAlgorithmStore from "./AbstractAlgorithmStore";
+import QuestionStore from "./QuestionStore";
 
-export default class QuestionAnswerStore extends AbstractStore {
-    constructor(rootStore, transporter) {
-        super(QuestionAnswer, 'question_answer', rootStore, transporter);
+export default class QuestionAnswerStore extends AbstractAlgorithmStore {
+    static TABLE_NAME = 'question_answer';
+
+    constructor(rootStore, algorithm, transporter) {
+        super(QuestionAnswer, QuestionAnswerStore.TABLE_NAME, algorithm, rootStore, transporter);
     }
 
-    findQuestionAnswer = (question) => {
-        return this.transporter.select(`select * from ${this.table} where question_id = ? and state_id = ?;`, [question.Id, question.State.Id])
+    init() {
+        return this.transporter.select(`select ${this.table}.* from ${this.table} join question on question.id = ${this.table}.question_id and question.algorithm_id = ?;`, [this.algorithm.id])
             .then(this.processResults)
-            .then(objects => objects.length > 0 ? objects[0] : null)
-    };
+    }
 
+    deleteAll() {
+        this.collection.clear();
+        return this.transporter.execute(`delete from ${this.table} where ${this.table}.question_id in (select q.id from ${QuestionStore.TABLE_NAME} as q where q.algorithm_id = ?)`, [this.algorithm.id])
+    }
 
-    create = (question) => {
+    create = (question, state) => {
         return new QuestionAnswer(this)
             .fromObj({
-                QuestionId: question.id,
-                StateId   : question.State.id
+                question_id: question.id,
+                state_path : state.getPath()
             })
     }
 

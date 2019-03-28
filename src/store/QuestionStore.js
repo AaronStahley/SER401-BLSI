@@ -1,19 +1,25 @@
-import AbstractStore from "./AbstractStore";
 import Question from "../model/Question";
-import {QuestionOption} from "../model/Question";
-import BluebirdPromise from "../common/BluebirdPromise";
+import AbstractAlgorithmStore from "./AbstractAlgorithmStore";
 
-export default class QuestionStore extends AbstractStore {
-    constructor(rootStore, transporter) {
-        super(Question, 'question', rootStore, transporter);
+export default class QuestionStore extends AbstractAlgorithmStore {
+    algorithm;
+    static TABLE_NAME = 'question';
+
+    constructor(rootStore, algorithm, transporter) {
+        super(Question, QuestionStore.TABLE_NAME, algorithm, rootStore, transporter);
     }
 
 
-    findStateQuestions = state => {
-        return this.transporter.select(`
-SELECT question.* FROM question 
-JOIN state_question ON question.id = state_question.question_id
-WHERE state_question.state_id = ?`, [state.Id])
-            .then(this.processResults);
+    insertWithOptions = (json) => {
+        let options = json.question_options;
+        delete json.question_options;
+
+        return this.insert(json)
+            .then((question_id) => Promise.all(options.map((item) => {
+                delete item.id;
+                item.question_id = question_id;
+                return this.rootStore.questionOptionStore.insert(item);
+            }))
+                .then(() => question_id))
     };
 }

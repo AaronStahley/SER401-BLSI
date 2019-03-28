@@ -1,49 +1,24 @@
 import AbstractModel from "./AbstractModel";
-import {observable, action, computed} from "mobx";
-import BluebirdPromise from "../common/BluebirdPromise";
 
 export default class Question extends AbstractModel {
-    Id                  = null;
-    Question            = null;
-    Prompt              = "";
-    TypeKey             = null;
-    @observable Options = [];
-    @observable Answer  = null;
-    State               = null;
+    id           = null;
+    text         = null;
+    prompt       = "";
+    type_key     = null;
+    algorithm_id = null;
 
-    @computed
-    get completed() {
-        return this.Answer && this.Answer.completed
+    get Options() {
+        return this.rootStore.questionOptionStore.collection.filter(option => option.question_id === this.id)
     }
-
-    @action
-    init(state) {
-        this.State = state;
-        return BluebirdPromise.all([
-            this.store.rootStore.questionOptionStore.findQuestionOptions(this)
-                .then((options) => {
-                    this.Options = options;
-                }),
-            this.store.rootStore.questionAnswerStore.findQuestionAnswer(this)
-                .then((answer) => {
-                    if (!answer) {
-                        answer = this.store.rootStore.questionAnswerStore.create(this)
-                    }
-                    this.Answer          = answer;
-                    this.Answer.Question = this;
-                })
-        ]).then((res) => this);
-    }
-
 
     convertNumberToOption(number) {
         let selected = this.Options.filter(option => {
             let valid = true;
-            if (valid && option.MinValue !== null) {
-                valid = option.MinValue <= number;
+            if (valid && option.min_value !== null) {
+                valid = option.min_value <= number;
             }
-            if (valid && option.MaxValue !== null) {
-                valid = option.MaxValue >= number;
+            if (valid && option.max_value !== null) {
+                valid = option.max_value >= number;
             }
             return valid;
         });

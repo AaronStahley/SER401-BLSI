@@ -1,55 +1,41 @@
-import React from 'react';
-import {View, TouchableOpacity, Alert} from 'react-native';
-import { Icon } from "expo";
-import {inject, observer} from 'mobx-react/native'
-import {retrieveAlgorithms, retrieveAlgorithm} from "../../services/fetchAlgorithms";
+import React from "react";
+import {View, TouchableOpacity} from "react-native";
+import {Icon} from "expo";
+import {inject, observer} from "mobx-react/native";
+import {queryAlert, errorAlert} from "./AlertBox"
 
-@inject("rootStore")
+@inject("rootStore", "releaseImporter")
 @observer
 export default class RefreshButton extends React.Component {
-    homeOnPress = () => {
-        retrieveAlgorithms(this.props.rootStore);
-    }
+    algDescriptOnPress = async () => {
+        const {algorithmId, releaseImporter} = this.props;
+        return releaseImporter.update(algorithmId)
+            .catch(err => {
+                console.log(err);
+                errorAlert("Data not available",
+                    "Currently not able to connect to service.");
+            });
+    };
 
-    algDescriptOnPress = () => {
-        const algorithm = this.props.algorithm;
-        retrieveAlgorithm(algorithm.id, this.props.rootStore);
-    }
 
     render() {
         return (
-        <View>
-        <TouchableOpacity
-            onPress={() =>
-                Alert.alert(
-                    !this.props.algorithm ? homeAlertHeader: algDescriptAlertHeader,
-                    !this.props.algorithm ? homeAlert : algDescriptAlert,
-                    [{
-                        text: "No",
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                    },
-                    { 
-                        text: "Yes", 
-                        onPress: !this.props.algorithm ? this.homeOnPress : this.algDescriptOnPress
-                    }
-                ])
-            }
-        >
-          <Icon.Ionicons
-            style={{ marginRight: 10, marginTop: 5 }}
-            color={"#fff"}
-            size={30}
-            name="ios-refresh"
-          />
-        </TouchableOpacity>
-      </View>
-    );
+            <View>
+                <TouchableOpacity onPress={
+                    () => queryAlert(
+                        "Update Algorithm?",
+                        "Do you want to update to the latest algorithm version?",
+                        this.algDescriptOnPress)
+                }
+                >
+                    <Icon.Ionicons
+                        style={{marginRight: 10, marginTop: 5}}
+                        color={"#fff"}
+                        size={30}
+                        name="ios-refresh"
+                    />
+                </TouchableOpacity>
+            </View>
+        );
     }
 }
-
-const homeAlertHeader = "Get New Algorithms?  ";
-const homeAlert = "Do you want to add new alogorithms to your list?"
-
-const algDescriptAlertHeader = 'Update Algorithm?  ';
-const algDescriptAlert = 'Do you want to upgrade to the newest version ?';

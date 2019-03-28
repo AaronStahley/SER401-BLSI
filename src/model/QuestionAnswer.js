@@ -2,32 +2,32 @@ import AbstractModel from "./AbstractModel";
 import {computed, observable} from "mobx";
 
 export default class QuestionAnswer extends AbstractModel {
-    Id                           = null;
-    StateId                      = null;
-    QuestionId                   = null;
-    @observable QuestionOptionId = null;
-    @observable TextAnswer       = null;
-    Question                     = null;
+    id                             = null;
+    question_id                    = null;
+    @observable state_path         = null;
+    @observable question_option_id = null;
+    @observable number_answer      = null;
 
     @computed
     get completed() {
-        return (this.QuestionOptionId !== null || this.TextAnswer !== null);
+        return (this.question_option_id !== null || this.number_answer !== null);
     }
 
-    get State() {
-        return this.store.rootStore.stateStore.getPK(this.StateId);
+    @computed
+    get question() {
+        return this.store.rootStore.questionStore.get(this.question_id);
     }
 
+    @computed
     get QuestionOption() {
-        return this.store.rootStore.questionOptionStore.getPK(this.QuestionOptionId);
+        return this.store.rootStore.questionOptionStore.get(this.question_option_id);
     }
 
     get IsGood() {
         if (this.QuestionOption) {
-            return this.QuestionOption.IsGood;
+            return this.QuestionOption.is_good;
         }
 
-        //TODO:: determin how to tell if text input is bad or good
-        return true;
+        return null;
     }
 }

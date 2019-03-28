@@ -1,9 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-import Colors from '../../common/Colors';
-import Grid from "react-native-easy-grid/Components/Grid";
-import Col from "react-native-easy-grid/Components/Col";
-import Row from "react-native-easy-grid/Components/Row";
+import Colors from '../../../../common/Colors';
 import {observer} from "mobx-react/native";
 import {Icon} from "react-native-elements";
 import { withNavigation } from 'react-navigation';
@@ -17,24 +14,25 @@ class Recommendation extends React.Component {
     };
 
     render() {
-        let {recommendation, number} = this.props;
+        let {recommendation} = this.props;
 
         return (
         <View style={styles.mainContainer}>
             <View style={styles.recTextContainer}>
               <Text>
                 {`\u2022  `}
-                {recommendation.Title}
+                {recommendation.title}
               </Text>
             </View>
             <View style={styles.infoIconContainer}>
-                {recommendation.Description && (
+                
+                {recommendation.description ?
                     <Icon
                         name="info"
                         color={Colors.moreInfoIcon}
                         onPress={this.handelMoreInfoClick}
-                     />
-                )}
+                     /> : null
+                }
             </View>
         </View>
         );

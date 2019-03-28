@@ -1,16 +1,10 @@
-import AbstractStore from "./AbstractStore";
 import Recommendation from "../model/Recommendation";
+import AbstractAlgorithmStore from "./AbstractAlgorithmStore";
 
-export default class RecommendationStore extends AbstractStore {
-    constructor(rootStore, transporter) {
-        super(Recommendation, 'recommendation', rootStore, transporter, true);
+export default class RecommendationStore extends AbstractAlgorithmStore {
+    static TABLE_NAME = 'recommendation';
+
+    constructor(rootStore, algorithm, transporter) {
+        super(Recommendation, RecommendationStore.TABLE_NAME, algorithm, rootStore, transporter);
     }
-
-    findStateRecommendations = state => {
-        return this.transporter.select(`
-SELECT recommendation.* FROM recommendation 
-JOIN state_recommendation ON recommendation.id = state_recommendation.recommendation_id
-WHERE state_recommendation.state_id = ?`, [state.Id])
-            .then(this.processResults);
-    };
 }

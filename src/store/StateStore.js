@@ -1,9 +1,16 @@
-import AbstractStore from "./AbstractStore";
 import State from "../model/State";
-import BluebirdPromise from "../common/BluebirdPromise";
+import AbstractAlgorithmStore from "./AbstractAlgorithmStore";
 
-export default class StateStore extends AbstractStore {
-    constructor(rootStore, transporter) {
-        super(State, 'state', rootStore, transporter);
+export default class StateStore extends AbstractAlgorithmStore {
+    static TABLE_NAME = 'state';
+
+    constructor(rootStore, algorithm, transporter) {
+        super(State, StateStore.TABLE_NAME, algorithm, rootStore, transporter);
+    }
+
+    createInstance(stateId, path = "") {
+        return (new State(this))
+            .fromObj(this.get(stateId))
+            .setPath(`${path}:${stateId}`)
     }
 }

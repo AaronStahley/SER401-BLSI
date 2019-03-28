@@ -1,16 +1,24 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Platform, StatusBar} from 'react-native';
 import {AppLoading, Asset, Font, Icon, FileSystem} from 'expo';
 import AppNavigator from './components/navigation/AppNavigator';
 import {Provider} from "mobx-react/native";
-import RootStore from "./store/RootStore";
-
+import RootStore from "./store/root/RootStore";
+import ReleaseImporter from "./services/ReleaseImporter";
 
 export default class App extends React.Component {
     _rootStore;
+    _releaseImporter;
     state = {
         isLoadingComplete: false,
     };
+
+    get releaseImporter() {
+        if (!this._releaseImporter) {
+            this._releaseImporter = new ReleaseImporter(this.rootStore);
+        }
+        return this._releaseImporter;
+    }
 
 
     get rootStore() {
@@ -32,9 +40,9 @@ export default class App extends React.Component {
         }
 
         return (
-            <Provider rootStore={this.rootStore}>
+            <Provider rootStore={this.rootStore} releaseImporter={this.releaseImporter}>
                 <View style={styles.container}>
-                    {/*{Platform.OS === 'ios' && <StatusBar barStyle="default" />}*/}
+                    {/* {Platform.OS === 'ios' && <StatusBar barStyle="default" />} */}
                     <AppNavigator/>
                 </View>
             </Provider>
@@ -58,7 +66,7 @@ export default class App extends React.Component {
                 .then(() => {
                     return this.rootStore.init()
                 }),
-            
+
         ]);
     };
 
@@ -71,7 +79,7 @@ export default class App extends React.Component {
     _handleFinishLoading = () => {
         this.setState({isLoadingComplete: true});
     };
- 
+
     initDatabase = async () => {
         const sqliteDirectory = `${FileSystem.documentDirectory}SQLite`;
 
@@ -81,20 +89,41 @@ export default class App extends React.Component {
         const {exists, isDirectory} = await FileSystem.getInfoAsync(sqliteDirectory);
         if (!exists) {
             await FileSystem.makeDirectoryAsync(sqliteDirectory);
+
+            const pathToDownloadTo = `${sqliteDirectory}/database.db`;
+            const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
+
+            let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
+            await filesArray.forEach((item) => {
+                FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {
+                    idempotent: true
+                });
+            });
+
+            await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
         } else if (!isDirectory) {
             throw new Error('SQLite dir is not a directory');
         }
 
-        const pathToDownloadTo = `${sqliteDirectory}/database.db`;
-        const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
+        // //    /* //Reload the DB from the repo file
+        // const pathToDownloadTo = `${sqliteDirectory}/database.db`;
+        // const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
 
+        // let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
+        // await filesArray.forEach((item) => {
+        //     FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {
+        //         idempotent: true
+        //     });
+        // });
 
-        let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
-        await filesArray.forEach( (item) => {
-             FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {idempotent: true});
-        });
+        // await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
+        // //*/
 
-        await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
+        /* //uncomment to get db code
+        let str = await FileSystem.readAsStringAsync(`${sqliteDirectory}/database.db`);
+        console.log({str : str});  
+        //*/
+
     };
 }
 
@@ -102,5 +131,6 @@ const styles = StyleSheet.create({
     container: {
         flex           : 1,
         backgroundColor: '#fff',
+        paddingTop: Platform.OS === 'ios' ? 0: StatusBar.currentHeight
     },
 });

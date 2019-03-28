@@ -18,20 +18,15 @@ export default class Transporter {
         });
     }
 
-    execute(sql) {
-        this.database.transaction(tx => {
-            tx.executeSql(sql);
-        });
-    }
-
-    select(sql, params) {
+    execute(sql, params) {
+        // console.log(sql);
         return new BluebirdPromise((resolve, reject) => {
             this.database.transaction(tx => {
                 tx.executeSql(
                     sql,
                     params,
-                    (_, {rows: {_array}}) => {
-                        resolve(_array);
+                    (_, res) => {
+                        resolve(res);
                     }
                 );
             }, err => {
@@ -40,4 +35,67 @@ export default class Transporter {
             });
         });
     }
+
+
+    select(sql, params) {
+        // console.log(sql);
+        return new BluebirdPromise((resolve, reject) => {
+            this.database.transaction(tx => {
+                tx.executeSql(
+                    sql,
+                    params,
+                    (_, res) => {
+                        resolve(res.rows._array);
+                    }
+                );
+            }, err => {
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+
+
+    buildUpdateSql = (table, id, json) => {
+        let updateKeys = [];
+        let values     = [];
+
+        Object.keys(json).forEach(key => {
+            updateKeys.push(`${key} = ?`);
+            values.push(this.convertValueToSql(json[key]));
+        });
+        values.push(id);
+
+        return {
+            sql   : `update ${table} set ${updateKeys.join(", ")} where id = ?`,
+            values: values
+        };
+    };
+
+
+    buildInsertSql = (table, json) => {
+        let insertKeys   = Object.keys(json);
+        let insertParams = new Array(insertKeys.length).fill("?");
+        let values       = Object.keys(json).map((key) => this.convertValueToSql(json[key]));
+
+        return {
+            sql   : `insert into ${table} (${insertKeys.join(', ')}) values (${insertParams.join(', ')})`,
+            values: values
+        };
+    };
+
+    convertValueToSql = (val) => {
+        switch (true) {
+            case (typeof val) === 'string':
+                return val;
+            case val === true:
+                return 1;
+            case val === false:
+                return 0;
+            case val === "null":
+                return val.toUpperCase();
+            default:
+                return val;
+        }
+    };
 }

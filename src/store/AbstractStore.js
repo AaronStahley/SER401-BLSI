@@ -1,26 +1,23 @@
 import BluebirdPromise from "../common/BluebirdPromise";
+import {observable} from "mobx";
 
 export default class AbstractStore {
-    collection = {};
-    storeLocally;
-    allFound   = false;
+    @observable collection = [];
+    allFound               = false;
+    rootStore;
     transporter;
     model;
     table;
 
-    constructor(model, tableName, rootStore, transporter, storeLocally = false) {
-        this.model        = model;
-        this.transporter  = transporter;
-        this.rootStore    = rootStore;
-        this.table        = tableName;
-        this.storeLocally = storeLocally;
+    constructor(model, tableName, rootStore, transporter) {
+        this.model       = model;
+        this.transporter = transporter;
+        this.rootStore   = rootStore;
+        this.table       = tableName;
     }
 
-    getPK = id => {
-        if (this.storeLocally && id in this.collection) {
-            return this.collection[id];
-        }
-        return null;
+    get = id => {
+        return this.collection.find(item => item.id === id);
     };
 
     findPK = id => {
@@ -34,8 +31,8 @@ export default class AbstractStore {
             .then(this.processResults);
     };
 
-    getOrFindAll = () => {
-        if (this.allFound && this.storeLocally) {
+    getOrFindAll = (forceFetch = false) => {
+        if (this.allFound && !forceFetch) {
             return new BluebirdPromise((resolve, reject) => {
                 resolve(Object.values(this.collection));
             })
@@ -49,33 +46,52 @@ export default class AbstractStore {
             });
     };
 
-    convertFieldNames = (row) => {
-        let mappedObj = {};
-        for (let dbField in row) {
-            let modelField = dbField.toLowerCase()
-                .split('_')
-                .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-                .join('');
+    update = (json) => {
+        let id = json.id;
+        delete json.id;
 
-            mappedObj[modelField] = row[dbField];
-        }
-        return mappedObj;
+        let {sql, values} = this.transporter.buildUpdateSql(this.table, id, json);
+
+        return this.transporter.execute(sql, values)
+            .then(res => res.rowsAffected > 0);
+    };
+
+    insert = (json) => {
+        //delete json.id;
+        let {sql, values} = this.transporter.buildInsertSql(this.table, json);
+
+        return this.transporter.execute(sql, values)
+            .then(res => res.insertId)
+    };
+
+    delete = (id) => {
+        return this.transporter.execute(`delete from ${this.table} where id = ?`, [id])
+    };
+
+    register = (obj) => {
+        this.collection.push(obj);
+        return this;
     };
 
     processResults = (_array) => {
-        if (_array.length == 0) {
+        console.log(_array);
+        if (_array.length === 0) {
             return [];
         }
 
         return _array.map(row => {
+            let isRegistered = true;
+            let obj          = 'id' in row ? this.get(row.id) : null;
 
-            let obj = new this.model(this);
-            obj.fromObj(this.convertFieldNames(row));
-
-            if (this.storeLocally) {
-                this.collection[obj.Id] = obj;
+            if (!obj) {
+                isRegistered = false;
+                obj          = new this.model(this);
             }
 
+            obj.fromObj(row);
+            if (!isRegistered) {
+                this.register(obj);
+            }
             return obj;
         });
     };
