@@ -158,7 +158,8 @@ export default class HomeComponent extends React.Component {
                     <View style={setViewStyle()}>
                         {this.algorithms.map(algorithm =>
                             <AlgorithmListItem key={algorithm.id} algorithm={algorithm}
-                                               navigation={this.props.navigation}/>
+                                               navigation={this.props.navigation} 
+                                               cardContainerStyle={setCardStyle()}/>
                         )}
                     </View>
                 </ScrollView>
@@ -167,14 +168,59 @@ export default class HomeComponent extends React.Component {
     }
 }
 
+const setCardStyle = function () {
+    if (Dimensions.get('window').width > 1000) {
+        return {
+            borderWidth    : 1,
+            borderColor    : "#e5ebf0",
+            padding        : 15,
+            margin         : 15,
+            backgroundColor: '#fff',
+            width          : '33%'
+        }
+    }
+    else if (Dimensions.get('window').width > 750) {
+        return {
+            borderWidth    : 1,
+            borderColor    : "#e5ebf0",
+            padding        : 15,
+            margin         : 15,
+            backgroundColor: '#fff',
+            width          : '50%'
+        }
+    }
+    else if (Dimensions.get('window').width > 500) {
+        return {
+            borderWidth    : 1,
+            borderColor    : "#e5ebf0",
+            padding        : 15,
+            margin         : 15,
+            backgroundColor: '#fff',
+            flex           : 1,
+            width          : '50%'
+        }
+    }
+    else {
+        return {
+            borderWidth    : 1,
+            borderColor    : "#e5ebf0",
+            padding        : 15,
+            margin         : 15,
+            flex           : 1,
+            backgroundColor: '#fff'
+        }
+    }
+}
+
 const setViewStyle = function () {
     if (Dimensions.get('window').width > 500) {
         return {
             flexWrap      : 'wrap',
             flexDirection : 'row',
-            justifyContent: 'center'
+            justifyContent: 'flex-start'
         }
-    } else {
+    }
+    else {
         return {
             flexWrap: 'wrap'
         }
