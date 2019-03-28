@@ -189,17 +189,6 @@ const setCardStyle = function () {
             width          : '50%'
         }
     }
-    else if (Dimensions.get('window').width > 500) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            backgroundColor: '#fff',
-            flex           : 1,
-            width          : '50%'
-        }
-    }
     else {
         return {
             borderWidth    : 1,
