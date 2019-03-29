@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
         margin: 5
     },
     buttonContainer: {
+        flex:1,
         flexDirection: 'row',
     }
 });

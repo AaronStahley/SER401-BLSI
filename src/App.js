@@ -105,7 +105,7 @@ export default class App extends React.Component {
             throw new Error('SQLite dir is not a directory');
         }
 
-        // //    /* //Reload the DB from the repo file
+        // // //    /* //Reload the DB from the repo file
         // const pathToDownloadTo = `${sqliteDirectory}/database.db`;
         // const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
 

@@ -32,10 +32,11 @@ export default class NextStateContainer extends React.Component {
 
     render() {
         if (!this.state.currentState) {
-            return <View/>;
+            return <View style={{flex: 1}}/>;
         }
         return (
             <StateContainer 
+            style={{flex: 1}}
                 onDischargePress={this.props.onDischargePress}
                 type={this.props.nextStateType} 
                 state={this.state.currentState}

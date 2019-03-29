@@ -8,7 +8,9 @@ import {
     Alert,
     TouchableOpacity,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    FlatList,
+    ListItem
 } from 'react-native';
 import {observer, inject} from 'mobx-react/native';
 import NextStateContainer from "./state/NextStateContainer";
@@ -17,6 +19,8 @@ import {AppLoading} from "expo";
 import StartOverButton from "../../navigation/StartOverButton";
 import Colors from "../../../common/Colors";
 import Loading from "../../ui/Loading";
+import { LargeList } from "react-native-largelist"
+
 
 let {height, width} = Dimensions.get("window");
 
@@ -91,8 +95,22 @@ export default class ConversationComponent extends React.Component {
         }
 
         let startState = rootStore.stateStore.collection.find(state => state.is_initial);
-
+            
         return (
+            
+            // Data.. needs to be an array of all states. 
+            // renderItme.. Renders each state based on question or recomendation
+            // <View>
+            //     <FlatList
+            //         data={[startState]}
+            //         keyExtractor={item => String(item.id)}
+            //         removeClippedSubviews={false}
+            //         renderItem={({item}) => (
+            //             <NextStateContainer nextStateId={item.id}/>
+            //     )}/>
+            // </View>);
+
+
             <ScrollView
                 onLayout={this._onLayout}
                 style={styles.root}
@@ -100,7 +118,7 @@ export default class ConversationComponent extends React.Component {
                 contentContainerStyle={setConvoStyle()}
                 indicatorStyle={'default'}
                 onContentSizeChange={(contentWidth, contentHeight) => {
-                    this.scrollView.scrollToEnd({animated: true});
+                    this.scrollView.scrollToEnd({animated: false});
                 }}
             >
                 <NextStateContainer nextStateId={startState.id}/>
@@ -143,7 +161,7 @@ const styles = StyleSheet.create({
     root           : {
         backgroundColor: Colors.conversationBackground,
         alignSelf      : 'stretch',
-        paddingLeft    : 10
+        paddingLeft    : 10,
     },
     container      : {
         paddingTop   : 10,

@@ -18,7 +18,8 @@ export default class QuestionContainer extends React.Component {
         let {state} = this.props;
 
         if (state.Questions.length === 0) {
-            return <View/>;
+            return <View                         style={{flex: 1}}
+            />;
         }
 
         return (
@@ -37,9 +38,9 @@ export default class QuestionContainer extends React.Component {
                         ))
                     }
                 </View>
-                <View style={styles.imageContainer}>
+                {/* <View style={styles.imageContainer}>
                     <Image style={styles.image} source={Images.questionIcon}/>
-                </View>
+                </View> */}
             </View>
         );
     }

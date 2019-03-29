@@ -39,11 +39,11 @@ class StateContainer extends React.Component {
         const renderQuestion = proceedClicked || state.Recommendations.length === 0;
 
         return (
-            <View>
-                <View>
+            <View style={{flex: 1}}>
+                <View style={{flex: 1}}>
                     <RecommendationContainer state={state} finalRecommendation={isFinalRecomm} goodResult={type === 'good'}/>
                 </View>
-                <View>
+                <View style={{flex: 1}}>
                     {
                         (renderProceed) &&
                         <ProceedButton 
@@ -53,7 +53,7 @@ class StateContainer extends React.Component {
                     }
                     {
                         (renderQuestion) &&
-                        <View>
+                        <View style={{flex: 1}}>
                             <QuestionContainer state={state}/>
                             {
                                 state.NextStateId &&
@@ -69,6 +69,7 @@ class StateContainer extends React.Component {
                 {
                     (renderDischargeButton) &&
                     <ProceedButton 
+                        style={{flex: 1}}
                         title={'Discharge'} 
                         onPress={() =>   this.props.navigation.navigate('Discharge')}
                     />

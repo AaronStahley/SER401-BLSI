@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image,Text} from 'react-native';
 import Colors from '../../../../common/Colors';
 import Images from "../../../../common/Images";
 import {inject, observer} from "mobx-react/native";
@@ -13,16 +13,17 @@ export default class RecommendationContainer extends React.Component {
         let {state, finalRecommendation, goodResult} = this.props;
 
         if (state.Recommendations.length === 0) {
-            return <View/>;
+            return <View                         style={{flex: 1}}
+            />;
         }
-        return (
+        return (   
             <View style={styles.mainContainer}>
-                <View style={styles.imageContainer}>
+                {/* <View style={styles.imageContainer}>
                     <Image
                         style={styles.image}
                         source={Images.recommendationIcon}
                     />
-                </View>
+                </View> */}
                 <View style={setTextBubble(finalRecommendation, goodResult)}>
                     {
                         state.Recommendations.map((recommendation, index) => (
@@ -94,7 +95,7 @@ const setTextBubble = function(final, goodResult) {
 const styles = StyleSheet.create({
     mainContainer : { //Main container that holds the userIcon and the textbubble.
         flexDirection : "row",
-        flex          : 1,
+        // flex          : 1,
         justifyContent: "flex-start"
     },
     textBubble    : { //Used for question side of createBubble()

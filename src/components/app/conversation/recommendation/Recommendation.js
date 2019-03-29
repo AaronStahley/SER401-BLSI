@@ -24,7 +24,7 @@ class Recommendation extends React.Component {
                 {recommendation.title}
               </Text>
             </View>
-            <View style={styles.infoIconContainer}>
+            {/* <View style={styles.infoIconContainer}>
                 
                 {recommendation.description ?
                     <Icon
@@ -33,7 +33,7 @@ class Recommendation extends React.Component {
                         onPress={this.handelMoreInfoClick}
                      /> : null
                 }
-            </View>
+            </View> */}
         </View>
         );
     }
