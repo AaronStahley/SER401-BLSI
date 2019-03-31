@@ -159,7 +159,7 @@ export default class HomeComponent extends React.Component {
                         {this.algorithms.map(algorithm =>
                             <AlgorithmListItem key={algorithm.id} algorithm={algorithm}
                                                navigation={this.props.navigation} 
-                                               cardContainerStyle={setCardStyle()}/>
+                                               cardContainerStyle={StyleSheet.flatten([styles.cardContainer, setCardStyle()])}/>
                         )}
                     </View>
                 </ScrollView>
@@ -168,36 +168,15 @@ export default class HomeComponent extends React.Component {
     }
 }
 
-const setCardStyle = function () {
+const setCardStyle = function () {  // Used alongside styles.cardContainer to adjust based on screen width
     if (Dimensions.get('window').width > 1000) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            backgroundColor: '#fff',
-            width          : '33%'
-        }
+        return {width: '33%'}
     }
     else if (Dimensions.get('window').width > 750) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            backgroundColor: '#fff',
-            width          : '50%'
-        }
+        return {width: '50%'}
     }
     else {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff'
-        }
+        return {flex: 1}
     }
 }
 
@@ -257,6 +236,13 @@ const styles = StyleSheet.create({
         borderTopColor   : Colors.PCH_RED,
         borderBottomColor: "white",
         borderBottomWidth: 3
+    },
+    cardContainer: {
+        borderWidth    : 1,
+        borderColor    : "#e5ebf0",
+        padding        : 15,
+        margin         : 15,
+        backgroundColor: '#fff',
     },
     titleText                : {
         fontSize    : 20,

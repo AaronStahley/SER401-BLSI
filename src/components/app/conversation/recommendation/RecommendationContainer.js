@@ -23,7 +23,7 @@ export default class RecommendationContainer extends React.Component {
                         source={Images.recommendationIcon}
                     />
                 </View>
-                <View style={setTextBubble(finalRecommendation, goodResult)}>
+                <View style={StyleSheet.flatten([styles.textBubble, textBubbleColor(finalRecommendation, goodResult)])}>
                     {
                         state.Recommendations.map((recommendation, index) => (
                                 <View key={recommendation.id}>
@@ -46,47 +46,23 @@ export default class RecommendationContainer extends React.Component {
     }
 }
 
-const setTextBubble = function(final, goodResult) {
+const textBubbleColor = function(final, goodResult) {   // Used alongside styles.textBubble to indicate good/bad final result
     if (final && goodResult) {
         return {
             backgroundColor  : Colors.recommendationBubbleGood,
             borderColor      : Colors.recommendationIconBorderGood,
-            borderStyle      : "solid",
-            borderRadius     : 10,
-            borderWidth      : 1,
-            paddingTop       : 5,
-            paddingBottom    : 5,
-            paddingHorizontal: 10,
-            marginBottom     : 10,
-            width            : '80%',
         }
     }
     else if (final && !goodResult) {
         return {
             backgroundColor  : Colors.recommendationBubbleBad,
             borderColor      : Colors.recommendationIconBorderBad,
-            borderStyle      : "solid",
-            borderRadius     : 10,
-            borderWidth      : 1,
-            paddingTop       : 5,
-            paddingBottom    : 5,
-            paddingHorizontal: 10,
-            marginBottom     : 10,
-            width            : '80%',
         }
     }
     else {
         return {
             backgroundColor  : Colors.recommendationBubble,
             borderColor      : Colors.recommendationIconBorder,
-            borderStyle      : "solid",
-            borderRadius     : 10,
-            borderWidth      : 1,
-            paddingTop       : 5,
-            paddingBottom    : 5,
-            paddingHorizontal: 10,
-            marginBottom     : 10,
-            width            : '80%',
         }
     }
 }
@@ -98,8 +74,6 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start"
     },
     textBubble    : { //Used for question side of createBubble()
-        backgroundColor  : Colors.recommendationBubble,
-        borderColor      : Colors.recommendationIconBorder,
         borderStyle      : "solid",
         borderRadius     : 10,
         borderWidth      : 1,
