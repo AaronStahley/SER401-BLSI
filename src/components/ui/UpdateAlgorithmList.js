@@ -1,20 +1,15 @@
 import React from "react";
 import {View, ActivityIndicator} from "react-native";
-import ReleaseAlgorithmCard from "./ReleaseAlgorithmCard"
-import UpdateButton from "./UpdateButton"
+import UpdateAlgorithmCard from "./UpdateAlgorithmCard"
 
 export default class UpdateAlgorithmList extends React.Component {
 
-    filterAlgorithms(algorithms) {
-        //todo
-    }
-
     render = () => {
-        const {algorithms} = this.props;
+        const {algorithms, loading} = this.props;
 
-        if(!algorithms || algorithms.length === 0) {
+        if(loading) {
             return <ActivityIndicator 
-                animating={true}
+                animating={loading}
                 size="large"
                 color="#000"
             ></ActivityIndicator>
@@ -23,11 +18,12 @@ export default class UpdateAlgorithmList extends React.Component {
         return (
             <View>
                 {algorithms.map((algo) => {
-                    return <ReleaseAlgorithmCard key={algo.id} algorithm={algo}/>
+                    return <UpdateAlgorithmCard 
+                        key={algo.id} 
+                        algorithm={algo}
+                        loading={false}
+                    />
                 })}
-                <UpdateButton
-                    algorithms={this.filterAlgorithms(algorithms)}>
-                </UpdateButton>
             </View>
         );
     };

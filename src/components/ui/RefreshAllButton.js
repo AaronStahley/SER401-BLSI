@@ -32,12 +32,12 @@ export default class RefreshAllButton extends React.Component {
                 }>
                     <Icon.Ionicons 
                         style={{
-                            marginLeft: 10,
-                            marginTop : 5
+                            marginHorizontal: 15,
+                            marginTop : 0
                         }}
                         color={"#fff"}
-                        size={30}
-                        name="ios-refresh"/>
+                        size={45}
+                        name="ios-arrow-round-down"/>
                 </TouchableOpacity>
             </View>
         );
