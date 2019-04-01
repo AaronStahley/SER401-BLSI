@@ -10,20 +10,23 @@ import {queryAlert, errorAlert} from "./AlertBox"
 @observer
 export default class AddButton extends React.Component {
 
+    onPress = () => {
+        let {algorithms, navigation} = this.props;
+        navigation.navigate("UpdateScreen", {})
+    }
+
     render() {
         return (<View>
-                <TouchableOpacity onPress={
-                    this.props.onPress
-                }>
+                <TouchableOpacity onPress={this.onPress}>
                     <Icon.Ionicons style={
                         {
                             marginLeft: 10,
                             marginTop : 5
                         }
                     }
-                                   color={"#fff"}
-                                   size={30}
-                                   name="ios-add"/>
+                    color={"#fff"}
+                    size={30}
+                    name="ios-add"/>
                 </TouchableOpacity>
             </View>
         );
