@@ -6,7 +6,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    RefreshControl
+    RefreshControl,
+    Alert
 } from 'react-native';
 import {
     widthPercentageToDP as widthDP,
@@ -17,6 +18,7 @@ import Colors from "../../../common/Colors";
 import UpdateAlgorithmList from '../../ui/UpdateAlgorithmList';
 import Loading from "../../ui/Loading";
 import UpdateAllButton from '../../ui/UpdateAllButton';
+
 export default class UpdateScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
         const {params = {}} = navigation.state;
@@ -51,6 +53,15 @@ export default class UpdateScreen extends React.Component {
         removeOrientationListener();
     }
 
+    delay = (json) => {
+        setTimeout(function () {
+            this.setState({
+                loading: false,
+                algorithms: json.collection
+            })  
+        }.bind(this), 1200);
+    }
+
     getAlgorithms = async () => {
         let path = ""
 
@@ -70,12 +81,21 @@ export default class UpdateScreen extends React.Component {
                 }
                 return response.json();
             }).then((json) => {
-                this.setState({
-                    loading: false,
-                    algorithms: json.collection
-                })
+                this.delay(json)                         
             }).catch(err => {
                 console.log("No Connection", err);
+
+                setTimeout(function () {
+                    Alert.alert(
+                        'No Connection',
+                        'cannot connect to the server',
+                        [
+                          {text: 'OK', onPress: () => this.props.navigation.goBack()},
+                        ],
+                        { cancelable: false }
+                      )
+                }.bind(this), 1200);
+                
             });
     }
     
@@ -83,18 +103,16 @@ export default class UpdateScreen extends React.Component {
         const {
             algorithms,
             loading,
-            refreshPage
+            refreshPage,
         } = this.state;
-        
-        if (loading) {
-            return <Loading /> ;
-        }
 
         return (
             <View style={styles.container}>
                 <ScrollView
                     refreshControl={
                         <RefreshControl
+                            colors={[Colors.PCH_RED]}
+                            tintColor={Colors.PCH_RED}
                             refreshing={this.state.loading}
                             onRefresh={this.getAlgorithms}    
                         />
@@ -102,7 +120,7 @@ export default class UpdateScreen extends React.Component {
                 >
                     <UpdateAlgorithmList 
                         algorithms={algorithms} 
-                        loading={loading}/>
+                    />
                 </ScrollView>
             </View>
         );
