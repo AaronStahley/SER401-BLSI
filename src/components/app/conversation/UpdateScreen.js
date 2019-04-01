@@ -6,45 +6,32 @@ import {
     Text,
     View,
     TouchableOpacity,
-    LayoutAnimation,
-    UIManager,
+    RefreshControl
 } from 'react-native';
-import {SearchBar} from 'react-native-elements'
-import {inject, observer} from 'mobx-react/native'
 import {
     widthPercentageToDP as widthDP,
     listenOrientationChange,
     removeOrientationListener
 } from 'react-native-responsive-screen'
-import SearchButton from '../components/ui/SearchButton.js';
-import Colors from "../common/Colors";
-import UpdateAlgorithmList from '../components/ui/UpdateAlgorithmList';
-import {retrieveAlgorithms} from '../services/fetchAlgorithms'
-
-UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true); // Needed for Android
-var searchBarTransition = {
-    duration: 125,
-    update  : {
-        type: LayoutAnimation.Types.easeInEaseOut
-    }
-};
-
-@inject("rootStore")
-@observer
+import Colors from "../../../common/Colors";
+import UpdateAlgorithmList from '../../ui/UpdateAlgorithmList';
+import Loading from "../../ui/Loading";
+import RefreshAllButton from '../../ui/RefreshAllButton';
 export default class UpdateScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
         const {params = {}} = navigation.state;
-
+        
         return {
             headerRight   : (
-                <SearchButton openSearchBar={params.handleSeach}/>
+                <RefreshAllButton 
+                    refreshPage={params.refreshPage}   
+                />
             ),
             headerStyle: {
-                backgroundColor  : Colors.navBarBackground,
-                marginTop        : 10,
-                paddingBottom    : 10,
-                height           : 50,
-                elevation        : 0, //Removes the underline from nav
+                backgroundColor: Colors.navBarBackground,
+                paddingBottom: 10,
+                height: 50,
+                elevation: 0, //Removes the underline from nav
                 borderBottomWidth: 0,
             }
         };
@@ -52,92 +39,67 @@ export default class UpdateScreen extends React.Component {
     
     state = {
         algorithms   : [],
-        searchText   : "",
-        selectedIndex: 0,
-        popUpSearch  : false,
         loading     : true
     };
 
-    async componentDidMount() {
-        //Sets the parametors that are passed to the navigationOpions.
-        this.props.navigation.setParams({
-            handleSeach: this.setSearchState
-        });
+    componentDidMount() {
         listenOrientationChange(this);
         this.getAlgorithms();
-        this.props.rootStore.algorithmStore.getOrFindAll(true); //get updated collection
     }
 
     componentWillUnmount() {
         removeOrientationListener();
     }
 
-    //Sets the state of if the serch bar should pop up based on the header icon press.
-    setSearchState = () => {
-        if (this.state.popUpSearch == false) {
-            this.setState({popUpSearch: true}, function () {
-                this.renderSearch()
-            });
-        } else {
-            this.setState({popUpSearch: false})
-            this.renderSearch()
-        }
-    }
-
-    //Renders the search bar bellow header.
-    renderSearch = () => {
-
-        LayoutAnimation.configureNext(searchBarTransition);
-        if (this.state.popUpSearch == true) {
-            return (
-                <SearchBar
-                    placeholder="Search algorithm..."
-                    onChangeText={this.updateSearch}
-                    value={this.state.searchText}
-                    containerStyle={styles.searchBarContainer}
-                    inputStyle={styles.searchBarInput}
-                    clearIcon
-                    autoFocus={true}
-                />
-            );
-        } else {
-            return null
-        }
-    };
-
-    updateSearch = text => {
-        this.setState({searchText: text});
-    };
-
     getAlgorithms = async () => {
-        return await retrieveAlgorithms()
-            .then(res => {
+        let path = ""
+
+        const determinePath = Platform.select({
+            ios: () => path = "localhost:3001",
+            android: () => path = "10.0.2.2:3001",
+        })();
+
+        const url = `http://${path}/release?key=key`; //"http://localhost:3001/release?key=key";
+        this.setState({
+            loading: true
+        });
+        return fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw response;
+                }
+                return response.json();
+            }).then((json) => {
                 this.setState({
-                    algorithms: res.collection,
-                    loading: false
+                    loading: false,
+                    algorithms: json.collection
                 })
-                return res;
             }).catch(err => {
                 console.log("No Connection", err);
             });
     }
-
+    
     render() {
-        const {algorithms, loading} = this.state;
+        const {
+            algorithms,
+            loading,
+            refreshPage
+        } = this.state;
         
-        if(loading) {
-            return <View></View>
+        if (loading) {
+            return <Loading /> ;
         }
+
         return (
             <View style={styles.container}>
-                <TouchableOpacity 
-                    onPress={() => this.getAlgorithms()}
-                    style={styles.refreshButtonContainer}
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.loading}
+                            onRefresh={this.getAlgorithms}    
+                        />
+                    }
                 >
-                    <Text style={styles.text}>Refresh List</Text>
-                </TouchableOpacity>
-                <ScrollView>
-                    {this.renderSearch()}
                     <UpdateAlgorithmList 
                         algorithms={algorithms} 
                         loading={loading}/>
