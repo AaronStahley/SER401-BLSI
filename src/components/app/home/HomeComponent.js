@@ -15,7 +15,7 @@ import {
     listenOrientationChange,
     removeOrientationListener
 } from 'react-native-responsive-screen'
-import RefreshAllButton from "../../ui/RefreshAllButton.js"
+import AddButton from "../../ui/AddButton.js"
 import SearchButton from '../../ui/SearchButton.js';
 import Colors from "../../../common/Colors";
 import AlgorithmListItem from "./AlgorithmListItem";
@@ -42,10 +42,10 @@ export default class HomeComponent extends React.Component {
                 <SearchButton openSearchBar={params.handleSeach}/>
             ),
             headerLeft    : (
-                //<View></View>
-                <RefreshAllButton refreshPage={params.refreshPage}/>
+                <AddButton refreshPage={params.refreshPage}
+                    navigation={navigation}    
+                />
             ), headerStyle: {
-
                 backgroundColor  : Colors.navBarBackground,
                 paddingBottom    : 10,
                 height           : 50,

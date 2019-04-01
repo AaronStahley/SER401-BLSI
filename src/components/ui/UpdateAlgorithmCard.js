@@ -5,7 +5,7 @@ import {Icon} from "expo";
 
 @inject("rootStore")
 @observer
-export default class ReleaseAlgorithmCard extends React.Component {
+export default class UpdateAlgorithmCard extends React.Component {
 
     algOnPress = async (algorithm) => {
         return this.props.rootStore.updateStore.update(algorithm)
@@ -49,7 +49,7 @@ export default class ReleaseAlgorithmCard extends React.Component {
 
     render() {
         const {algorithm} = this.props;
-        const json = JSON.parse(algorithm.algorithm_json)
+        const json = algorithm.algorithm_json
 
         return (<View  
             style={setCardStyle()}>

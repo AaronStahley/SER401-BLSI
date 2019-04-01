@@ -5,7 +5,7 @@ import {createStackNavigator} from 'react-navigation';
 import AlgDescriptionScreen from '../app/home/AlgDescriptionScreen';
 import RecommendationScreen from '../app/conversation/RecommendationScreen';
 import DischargeScreen from '../app/conversation/DischargeScreen';
-import UpdateScreen from '../../screens/UpdateScreen';
+import UpdateScreen from '../app/conversation/UpdateScreen';
 
 import Colors from "../../common/Colors";
 import HomeComponent from "../app/home/HomeComponent";
