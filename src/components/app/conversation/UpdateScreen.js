@@ -16,14 +16,14 @@ import {
 import Colors from "../../../common/Colors";
 import UpdateAlgorithmList from '../../ui/UpdateAlgorithmList';
 import Loading from "../../ui/Loading";
-import RefreshAllButton from '../../ui/RefreshAllButton';
+import UpdateAllButton from '../../ui/UpdateAllButton';
 export default class UpdateScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
         const {params = {}} = navigation.state;
         
         return {
             headerRight   : (
-                <RefreshAllButton 
+                <UpdateAllButton 
                     refreshPage={params.refreshPage}   
                 />
             ),

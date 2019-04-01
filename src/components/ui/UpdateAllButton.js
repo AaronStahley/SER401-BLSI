@@ -8,7 +8,7 @@ import {queryAlert, errorAlert} from "./AlertBox"
 
 @inject("rootStore", "releaseImporter")
 @observer
-export default class RefreshAllButton extends React.Component {
+export default class UpdateAllButton extends React.Component {
 
     homeOnPress = () => {
         this.props.refreshPage(true);
