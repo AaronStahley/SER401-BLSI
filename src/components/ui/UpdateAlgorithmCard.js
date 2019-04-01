@@ -2,13 +2,14 @@ import React from "react";
 import {View, Text, Dimensions, TouchableOpacity} from "react-native";
 import {inject, observer} from "mobx-react/native";
 import {Icon} from "expo";
+import Colors from "../../common/Colors";
 
-@inject("rootStore")
+@inject("rootStore", "releaseImporter")
 @observer
 export default class UpdateAlgorithmCard extends React.Component {
 
-    algOnPress = async (algorithm) => {
-        return this.props.rootStore.updateStore.update(algorithm)
+    algOnPress = async () => {
+        return this.props.releaseImporter.updateAll()
             .catch(err => {
             console.log(err);
             errorAlert("Data not available",
@@ -16,6 +17,22 @@ export default class UpdateAlgorithmCard extends React.Component {
         });
     };
 
+    contains = (algorithm) => {
+        let {
+            rootStore
+        } = this.props;
+
+        let exists = false;
+        rootStore.algorithmStore.collection.forEach((item) => {
+            let version = Math.round(item.version_number * 100) / 100
+            if (item.id === algorithm.algorithm_id &&
+                    version === algorithm.version_number) {
+                exists = true;
+            }
+        })
+        return exists;
+    }
+    
     loaded = (json) => {
         const { 
             loading, 
@@ -29,20 +46,22 @@ export default class UpdateAlgorithmCard extends React.Component {
                 color="#000"
             />
         }
-        else if (rootStore.algorithmStore.contains(algorithm, json)) {            
-            return <Icon.Ionicons style={styles.ion}
-                    color={"#000"}
+        else if (this.contains(algorithm)) {            
+            return <Icon.Ionicons
+                    color={"#090"}
                     size={30}
-                    name = "ios-checkmark-circle-outline" />
+                    name = "ios-checkmark-circle" />
         }
         else {
             return <TouchableOpacity
-                onPress={() => this.algOnPress(algorithm)}
+                style={styles.ion}
+                onPress={() => this.algOnPress()}
             >
-                <Icon.Ionicons style={styles.ion}
-                    color={"#000"}
+                <Icon.Ionicons 
+                    color={"#fff"}
                     size={30}
-                    name = "ios-cloud-download" />
+                    name = "ios-arrow-round-down"
+                />
             </TouchableOpacity>
         }
     }
@@ -78,11 +97,16 @@ const styles = {
         flexDirection: "row",
         position: "absolute",
         right: 0
-        
     },
     ion: {
-        marginLeft: 10,
-        marginTop: 5
+        marginHorizontal: 5,
+        padding: 0,
+        paddingHorizontal: 10,
+        borderColor: Colors.PCH_RED,
+        backgroundColor: Colors.PCH_RED,
+        borderStyle: "solid",
+        borderRadius: 20,
+        borderWidth: 1,
     },
 }
 
