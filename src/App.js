@@ -5,6 +5,8 @@ import AppNavigator from './components/navigation/AppNavigator';
 import {Provider} from "mobx-react/native";
 import RootStore from "./store/root/RootStore";
 import ReleaseImporter from "./services/ReleaseImporter";
+import {SQLite} from "expo";
+
 
 export default class App extends React.Component {
     _rootStore;
@@ -103,6 +105,8 @@ export default class App extends React.Component {
             await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
         } else if (!isDirectory) {
             throw new Error('SQLite dir is not a directory');
+        }else if (exists) {
+            DB = SQLite.openDatabase(this.databaseName, null, SQLiteDatabse.OPEN_READONLY)
         }
 
         // //    /* //Reload the DB from the repo file
