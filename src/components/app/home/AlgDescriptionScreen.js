@@ -9,7 +9,7 @@ export default class AlgDescriptionScreen extends React.Component {
         const { params = {} } = navigation.state;
 
         //Fixes Error where PCH Icon shifts to the right.
-        return {headerRight: <RefreshButton algorithmId={params.algorithm.id}/>}
+        return {headerRight: <View></View>}
     };
 
     buildHtml(algorithm) {
