@@ -5,6 +5,8 @@ import {createStackNavigator} from 'react-navigation';
 import AlgDescriptionScreen from '../app/home/AlgDescriptionScreen';
 import RecommendationScreen from '../app/conversation/RecommendationScreen';
 import DischargeScreen from '../app/conversation/DischargeScreen';
+import UpdateScreen from '../app/conversation/UpdateScreen';
+
 import Colors from "../../common/Colors";
 import HomeComponent from "../app/home/HomeComponent";
 import ConversationComponent from "../app/conversation/ConversationComponent";
@@ -57,6 +59,7 @@ const AppNavigator = createStackNavigator({
     AlgDescription: {screen: AlgDescriptionScreen},
     Recommendation: {screen: RecommendationScreen},
     Discharge     : {screen: DischargeScreen},
+    UpdateScreen  : {screen: UpdateScreen}
 }, navigationConfig);
 
 export default AppNavigator;
