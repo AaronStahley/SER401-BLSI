@@ -1,8 +1,8 @@
 import React from 'react';
-import HTMLView from 'react-native-htmlview';
-import {ScrollView, StyleSheet, Text, View, Button} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Button, Dimensions} from 'react-native';
 import RefreshButton from "../../ui/RefreshButton.js"
 import email from 'react-native-email'
+import HTML from 'react-native-render-html';
 
 export default class AlgDescriptionScreen extends React.Component {
     
@@ -21,10 +21,16 @@ export default class AlgDescriptionScreen extends React.Component {
             <ScrollView style={styles.container}>
                 <View>
                     <Text style={styles.titleText}>{algorithm.name}</Text>
-                    <HTMLView style={styles.descriptionText} value={`<div>${algorithm.description}</div>`}/>
+                    <HTML containerStyle={styles.descriptionText} html={`<div ${textCSS()}>${algorithm.description}</div>`}/>
                 </View>
             </ScrollView>
         );
+    }
+}
+
+const textCSS = function() {
+    if (Dimensions.get('window').width > 1000) {
+        return (`style='line-height: 20'`)
     }
 }
 
