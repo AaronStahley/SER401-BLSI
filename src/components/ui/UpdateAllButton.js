@@ -8,10 +8,9 @@ import {queryAlert, errorAlert} from "./AlertBox"
 
 @inject("rootStore", "releaseImporter")
 @observer
-export default class RefreshAllButton extends React.Component {
+export default class UpdateAllButton extends React.Component {
 
     homeOnPress = () => {
-
         this.props.refreshPage(true);
         return this.props.releaseImporter.updateAll()
             .then(() => {
@@ -23,7 +22,6 @@ export default class RefreshAllButton extends React.Component {
             });
     };
 
-
     render() {
         return (<View>
                 <TouchableOpacity onPress={
@@ -32,15 +30,14 @@ export default class RefreshAllButton extends React.Component {
                         "Do you want to update the algorithms on your list?",
                         this.homeOnPress)
                 }>
-                    <Icon.Ionicons style={
-                        {
-                            marginLeft: 10,
-                            marginTop : 5
-                        }
-                    }
-                                   color={"#fff"}
-                                   size={30}
-                                   name="ios-refresh"/>
+                    <Icon.Ionicons 
+                        style={{
+                            marginHorizontal: 15,
+                            marginTop : 0
+                        }}
+                        color={"#fff"}
+                        size={45}
+                        name="ios-arrow-round-down"/>
                 </TouchableOpacity>
             </View>
         );

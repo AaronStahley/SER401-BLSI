@@ -7,6 +7,7 @@ import {queryAlert, errorAlert} from "./AlertBox"
 @inject("rootStore", "releaseImporter")
 @observer
 export default class RefreshButton extends React.Component {
+
     algDescriptOnPress = async () => {
         const {algorithmId, releaseImporter} = this.props;
         return releaseImporter.update(algorithmId)
@@ -16,7 +17,6 @@ export default class RefreshButton extends React.Component {
                     "Currently not able to connect to service.");
             });
     };
-
 
     render() {
         return (
