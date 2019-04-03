@@ -1,11 +1,15 @@
 import React from 'react';
 import {StyleSheet, View, Platform, StatusBar} from 'react-native';
-import {AppLoading, Asset, Font, Icon, FileSystem} from 'expo';
+import {AppLoading, Asset, Font, Icon, FileSystem,Constants} from 'expo';
 import AppNavigator from './components/navigation/AppNavigator';
 import {Provider} from "mobx-react/native";
 import RootStore from "./store/root/RootStore";
 import ReleaseImporter from "./services/ReleaseImporter";
 import {SQLite} from "expo";
+import BluebirdPromise from "./common/BluebirdPromise";
+import { toJS } from 'mobx';
+
+
 
 
 export default class App extends React.Component {
@@ -13,6 +17,9 @@ export default class App extends React.Component {
     _releaseImporter;
     state = {
         isLoadingComplete: false,
+        oldVersion: "",
+        newVersion: "",
+        isSame: false,
     };
 
     get releaseImporter() {
@@ -68,7 +75,6 @@ export default class App extends React.Component {
                 .then(() => {
                     return this.rootStore.init()
                 }),
-
         ]);
     };
 
@@ -105,8 +111,35 @@ export default class App extends React.Component {
             await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
         } else if (!isDirectory) {
             throw new Error('SQLite dir is not a directory');
-        }else if (exists) {
-            DB = SQLite.openDatabase(this.databaseName, null, SQLiteDatabse.OPEN_READONLY)
+        }else if (exists && isDirectory && !this.state.isSame) { 
+
+            //OPEN DB init. 
+            //Open Db internal
+            //Db transaction to select version table on init and intenal
+            // if version from init != version from internal
+            // replae internal with init db.
+            
+            this.selectFromInternalDB()
+                .then(async () => {
+                    if(!this.state.isSame){ 
+                        console.log("LOADING NEW DADABASE", this.state.isSame)
+
+                        const pathToDownloadTo = `${sqliteDirectory}/database.db`;
+                        const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
+            
+                        let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
+                        await filesArray.forEach((item) => {
+                            FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {
+                                idempotent: true
+                            });
+                        });
+            
+                        await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
+                    }
+                })
+
+            
+
         }
 
         // //    /* //Reload the DB from the repo file
@@ -129,6 +162,45 @@ export default class App extends React.Component {
         //*/
 
     };
+
+    selectFromInternalDB = async () =>  { 
+        return new BluebirdPromise((resolve, reject) => {
+            SQLite.openDatabase('database.db', '1.0', "main", 1, (database) => {
+                database.transaction(tx => {
+                tx.executeSql(
+                    "SELECT * FROM Version",
+                    [],
+                    (_, res) => {
+
+                        this.setState({
+                            oldVersion: res.rows._array[0].Version, 
+                            newVersion: Constants.manifest.extra.dbVersion
+                        })
+
+                        console.log(this.state.oldVersion, this.state.newVersion)
+
+                        if(this.state.oldVersion !== this.state.newVersion){ 
+                            console.log("IS NOT THE SAME")
+                            resolve(this.setState({isSame: false}))
+                        }else { 
+                            console.log("IS THE SAME")
+                            resolve(this.setState({isSame: true}))
+                        }
+
+                        // if(Constants.manifest.extra.dbVersion !== res.rows._array[0].Version){
+                        //     console.log("Database is out of date")
+                        //     console.log("DB Version NUM: ",res.rows._array[0].Version, "   Manifest Version: ", Constants.manifest.extra.dbVersion)
+                            
+                        //     resolve(this.updateSQLite())
+                        // }else {
+                        //     resolve(console.log("Database is not out of date"))
+                        // }
+                    }
+                );
+            })
+          })
+        });
+    }
 }
 
 const styles = StyleSheet.create({
