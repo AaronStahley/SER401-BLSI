@@ -6,6 +6,14 @@ import HTML from 'react-native-render-html';
 
 export default class AlgDescriptionScreen extends React.Component {
     
+    state = {
+        width: Dimensions.get('window').width
+    }
+
+    onLayout = event => {
+        this.setState({width: event.nativeEvent.layout.width});
+    }
+
     static navigationOptions = ({navigation}) => {
         const { params = {} } = navigation.state;
 
@@ -18,19 +26,22 @@ export default class AlgDescriptionScreen extends React.Component {
         const algorithm    = navigation.getParam('algorithm', null);
 
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.container} onLayout={this.onLayout}>
                 <View>
                     <Text style={styles.titleText}>{algorithm.name}</Text>
-                    <HTML containerStyle={styles.descriptionText} html={`<div ${textCSS()}>${algorithm.description}</div>`}/>
+                    <HTML containerStyle={styles.descriptionText} html={`<div ${textCSS(this.state.width)}'>${algorithm.description}</div>`}/>
                 </View>
             </ScrollView>
         );
     }
 }
 
-const textCSS = function() {
-    if (Dimensions.get('window').width > 1000) {
-        return (`style='line-height: 20'`)
+const textCSS = function(width) {
+    if (width > 1000) {
+        return (`style='line-height: ${width * 0.02}`)
+    }
+    else if (width > 750) {
+        return (`style='line-height: ${width * 0.025}`)
     }
 }
 
