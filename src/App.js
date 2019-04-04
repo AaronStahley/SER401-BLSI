@@ -14,8 +14,6 @@ export default class App extends React.Component {
     _releaseImporter;
     state = {
         isLoadingComplete: false,
-        oldVersion: "",
-        newVersion: "",
         isSame: null,
     };
 
@@ -83,7 +81,7 @@ export default class App extends React.Component {
         this.setState({isLoadingComplete: true});
     };
 
-    initDatabase = async (res) => {
+    initDatabase = async () => {
         const sqliteDirectory = `${FileSystem.documentDirectory}SQLite`;
         const pathToDownloadTo = `${sqliteDirectory}/database.db`;
         const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
