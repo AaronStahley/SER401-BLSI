@@ -6,13 +6,8 @@ import {Provider} from "mobx-react/native";
 import RootStore from "./store/root/RootStore";
 import ReleaseImporter from "./services/ReleaseImporter";
 import {SQLite} from "expo";
-import BluebirdPromise from "./common/BluebirdPromise";
-import { toJS } from 'mobx';
-import { throws } from 'assert';
 
-let db = SQLite.openDatabase('database.db', '1.0', "main", 1)
-
-
+let db; //global variable to store the database. 
 
 export default class App extends React.Component {
     _rootStore;
@@ -23,7 +18,6 @@ export default class App extends React.Component {
         newVersion: "",
         isSame: null,
     };
-    
 
     get releaseImporter() {
         if (!this._releaseImporter) {
@@ -31,7 +25,6 @@ export default class App extends React.Component {
         }
         return this._releaseImporter;
     }
-
 
     get rootStore() {
         if (!this._rootStore) {
@@ -50,7 +43,6 @@ export default class App extends React.Component {
                 />
             );
         }
-
         return (
             <Provider rootStore={this.rootStore} releaseImporter={this.releaseImporter}>
                 <View style={styles.container}>
@@ -77,7 +69,6 @@ export default class App extends React.Component {
             this.initDatabase()
                 .then(() => {
                     return this.rootStore.init()
-                    
                 }),
         ]);
     };
@@ -96,52 +87,70 @@ export default class App extends React.Component {
         const sqliteDirectory = `${FileSystem.documentDirectory}SQLite`;
         const pathToDownloadTo = `${sqliteDirectory}/database.db`;
         const uriToDownload    = Asset.fromModule(require('../assets/db/database.db')).uri;
-        let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
-
 
         // First, ensure that the SQLite directory is indeed a directory
         // For that we will first get information about the filesystem node
         // and handle non-existent scenario.
         const {exists, isDirectory} = await FileSystem.getInfoAsync(sqliteDirectory);
         if (!exists) {
-
-            console.log("DOES NOT EXSIST")
+            console.log("DB AND DIR DO NOT EXSIST, CREATING THEM NOW")
             await FileSystem.makeDirectoryAsync(sqliteDirectory);
+            let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
             await filesArray.forEach((item) => {
                 FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {
                     idempotent: true
                 });
             });
-
             await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
         } else if (!isDirectory) {
             throw new Error('SQLite dir is not a directory');
         }else if (exists) { 
-            //Open Db internal
-            //Db transaction to select version table on internal
-            //Get db version num from app.json
-            // if version from app.json != version from db
-            // replae internal db with init db.
+            /*
+                When entering this else if block it means that the SQLite database already
+                exsists and the app has been installed. This statement will run everytime
+                the app starts. When it runs it will open the pre exsiting database and 
+                read the value "Version" and compare that value to the one in app.json.
+                if they do not equal it will then set the state variable isSame to false
+                triggering the database to get deleted and re mapped to that location with 
+                the new one that is in the assets/db dir. This now presents the user with
+                any changes to the iniitial .db file. -Aaron s
+            */ 
+            console.log("DB AND DIR ALREADY EXSIST")
+            db = SQLite.openDatabase('database.db', '1.0', "main", 1)
             await this.executeSql("SELECT * FROM Version")
+            db._db.close();
             if(!this.state.isSame){
+                let filesArray = await Expo.FileSystem.readDirectoryAsync(sqliteDirectory);
                 await filesArray.forEach((item) => {
+                    console.log("DELETING OLD DB") 
                     FileSystem.deleteAsync(`${sqliteDirectory}/${item}`, {
                         idempotent: true
                     });
                 });
+                console.log("LOADING NEW DB")
                 await FileSystem.downloadAsync(uriToDownload, pathToDownloadTo);
             }
         }
     };
 
+    /**
+     * Reads the version table form the internal SQLite database and if the number
+     * is different from the app.json db version value it sets the state variable 
+     * isSame: false if not different it sets it to true.  -Aaron s.
+     */
     executeSql = async (sql, params = []) => {
         return new Promise((resolve, reject) => db.transaction(tx => {
           tx.executeSql(sql, params, (_, { rows }) => {
             if(rows._array[0].Version !== Constants.manifest.extra.dbVersion){ 
+                console.log("Out of date: Old Version", rows._array[0].Version, ", New Version", Constants.manifest.extra.dbVersion)
                 resolve(this.setState({isSame: false}))
             }else { 
+                console.log("Up To DATE: ", rows._array[0].Version, " , ", Constants.manifest.extra.dbVersion)
                 resolve(this.setState({isSame: true}))
             }
+          }, (_,error) => { 
+              console.log("database is so old that version table does not exsist, updating now...")
+              this.setState({isSame: false})
           })
         }))
     }
