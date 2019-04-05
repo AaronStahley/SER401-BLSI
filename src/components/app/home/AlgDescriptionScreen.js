@@ -21,7 +21,7 @@ export default class AlgDescriptionScreen extends React.Component {
     };
 
     buildHtml(algorithm) {
-        let html = `<div>${algorithm.description}</div>`
+        let html = algorithm.description
         return html;
     }
 
@@ -30,10 +30,13 @@ export default class AlgDescriptionScreen extends React.Component {
         const algorithm    = navigation.getParam('algorithm', null);
 
         return (
-            <ScrollView style={styles.container} onLayout={this.onLayout}>
-                <View>
+            <ScrollView style={styles.container}>
+                <View onLayout={this.onLayout}>
                     <Text style={styles.titleText}>{algorithm.name}</Text>
-                    <HTML containerStyle={styles.descriptionText} html={`<div ${textCSS(this.state.width)}'>${this.buildHtml(algorithm)}</div>`}/>
+                    <HTML containerStyle={styles.descriptionText} 
+                          html={`<div ${textCSS(this.state.width)}'>
+                              ${this.buildHtml(algorithm)}
+                          </div>`}/>
                 </View>
             </ScrollView>
         );
@@ -42,10 +45,13 @@ export default class AlgDescriptionScreen extends React.Component {
 
 const textCSS = function(width) {
     if (width > 1000) {
-        return (`style='line-height: ${width * 0.02}`)
+        return (`style='line-height: ${width * 0.02}'`)
     }
     else if (width > 750) {
-        return (`style='line-height: ${width * 0.025}`)
+        return (`style='line-height: ${width * 0.025}'`)
+    }
+    else {
+        return (``)
     }
 }
 
