@@ -32,9 +32,18 @@ class StateContainer extends React.Component {
         let {state,type}          = this.props;
         let {proceedClicked} = this.state;
 
-        const isFinalRecomm = state.state_id_next_good === null && state.state_id_next_bad === null
+        //(State is good and next states are the same)
+        // or (State is bad and next states are null)
+        const isFinalRecomm = (type === "good" &&
+            state.state_id_next_good === state.state_id_next_bad) ||
+            (state.state_id_next_good === null &&
+            state.state_id_next_bad === null &&
+            type !== "good");
 
-        const renderDischargeButton = isFinalRecomm && type === "good";
+        // Next states are null and state is good
+        const renderDischargeButton = state.state_id_next_good === null && 
+            state.state_id_next_bad === null &&
+            type === "good";
         const renderProceed = !proceedClicked && !isFinalRecomm && state.Recommendations.length !== 0;    
         const renderQuestion = proceedClicked || state.Recommendations.length === 0;
 
