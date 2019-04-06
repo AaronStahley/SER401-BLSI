@@ -32,14 +32,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     titleText      : {
-        textAlign   : 'center',
-        marginTop   : 10,
-        marginBottom: 10,
-        fontSize    : 30,
+        textAlign           : 'center',
+        marginTop           : 20,
+        marginBottom        : 20,
+        paddingHorizontal   : 30,
+        fontSize            : 30,
     },
     descriptionText: {
-        paddingHorizontal: 20,
-        flex             : 1
+        paddingHorizontal   : 30,
+        fontSize            : 20,
+        flex                : 1
     }
 });
 
