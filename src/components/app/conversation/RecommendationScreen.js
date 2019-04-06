@@ -1,9 +1,22 @@
 import React from 'react';
-import HTMLView from "react-native-htmlview";
-import {ScrollView, StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, View, Dimensions} from "react-native";
+import HTML from 'react-native-render-html';
 
 
 export default class RecommendationScreen extends React.Component {
+    state = {
+        width: Dimensions.get('window').width
+    }
+
+    onLayout = event => {
+        this.setState({width: event.nativeEvent.layout.width});
+    }
+
+    buildHtml(recommendation) {
+        let html = `<div ${textCSS(this.state.width)}>${recommendation.description}</div>`;
+        return html;
+    }
+    
     static navigationOptions = ({navigation}) => ({
         //Fixes Error where PCH Icon shifts to the right.
         headerRight: (
@@ -17,12 +30,26 @@ export default class RecommendationScreen extends React.Component {
         const recommendation = navigation.getParam('recommendation', null);
         return (
             <ScrollView style={styles.container}>
-                <View>
+                <View onLayout={this.onLayout}>
                     <Text style={styles.titleText}>{recommendation.title}</Text>
-                    <HTMLView style={styles.descriptionText} value={`<div>${recommendation.description}</div>`}/>
+                    <HTML containerStyle={styles.descriptionText} 
+                        html={this.buildHtml(recommendation)}
+                    />
                 </View>
             </ScrollView>
         );
+    }
+}
+
+const textCSS = function(width) {
+    if (width > 1000) {
+        return (`style='line-height: ${width * 0.02}'`)
+    }
+    else if (width > 750) {
+        return (`style='line-height: ${width * 0.025}'`)
+    }
+    else {
+        return(``)
     }
 }
 

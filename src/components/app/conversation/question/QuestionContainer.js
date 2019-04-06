@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Dimensions} from 'react-native';
 import Colors from '../../../../common/Colors';
 import Question from "./Question";
 import Images from "../../../../common/Images";
@@ -8,6 +8,14 @@ import {inject, observer} from "mobx-react/native";
 @inject("rootStore")
 @observer
 export default class QuestionContainer extends React.Component {
+
+    state = {
+        width: Dimensions.get('window').width
+    }
+
+    onLayout = event => {
+        this.setState({width: event.nativeEvent.layout.width});
+    }
 
     getAnswer = (question) => {
         return this.props.state.QuestionAnswers.find(questionAnswer => questionAnswer.question_id === question.id);
@@ -22,7 +30,11 @@ export default class QuestionContainer extends React.Component {
         }
 
         return (
-            <View style={styles.mainContainer}>
+            <View onLayout={this.onLayout} 
+                style={StyleSheet.flatten([
+                    styles.mainContainer, mainContainerTablet(this.state.width)
+                ])}
+            >
                 <View style={styles.bubble}>
                     {
                         state.Questions.map((question, index) => (
@@ -45,6 +57,14 @@ export default class QuestionContainer extends React.Component {
     }
 }
 
+// Additional styling for mainContainer
+const mainContainerTablet = function(width) {
+    if (width > 750) {
+        return {
+            paddingBottom: 10
+        }
+    }
+}
 
 const styles = StyleSheet.create({
     mainContainer : {
