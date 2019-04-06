@@ -29,7 +29,7 @@ class StateContainer extends React.Component {
 
     render() {
 
-        let {state,type}          = this.props;
+        let {state, type}          = this.props;
         let {proceedClicked} = this.state;
 
         //(State is good and next states are the same)
@@ -41,9 +41,7 @@ class StateContainer extends React.Component {
             type !== "good");
 
         // Next states are null and state is good
-        const renderDischargeButton = state.state_id_next_good === null && 
-            state.state_id_next_bad === null &&
-            type === "good";
+        const renderDischargeButton = state.state_id_next_good === state.state_id_next_bad;
         const renderProceed = !proceedClicked && !isFinalRecomm && state.Recommendations.length !== 0;    
         const renderQuestion = proceedClicked || state.Recommendations.length === 0;
 
@@ -65,7 +63,7 @@ class StateContainer extends React.Component {
                         <View>
                             <QuestionContainer state={state}/>
                             {
-                                state.NextStateId &&
+                                (state.NextStateId) &&
                                 <NextStateContainer 
                                     nextStateType={state.NextStateType} 
                                     nextStateId={state.NextStateId} 
@@ -74,12 +72,17 @@ class StateContainer extends React.Component {
                             }
                         </View>
                     }
-                </View>                
+                </View>                      
                 {
                     (renderDischargeButton) &&
                     <ProceedButton 
                         title={'Discharge'} 
-                        onPress={() =>   this.props.navigation.navigate('Discharge')}
+                        onPress={() => this.props.navigation.navigate('Discharge', 
+                            {
+                                nextStateId: state.NextStateId,
+                                path: state.getPath()
+                            })
+                        }
                     />
                 }
             </View>
