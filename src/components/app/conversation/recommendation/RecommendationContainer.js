@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Dimensions} from 'react-native';
 import Colors from '../../../../common/Colors';
 import Images from "../../../../common/Images";
 import {inject, observer} from "mobx-react/native";
@@ -9,6 +9,14 @@ import Recommendation from "./Recommendation";
 @observer
 export default class RecommendationContainer extends React.Component {
 
+    state = {
+        width: Dimensions.get('window').width
+    }
+
+    onLayout = event => {
+        this.setState({width: event.nativeEvent.layout.width});
+    }
+
     render() {
         let {state, finalRecommendation, goodResult} = this.props;
 
@@ -16,14 +24,21 @@ export default class RecommendationContainer extends React.Component {
             return <View/>;
         }
         return (
-            <View style={styles.mainContainer}>
+            <View onLayout={this.onLayout} 
+                style={StyleSheet.flatten([
+                    styles.mainContainer, mainContainerTablet(this.state.width)
+                ])}
+            >
                 <View style={styles.imageContainer}>
                     <Image
                         style={styles.image}
                         source={Images.recommendationIcon}
                     />
                 </View>
-                <View style={StyleSheet.flatten([styles.textBubble, textBubbleColor(finalRecommendation, goodResult)])}>
+                <View style={StyleSheet.flatten([
+                    styles.textBubble, 
+                    textBubbleColor(finalRecommendation, goodResult)])}
+                >
                     {
                         state.Recommendations.map((recommendation, index) => (
                                 <View key={recommendation.id}>
@@ -63,6 +78,15 @@ const textBubbleColor = function(final, goodResult) {   // Used alongside styles
         return {
             backgroundColor  : Colors.recommendationBubble,
             borderColor      : Colors.recommendationIconBorder,
+        }
+    }
+}
+
+// Additional styling for mainContainer
+const mainContainerTablet = function(width) {
+    if (width > 750) {
+        return {
+            paddingBottom: 10
         }
     }
 }
