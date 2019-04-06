@@ -38,7 +38,7 @@ const navigationConfig = {
                     resizeMode: "contain",
                     alignSelf : "center"
                 }}
-                source={require("../../../assets/images/PCH_APP_LOGO-v2-red-lettering-bg.png")}
+                source={require("../../../assets/images/PCH_APP_LOGO-v2-white-lettering-center-bg-trans.png")}
             />
         ),
         headerStyle    : {
