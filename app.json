@@ -11,11 +11,11 @@
     ],
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/images/PCH_APP_LOGO-v2-red-bg-square.png",
+    "icon": "./assets/images/PCH_APP_LOGO.png",
     "splash": {
       "image": "./assets/images/pch-splash-v2-white-bg.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ee3e41"
+      "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
