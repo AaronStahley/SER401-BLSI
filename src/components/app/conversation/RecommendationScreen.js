@@ -11,6 +11,11 @@ export default class RecommendationScreen extends React.Component {
     onLayout = event => {
         this.setState({width: event.nativeEvent.layout.width});
     }
+
+    buildHtml(recommendation) {
+        let html = `<div ${textCSS(this.state.width)}>${recommendation.description}</div>`;
+        return html;
+    }
     
     static navigationOptions = ({navigation}) => ({
         //Fixes Error where PCH Icon shifts to the right.
@@ -28,9 +33,8 @@ export default class RecommendationScreen extends React.Component {
                 <View onLayout={this.onLayout}>
                     <Text style={styles.titleText}>{recommendation.title}</Text>
                     <HTML containerStyle={styles.descriptionText} 
-                          html={`<div ${textCSS(this.state.width)}>
-                              ${recommendation.description}
-                          </div>`}/>
+                        html={this.buildHtml(recommendation)}
+                    />
                 </View>
             </ScrollView>
         );

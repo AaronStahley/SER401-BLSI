@@ -21,7 +21,7 @@ export default class AlgDescriptionScreen extends React.Component {
     };
 
     buildHtml(algorithm) {
-        let html = algorithm.description
+        let html = `<div ${textCSS(this.state.width)}>${algorithm.description}</div>`
         return html;
     }
 
@@ -34,9 +34,8 @@ export default class AlgDescriptionScreen extends React.Component {
                 <View onLayout={this.onLayout}>
                     <Text style={styles.titleText}>{algorithm.name}</Text>
                     <HTML containerStyle={styles.descriptionText} 
-                          html={`<div ${textCSS(this.state.width)}'>
-                              ${this.buildHtml(algorithm)}
-                          </div>`}/>
+                        html={this.buildHtml(algorithm)}
+                    />
                 </View>
             </ScrollView>
         );
