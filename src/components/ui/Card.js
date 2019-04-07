@@ -9,10 +9,10 @@ import {Text, View, StyleSheet} from 'react-native';
  */
 const Card = props => { 
 
-    const { children, title, bodyText, favIcon, containerStyle } = props;
+    const { children, title, bodyText, favIcon } = props;
 
     return (
-      <View style={containerStyle}>
+      <View>
         <View style={styles.titleContainer}>
                 <View style={styles.titleLeftView}></View>
                 <View>
@@ -30,7 +30,6 @@ const Card = props => {
 }
 
 const styles = StyleSheet.create({
-  // Set container style through props in HomeScreen
   titleContainer: { 
     flex: 1,
     flexDirection: "row",

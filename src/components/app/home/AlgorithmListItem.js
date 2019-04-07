@@ -10,69 +10,36 @@ import FavoritesIcon from "../../ui/FavoritesIcon.js";
 export default class AlgorithmListItem extends React.Component {
 
     render() {
-        let {algorithm, navigation: {navigate}} = this.props;
+        let {algorithm, navigation: {navigate}, cardContainerStyle} = this.props;
 
         return (
-            <Card
-                title={algorithm.name}
-                bodyText={algorithm.short_description}
-                favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.is_favorite}/>}
-                key={algorithm.id}
-                containerStyle={setCardStyle()}
-            >
-                <View style={styles.buttonContiner}>
-                    <Button
-                        onPress={() =>
-                            navigate("AlgDescription", {algorithm: algorithm})
-                        }
-                    >
-                        Info
-                    </Button>
-                    <Button
-                        onPress={() =>
-                            navigate("Conversation", {algorithm: algorithm})
-                        }
-                    >
-                        Start
-                    </Button>
-                </View>
-            </Card>
+            <View style={cardContainerStyle}>
+                <Card
+                    title={algorithm.name}
+                    bodyText={algorithm.short_description}
+                    favIcon={<FavoritesIcon algo={algorithm} isSelected={algorithm.is_favorite}/>}
+                    key={algorithm.id}
+                >
+                    <View style={styles.buttonContiner}>
+                        <Button
+                            onPress={() =>
+                                navigate("AlgDescription", {algorithm: algorithm})
+                            }
+                        >
+                            Info
+                        </Button>
+                        <Button
+                            onPress={() =>
+                                navigate("Conversation", {algorithm: algorithm})
+                            }
+                        >
+                            Start
+                        </Button>
+                    </View>
+                </Card>
+            </View>
         );
 
-    }
-}
-
-
-const setCardStyle = function () {
-    if (Dimensions.get('window').width > 1000) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff',
-            width          : '33%'
-        }
-    } else if (Dimensions.get('window').width > 500) {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff',
-            width          : '50%'
-        }
-    } else {
-        return {
-            borderWidth    : 1,
-            borderColor    : "#e5ebf0",
-            padding        : 15,
-            margin         : 15,
-            flex           : 1,
-            backgroundColor: '#fff'
-        }
     }
 }
 
