@@ -71,9 +71,9 @@ export default class HomeComponent extends React.Component {
             algorithms = this.props.rootStore.algorithmStore.collection;
         }
 
-        return this.state.searchText !== '' ? algorithms : algorithms.filter(algorithm => {
-            return (algorithm.name !== '' && algorithm.name.search(this.state.searchText) >= 0)
-        })
+        return (
+            algorithms.filter(algorithm => algorithm.name.toLowerCase().includes(this.state.searchText.toLowerCase()))
+        );
     }
 
     componentDidMount() {
@@ -158,7 +158,8 @@ export default class HomeComponent extends React.Component {
                     <View style={setViewStyle()}>
                         {this.algorithms.map(algorithm =>
                             <AlgorithmListItem key={algorithm.id} algorithm={algorithm}
-                                               navigation={this.props.navigation}/>
+                                               navigation={this.props.navigation} 
+                                               cardContainerStyle={StyleSheet.flatten([styles.cardContainer, setCardStyle()])}/>
                         )}
                     </View>
                 </ScrollView>
@@ -167,14 +168,27 @@ export default class HomeComponent extends React.Component {
     }
 }
 
+const setCardStyle = function () {  // Used alongside styles.cardContainer to adjust based on screen width
+    if (Dimensions.get('window').width > 1000) {
+        return {width: '33%'}
+    }
+    else if (Dimensions.get('window').width > 750) {
+        return {width: '50%'}
+    }
+    else {
+        return {flex: 1}
+    }
+}
+
 const setViewStyle = function () {
     if (Dimensions.get('window').width > 500) {
         return {
             flexWrap      : 'wrap',
             flexDirection : 'row',
-            justifyContent: 'center'
+            justifyContent: 'flex-start'
         }
-    } else {
+    }
+    else {
         return {
             flexWrap: 'wrap'
         }
@@ -222,6 +236,13 @@ const styles = StyleSheet.create({
         borderTopColor   : Colors.PCH_RED,
         borderBottomColor: "white",
         borderBottomWidth: 3
+    },
+    cardContainer: {
+        borderWidth    : 1,
+        borderColor    : "#e5ebf0",
+        padding        : 15,
+        margin         : 15,
+        backgroundColor: '#fff',
     },
     titleText                : {
         fontSize    : 20,

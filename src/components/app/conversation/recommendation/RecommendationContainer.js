@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, Dimensions} from 'react-native';
 import Colors from '../../../../common/Colors';
 import Images from "../../../../common/Images";
 import {inject, observer} from "mobx-react/native";
@@ -9,6 +9,14 @@ import Recommendation from "./Recommendation";
 @observer
 export default class RecommendationContainer extends React.Component {
 
+    state = {
+        width: Dimensions.get('window').width
+    }
+
+    onLayout = event => {
+        this.setState({width: event.nativeEvent.layout.width});
+    }
+
     render() {
         let {state, finalRecommendation, goodResult} = this.props;
 
@@ -16,14 +24,21 @@ export default class RecommendationContainer extends React.Component {
             return <View/>;
         }
         return (
-            <View style={styles.mainContainer}>
+            <View onLayout={this.onLayout} 
+                style={StyleSheet.flatten([
+                    styles.mainContainer, mainContainerTablet(this.state.width)
+                ])}
+            >
                 <View style={styles.imageContainer}>
                     <Image
                         style={styles.image}
                         source={Images.recommendationIcon}
                     />
                 </View>
-                <View style={setTextBubble(finalRecommendation, goodResult)}>
+                <View style={StyleSheet.flatten([
+                    styles.textBubble, 
+                    textBubbleColor(finalRecommendation, goodResult)])}
+                >
                     {
                         state.Recommendations.map((recommendation, index) => (
                                 <View key={recommendation.id}>
@@ -46,47 +61,32 @@ export default class RecommendationContainer extends React.Component {
     }
 }
 
-const setTextBubble = function(final, goodResult) {
+const textBubbleColor = function(final, goodResult) {   // Used alongside styles.textBubble to indicate good/bad final result
     if (final && goodResult) {
         return {
             backgroundColor  : Colors.recommendationBubbleGood,
             borderColor      : Colors.recommendationIconBorderGood,
-            borderStyle      : "solid",
-            borderRadius     : 10,
-            borderWidth      : 1,
-            paddingTop       : 5,
-            paddingBottom    : 5,
-            paddingHorizontal: 10,
-            marginBottom     : 10,
-            width            : '80%',
         }
     }
     else if (final && !goodResult) {
         return {
             backgroundColor  : Colors.recommendationBubbleBad,
             borderColor      : Colors.recommendationIconBorderBad,
-            borderStyle      : "solid",
-            borderRadius     : 10,
-            borderWidth      : 1,
-            paddingTop       : 5,
-            paddingBottom    : 5,
-            paddingHorizontal: 10,
-            marginBottom     : 10,
-            width            : '80%',
         }
     }
     else {
         return {
             backgroundColor  : Colors.recommendationBubble,
             borderColor      : Colors.recommendationIconBorder,
-            borderStyle      : "solid",
-            borderRadius     : 10,
-            borderWidth      : 1,
-            paddingTop       : 5,
-            paddingBottom    : 5,
-            paddingHorizontal: 10,
-            marginBottom     : 10,
-            width            : '80%',
+        }
+    }
+}
+
+// Additional styling for mainContainer
+const mainContainerTablet = function(width) {
+    if (width > 750) {
+        return {
+            paddingBottom: 10
         }
     }
 }
@@ -98,8 +98,6 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start"
     },
     textBubble    : { //Used for question side of createBubble()
-        backgroundColor  : Colors.recommendationBubble,
-        borderColor      : Colors.recommendationIconBorder,
         borderStyle      : "solid",
         borderRadius     : 10,
         borderWidth      : 1,

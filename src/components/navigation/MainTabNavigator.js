@@ -26,18 +26,19 @@ const navigationConfig = {
     navigationOptions: {
         headerTintColor: "#fff", // Changes back arrow to white.
         //PCH logo in the center.
+        //Update logo to "Phoenix Children's" lettering logo
         headerTitle    : (
             <Image
                 style={{
                     marginTop: Platform.OS === 'ios' ? 10: 0,
                     marginBottom: Platform.OS === 'ios' ? 5: 0,
                     flex      : 1,
-                    width     : 40,
+                    width     : 121, //Change width from square to rectangle to accommodate new logo
                     height    : 40,
                     resizeMode: "contain",
                     alignSelf : "center"
                 }}
-                source={require("../../../assets/images/WHITE_HAND_LOGO.png")}
+                source={require("../../../assets/images/PCH_APP_LOGO-v2-white-lettering-center-bg-trans.png")}
             />
         ),
         headerStyle    : {
