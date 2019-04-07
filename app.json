@@ -13,9 +13,9 @@
     "orientation": "default",
     "icon": "./assets/images/PCH_APP_LOGO.png",
     "splash": {
-      "image": "./assets/images/pch-splash.png",
+      "image": "./assets/images/pch-splash-v2-white-bg.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ee3e41"
+      "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
