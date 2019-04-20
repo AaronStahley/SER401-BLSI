@@ -38,7 +38,7 @@
       "package": "com.yourcompany.yourappname"
     },
     "extra": { 
-      "dbVersion": "0.0"
+      "dbVersion": "0.1"
     },
     "githubUrl": "https://github.com/AaronStahley/SER401-BLSI"
   }
