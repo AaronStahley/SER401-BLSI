@@ -69,7 +69,7 @@ class StateContainer extends React.Component {
                 {
                     (renderDischargeButton) &&
                     <ProceedButton 
-                        title={'Discharge'} 
+                        title={'Discharge Instructions'} 
                         onPress={() =>   this.props.navigation.navigate('Discharge')}
                     />
                 }
