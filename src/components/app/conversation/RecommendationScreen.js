@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         paddingHorizontal   : 30,
-        fontSize            : 20,
         flex                : 1
     }
 });
