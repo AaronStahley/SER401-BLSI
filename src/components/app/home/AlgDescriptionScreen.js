@@ -1,17 +1,29 @@
 import React from 'react';
-import HTMLView from 'react-native-htmlview';
-import {ScrollView, StyleSheet, Text, View, Button} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Button, Dimensions} from 'react-native';
 import RefreshButton from "../../ui/RefreshButton.js"
-import email from 'react-native-email'
+import HTML from 'react-native-render-html';
 
 export default class AlgDescriptionScreen extends React.Component {
     
+    state = {
+        width: Dimensions.get('window').width
+    }
+
+    onLayout = event => {
+        this.setState({width: event.nativeEvent.layout.width});
+    }
+
     static navigationOptions = ({navigation}) => {
         const { params = {} } = navigation.state;
 
         //Fixes Error where PCH Icon shifts to the right.
-        return {headerRight: <RefreshButton algorithmId={params.algorithm.id}/>}
+        return {headerRight: <View></View>}
     };
+
+    buildHtml(algorithm) {
+        let html = `<div ${textCSS(this.state.width)}>${algorithm.description}</div>`
+        return html;
+    }
 
     render() {
         const {navigation} = this.props;
@@ -19,12 +31,26 @@ export default class AlgDescriptionScreen extends React.Component {
 
         return (
             <ScrollView style={styles.container}>
-                <View>
+                <View onLayout={this.onLayout}>
                     <Text style={styles.titleText}>{algorithm.name}</Text>
-                    <HTMLView style={styles.descriptionText} value={`<div>${algorithm.description}</div>`}/>
+                    <HTML containerStyle={styles.descriptionText} 
+                        html={this.buildHtml(algorithm)}
+                    />
                 </View>
             </ScrollView>
         );
+    }
+}
+
+const textCSS = function(width) {
+    if (width > 1000) {
+        return (`style='line-height: ${width * 0.02}'`)
+    }
+    else if (width > 750) {
+        return (`style='line-height: ${width * 0.025}'`)
+    }
+    else {
+        return (``)
     }
 }
 
@@ -41,6 +67,6 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         paddingHorizontal: 20,
-        flex             : 1
+        flex             : 1,
     }
 });
