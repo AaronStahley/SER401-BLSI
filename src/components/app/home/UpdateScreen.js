@@ -18,6 +18,7 @@ import Colors from "../../../common/Colors";
 import UpdateAlgorithmList from '../../ui/UpdateAlgorithmList';
 import Loading from "../../ui/Loading";
 import UpdateAllButton from '../../ui/UpdateAllButton';
+import Environment from "../../../common/Environment";
 
 export default class UpdateScreen extends React.Component {
     static navigationOptions = ({navigation}) => {
@@ -63,14 +64,7 @@ export default class UpdateScreen extends React.Component {
     }
 
     getAlgorithms = async () => {
-        let path = ""
-
-        const determinePath = Platform.select({
-            ios: () => path = "localhost:3001",
-            android: () => path = "10.0.2.2:3001",
-        })();
-
-        const url = `http://${path}/release?key=key`; //"http://localhost:3001/release?key=key";
+        const url = `${Environment.API}/release?key=key`; //"http://localhost:3001/release?key=key";
         this.setState({
             loading: true
         });

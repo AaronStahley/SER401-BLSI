@@ -1,17 +1,11 @@
 import {Platform} from "react-native";
-import {errorAlert} from "../components/ui/AlertBox";
-import {toJS} from "mobx";
+import Environment from "../common/Environment";
 
 export default class ReleaseImporter {
-    path;
     rootStore;
 
     constructor(rootStore) {
         this.rootStore = rootStore;
-        Platform.select({
-            ios    : () => this.path = "localhost:3001",
-            android: () => this.path = "10.0.2.2:3001",
-        })()
     }
 
     updateAll = () => {
@@ -164,7 +158,7 @@ export default class ReleaseImporter {
 
     retrieveRelease(id) {
         if (!id) throw "id undefined";
-        const URL = `http://${this.path}/release/${id}`; //`http://localhost:3001/release/${id}?key=key`;
+        const URL = `${Environment.API}/release/${id}`; //`http://localhost:3001/release/${id}?key=key`;
         return fetch(URL)
             .then(response => {
                 if (!response.ok) {
@@ -179,7 +173,7 @@ export default class ReleaseImporter {
 
 
     retrieveReleases() {
-        const URL = `http://${this.path}/release`;
+        const URL = `${Environment.API}/release`;
         return fetch(URL)
             .then(response => {
                 if (!response.ok) {
